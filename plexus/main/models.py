@@ -5,14 +5,22 @@ class Location(models.Model):
     name = models.CharField(max_length=256)
     details = models.TextField(blank=True, default=u"")
 
+    def __unicode__(self):
+        return self.name
 
 class OSFamily(models.Model):
     name = models.CharField(max_length=256)
+
+    def __unicode__(self):
+        return self.name
 
 
 class OperatingSystem(models.Model):
     family = models.ForeignKey(OSFamily)
     version = models.CharField(max_length=256)
+
+    def __unicode__(self):
+        return unicode(self.family) + " " + self.version
 
 
 class Server(models.Model):
@@ -27,22 +35,34 @@ class Server(models.Model):
     notes = models.TextField(blank=True, default=u"")
     deprecated = models.BooleanField(default=False)
 
+    def __unicode__(self):
+        return self.name
+
 
 class IPAddress(models.Model):
     ipv4 = models.CharField(max_length=256)
     mac_addr = models.CharField(max_length=256)
     server = models.ForeignKey(Server)
 
+    def __unicode__(self):
+        return self.ipv4
+
 
 class VMLocation(models.Model):
     dom_u = models.ForeignKey(Server, related_name='dom_u')
     dom_0 = models.ForeignKey(Server, related_name='dom_0')
+
+    def __unicode__(self):
+        return unicode(self.dom_u)
 
 
 class Contact(models.Model):
     name = models.CharField(max_length=256)
     email = models.CharField(max_length=256)
     phone = models.CharField(max_length=256)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Alias(models.Model):
@@ -51,6 +71,9 @@ class Alias(models.Model):
     status = models.CharField(max_length=256, default=u"active")
     description = models.TextField(blank=True, default=u"")
 
+    def __unicode__(self):
+        return self.hostname
+
 
 class AliasContact(models.Model):
     alias = models.ForeignKey(Alias)
@@ -58,3 +81,6 @@ class AliasContact(models.Model):
 
     class Meta:
         order_with_respect_to = 'alias'
+
+    def __unicode__(self):
+        return unicode(self.alias) + ": " + unicode(self.contact)

@@ -36,8 +36,9 @@ TEMPLATE_LOADERS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = (
 		'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.request',
+                'django.core.context_processors.debug',
+                'django.core.context_processors.request',
+                'django.contrib.messages.context_processors.messages',
     )
 
 MIDDLEWARE_CLASSES = (
@@ -48,6 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'plexus.urls'
@@ -68,6 +70,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.flatpages',
     'django.contrib.markup',
+    'django.contrib.messages',
     'staticmedia',
     'django.contrib.admin',
     'raven.contrib.django',
