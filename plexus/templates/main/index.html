@@ -43,6 +43,9 @@
 	</tbody>
 
 </table>
+{% if request.user.is_staff %}
+<p><a href="/add_server/">Add Server</a></p>
+{% endif %}
 
 <h1>Aliases</h1>
 <table class="table table-striped table-condensed table-bordered">

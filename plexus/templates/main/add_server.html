@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="." method="post" class="form-horizontal">
+	<legend>Add Server</legend>
+	<div class="control-group">
+		<label class="control-label" for="name">Name</label>
+		<div class="controls">
+			<input type="text" name="name" id="name" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">
+			Virtual?
+		</label>
+		<div class="controls">
+			<label class="radio">
+				<input type="radio" name="virtual" id="virtual-t" value="1" checked>
+				Virtual Server (leave Location blank)
+			</label>
+			<label class="radio">
+				<input type="radio" name="virtual" id="virtual-f" value="">
+				Physical Server
+			</label>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="primary_function">Primary Function</label>
+		<div class="controls">
+			<textarea name="primary_function" id="primary_function" rows="3"
+			class="input-xxlarge"></textarea>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Interfaces</label>
+		<div class="controls">
+			<input type="text" name="ip0" placeholder="IP Address "/>
+			<input type="text" name="mac0" placeholder="MAC address" /><br />
+			<input type="text" name="ip1" placeholder="IP Address" />
+			<input type="text" name="mac1" placeholder="MAC address" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Location</label>
+		<div class="controls">
+			<input type="text" name="location" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">OS</label>
+		<div class="controls">
+		<input type="text" name="operating_system" placeholder="Family:
+		Version"/>
+		</div>
+	</div>
+	<div class="control-group">
+	<label class="control-label">Memory</label>
+	<div class="controls">
+		<input type="text" name="memory" />
+		</div>
+	</div>
+	<div class="control-group">
+	<label class="control-label">Swap</label>
+	<div class="controls">
+		<input type="text" name="swap" />
+	</div>
+	</div>
+
+	<div class="control-group">
+	<label class="control-label">Disk</label>
+	<div class="controls">
+		<input type="text" name="disk" />
+	</div>
+	</div>
+	<div class="control-group">
+	<label class="control-label">Notes</label>
+	<div class="controls">
+		<textarea name="notes" rows="3" class="input-xxlarge"></textarea>
+		</div>
+	</div>
+	
+	<div class="form-actions">
+		<input type="submit" value="add" class="btn btn-primary" />
+	</div>
+</form>
+
+
+{% endblock %}

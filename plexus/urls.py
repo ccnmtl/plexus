@@ -21,6 +21,8 @@ urlpatterns = patterns('',
 		       auth_urls,
 		       logout_page,
                        (r'^$', 'plexus.main.views.index'),
+                       (r'^add_server/$', 'plexus.main.views.add_server'),
+
                        (r'^admin/', include(admin.site.urls)),
                        (r'^munin/',include('munin.urls')),
 											 (r'^stats/', direct_to_template, {'template': 'stats.html'}),
