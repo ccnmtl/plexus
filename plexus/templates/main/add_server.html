@@ -44,14 +44,23 @@
 	<div class="control-group">
 		<label class="control-label">Location</label>
 		<div class="controls">
-			<input type="text" name="location" />
+			<input type="text" name="location" id="location-input"
+data-provide="typeahead"
+data-items="4"
+data-source='[{% for location in all_locations %}"{{location.name}}"{% if not forloop.last %},{% endif %}{% endfor %}]'
+/>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">OS</label>
 		<div class="controls">
 		<input type="text" name="operating_system" placeholder="Family:
-		Version"/>
+		Version"
+data-provide="typeahead"
+data-items="4"
+data-source='[{% for os in all_operating_systems %}"{{os.family.name}}: {{os.version}}"{% if not forloop.last %},{% endif %}{% endfor %}]'
+
+/>
 		</div>
 	</div>
 	<div class="control-group">

@@ -54,7 +54,8 @@ def add_server(request):
                 )
 
         return HttpResponseRedirect("/")
-    return dict()
+    return dict(all_locations=Location.objects.all(),
+                all_operating_systems=OperatingSystem.objects.all())
 
 
 @render_to("main/server.html")
