@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Alias: {{alias.hostname}}</h1>
+
+
+<table class="table table-striped table-condensed table-bordered">
+	<tr>
+		<td>description</td>
+		<td>{{alias.description}}</td>
+	</tr>
+
+	<tr>
+		<td>server</td>
+		<td><a href="/server/{{alias.ip_address.server.id}}/">{{alias.ip_address.server.name}}</a></td>
+	</tr>
+
+	<tr>
+		<td>Contacts</td>
+		<td>
+			{% for ac in alias.aliascontact_set.all %}
+			{{ac.contact.name}}
+			{% endfor %}
+		</td>
+	</tr>
+
+</table>
+
+{% ifequal alias.status "pending" %}
+<div class="alert">
+<form action="confirm/" method="post" class="form-inline">
+This alias is pending. 
+	<input type="submit" class="btn btn-primary" value="Change to Active" />
+</form>
+
+<form action="delete/" method="post" class="form-inline">
+	<input type="submit" class="btn btn-danger" value="Cancel this Alias Request">
+</form>
+</div>
+{% endifequal %}
+ 
+
+{% endblock %}

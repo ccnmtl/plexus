@@ -115,3 +115,8 @@ Thanks,
               [settings.HOSTMASTER_EMAIL, settings.SYSADMIN_LIST_EMAIL])
 
     return HttpResponseRedirect("/server/%d/" % server.id)
+
+@render_to("main/alias.html")
+def alias(request, id):
+    alias = get_object_or_404(Alias, id=id)
+    return dict(alias=alias)
