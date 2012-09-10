@@ -19,7 +19,7 @@
 	<tbody>
 		{% for server in servers %}
 		<tr>
-			<th>{{server.name}}</th>
+			<th><a href="/server/{{server.id}}/">{{server.name}}</a></th>
 			<td>{{server.primary_function}}</td>
 			<td>
 				{% for ip in server.ipaddress_set.all %}

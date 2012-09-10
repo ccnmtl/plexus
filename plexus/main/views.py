@@ -1,6 +1,7 @@
 from annoying.decorators import render_to
+from django.shortcuts import get_object_or_404
 from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
-from plexus.main.models import OperatingSystem
+from plexus.main.models import OperatingSystem, Contact, AliasContact
 from django.http import HttpResponseRedirect
 
 @render_to('main/index.html')
@@ -51,5 +52,29 @@ def add_server(request):
                 )
 
         return HttpResponseRedirect("/")
-        
     return dict()
+
+
+@render_to("main/server.html")
+def server(request, id):
+    server = get_object_or_404(Server, id=id)
+    return dict(server=server)
+
+
+def add_alias(request, id):
+    server = get_object_or_404(Server, id=id)
+    ipaddress = request.POST.get('ipaddress', None)
+    if ipaddress:
+        ipaddress = IPAddress.objects.get(id=ipaddress)
+    else:
+        ipaddress = server.ipaddress_set.all()[0]
+    alias = Alias.objects.create(
+        hostname=request.POST.get('hostname', '[none]'),
+        ip_address=ipaddress,
+        description=request.POST.get('description', ''),
+        )
+    for c in request.POST.get('contact', '').split(','):
+        contact, created = Contact.objects.get_or_create(name=c)
+        ac = AliasContact.objects.create(alias=alias, contact=contact)
+
+    return HttpResponseRedirect("/server/%d/" % server.id)
