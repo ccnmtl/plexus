@@ -77,6 +77,8 @@ class Alias(models.Model):
     def status_css_class(self):
         if self.status == 'pending':
             return "warning"
+        if self.status == 'deprecated':
+            return "error"
         return ""
 
 

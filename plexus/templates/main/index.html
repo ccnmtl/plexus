@@ -19,11 +19,11 @@
 	<tbody>
 		{% for server in servers %}
 		<tr>
-			<th><a href="/server/{{server.id}}/">{{server.name}}</a></th>
+			<td><a href="/server/{{server.id}}/">{{server.name}}</a></td>
 			<td>{{server.primary_function}}</td>
 			<td>
 				{% for ip in server.ipaddress_set.all %}
-				{{ip.ipv4}}
+				<code>{{ip.ipv4}}</code>
 				{% endfor %}
 </td>
 			<td>
@@ -44,7 +44,7 @@
 
 </table>
 {% if request.user.is_staff %}
-<p><a href="/add_server/">Add Server</a></p>
+<p><a href="/add_server/" class="btn">Add Server</a></p>
 {% endif %}
 
 <h1>Aliases</h1>
@@ -60,8 +60,8 @@
 		
 	<tbody>
 		{% for alias in aliases %}
-		<tr>
-			<th>{{alias.hostname}}</th>
+		<tr class="{{alias.status_css_class}}">
+			<td><a href="/alias/{{alias.id}}/">{{alias.hostname}}</a></td>
 			<td>{{alias.description}}</td>
 			<td>{{alias.ip_address.server.name}}</td>
 			<td>
