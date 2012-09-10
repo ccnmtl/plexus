@@ -1,8 +1,74 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="hero-unit">
-<h1>It works</h1>
-<p>Congratulations! Now start coding.</p>
-</div>
+
+<h1>Servers</h1>
+<table class="table table-striped table-condensed table-bordered">
+	<thead>
+		<tr>
+			<th>name</th>
+			<th>primary function</th>
+			<th>ip addresses</th>
+			<th>location</th>
+			<th>OS</th>
+			<th>mem</th>
+			<th>disk</th>
+		</tr>
+	</thead>
+		
+	<tbody>
+		{% for server in servers %}
+		<tr>
+			<th>{{server.name}}</th>
+			<td>{{server.primary_function}}</td>
+			<td>
+				{% for ip in server.ipaddress_set.all %}
+				{{ip.ipv4}}
+				{% endfor %}
+</td>
+			<td>
+				{% if server.virtual %}
+				[Virtual: {% for vm in server.dom_u.all %}{{vm.dom_0.name}}{% endfor %}]
+				{% else %}
+				{{server.location.name}}
+				{% endif %}
+			</td>
+			<td>{{server.operating_system.family.name}}
+				{{server.operating_system.version}}</td>
+			<td>{{server.memory}} [{{server.swap}}]</td>
+			<td>{{server.disk}}</td>
+
+		</tr>
+		{% endfor %}
+	</tbody>
+
+</table>
+
+<h1>Aliases</h1>
+<table class="table table-striped table-condensed table-bordered">
+	<thead>
+		<tr>
+			<th>alias</th>
+			<th>description</th>
+			<th>server</th>
+			<th>contacts</th>
+		</tr>
+	</thead>
+		
+	<tbody>
+		{% for alias in aliases %}
+		<tr>
+			<th>{{alias.hostname}}</th>
+			<td>{{alias.description}}</td>
+			<td>{{alias.ip_address.server.name}}</td>
+			<td>
+				{% for ac in alias.aliascontact_set.all %}
+				{{ac.contact.name}}
+				{% endfor %}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
 {% endblock %}
