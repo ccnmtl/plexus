@@ -76,7 +76,47 @@
 </div>
 	</form>
 
-<p>Request new Alias for {{server.name}}</p>
+<a href="#requestAlias" role="button" class="btn" data-toggle="modal">Request new Alias for {{server.name}}</a>
+
+	<form action="request_alias/" method="post">
+		<div class="modal hide" id="requestAlias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel1">Request New Alias for {{server.name}}</h3>
+  </div>
+  <div class="modal-body">
+		<p class="info">This will send an email to hostmaster with the
+		request. It may take a couple business days for the request to go
+		through. Once it does, please come back and update the status of
+		this alias from 'pending' to 'active'. </p>
+			
+		<label>Hostname
+		<input type="text" name="hostname" placeholder="hostname" /></label>
+		{% ifequal server.ipaddress_set.count 1 %}
+		{% else %}
+		<label>IP Address
+			<select name="ipaddress">
+				{% for ipaddress in server.ipaddress_set.all %}
+				<option value="{{ipaddress.id}}">{{ipaddress.ipv4}}</option>
+				{% endfor %}
+			</select>
+		</label>
+		{% endifequal %}
+		<label>Description
+		<textarea name="description" class="input-xxlarge"></textarea></label>
+		<label>Primary Contact
+			<input type="text" name="contact"
+						 value="{{request.user.first_name}}" />
+		</label>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Request Alias</button>
+  </div>
+</div>
+	</form>
+
+
 {% else %}
 <p>Can not add aliases for a server with no IP addresses listed</p>
 {% endif %}
@@ -96,7 +136,7 @@
 
 {% for ipaddress in server.ipaddress_set.all %}
 {% for alias in ipaddress.alias_set.all %}
-		<tr>
+		<tr class="{{alias.status_css_class}}">
 			<th>{{alias.hostname}}</th>
 			<td>{{alias.description}}</td>
 			<td>

@@ -74,6 +74,11 @@ class Alias(models.Model):
     def __unicode__(self):
         return self.hostname
 
+    def status_css_class(self):
+        if self.status == 'pending':
+            return "warning"
+        return ""
+
 
 class AliasContact(models.Model):
     alias = models.ForeignKey(Alias)

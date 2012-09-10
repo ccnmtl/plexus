@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404
 from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
 from plexus.main.models import OperatingSystem, Contact, AliasContact
 from django.http import HttpResponseRedirect
+from django.core.mail import send_mail
+from django.conf import settings
 
 @render_to('main/index.html')
 def index(request):
@@ -76,5 +78,39 @@ def add_alias(request, id):
     for c in request.POST.get('contact', '').split(','):
         contact, created = Contact.objects.get_or_create(name=c)
         ac = AliasContact.objects.create(alias=alias, contact=contact)
+
+    return HttpResponseRedirect("/server/%d/" % server.id)
+
+
+def request_alias(request, id):
+    server = get_object_or_404(Server, id=id)
+    ipaddress = request.POST.get('ipaddress', None)
+    if ipaddress:
+        ipaddress = IPAddress.objects.get(id=ipaddress)
+    else:
+        ipaddress = server.ipaddress_set.all()[0]
+    alias = Alias.objects.create(
+        hostname=request.POST.get('hostname', '[none]'),
+        ip_address=ipaddress,
+        description=request.POST.get('description', ''),
+        status='pending',
+        )
+    for c in request.POST.get('contact', '').split(','):
+        contact, created = Contact.objects.get_or_create(name=c)
+        ac = AliasContact.objects.create(alias=alias, contact=contact)
+
+    subject = "DNS Alias Request: " + alias.hostname
+    body = """
+Please add the following alias:
+
+      %s
+
+It should resolve to %s (%s)
+
+Thanks,
+%s
+""" % (alias.hostname, server.name, ipaddress.ipv4, request.user.first_name)
+    send_mail(subject, body, request.user.email,
+              [settings.HOSTMASTER_EMAIL, settings.SYSADMIN_LIST_EMAIL])
 
     return HttpResponseRedirect("/server/%d/" % server.id)

@@ -131,3 +131,6 @@ WIND_SUPERUSER_MAPPER_GROUPS = ['anp8','jb2410','zm4','egr2107','sld2131','amm8'
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 SESSION_COOKIE_HTTPONLY = True
+
+HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
+SYSADMIN_LIST_EMAIL = "ccnmtl-sysadmin@columbia.edu"
