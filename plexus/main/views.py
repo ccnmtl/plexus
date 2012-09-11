@@ -9,8 +9,8 @@ from django.conf import settings
 
 @render_to('main/index.html')
 def index(request):
-    return dict(servers=Server.objects.all(),
-                aliases=Alias.objects.all())
+    return dict(servers=Server.objects.all().order_by('name'),
+                aliases=Alias.objects.all().order_by('hostname'))
 
 
 @render_to('main/add_server.html')
@@ -139,3 +139,9 @@ def alias_delete(request, id):
     alias = get_object_or_404(Alias, id=id)
     alias.delete()
     return HttpResponseRedirect("/")
+
+
+@render_to("main/contact.html")
+def contact(request, id):
+    contact = get_object_or_404(Contact, id=id)
+    return dict(contact=contact)

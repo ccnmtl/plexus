@@ -20,7 +20,7 @@
 		<td>Contacts</td>
 		<td>
 			{% for ac in alias.aliascontact_set.all %}
-			{{ac.contact.name}}
+			<a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
 			{% endfor %}
 		</td>
 	</tr>

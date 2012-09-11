@@ -23,7 +23,7 @@
 			<td>{{server.primary_function}}</td>
 			<td>
 				{% for ip in server.ipaddress_set.all %}
-				<code>{{ip.ipv4}}</code>
+				{{ip.ipv4}}
 				{% endfor %}
 </td>
 			<td>
@@ -66,7 +66,7 @@
 			<td><a href="/server/{{alias.ip_address.server.id}}/">{{alias.ip_address.server.name}}</a></td>
 			<td>
 				{% for ac in alias.aliascontact_set.all %}
-				{{ac.contact.name}}
+				<a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
 				{% endfor %}
 			</td>
 		</tr>

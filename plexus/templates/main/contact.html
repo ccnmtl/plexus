@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Contact: {{contact.name}}</h1>
+{% if request.user.is_staff %}
+<a href="/admin/main/contact/{{contact.id}}/">edit</a>
+{% endif %}
+
+<table class="table table-striped table-condensed table-bordered">
+	<tr>
+		<td>email</td>
+		<td>{{contact.email}}</td>
+	</tr>
+
+	<tr>
+		<td>phone</td>
+		<td>{{contact.phone}}</td>
+	</tr>
+
+	<tr>
+		<td>Responsible for:</td>
+		<td>
+			<ul>
+			{% for ac in contact.aliascontact_set.all %}
+			<li><a href="/alias/{{ac.alias.id}}/">{{ac.alias.hostname}}</a></li>
+			{% endfor %}
+			</ul>
+		</td>
+	</tr>
+
+</table> 
+
+{% endblock %}
