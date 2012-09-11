@@ -63,7 +63,7 @@
 		<tr class="{{alias.status_css_class}}">
 			<td><a href="/alias/{{alias.id}}/">{{alias.hostname}}</a></td>
 			<td>{{alias.description}}</td>
-			<td>{{alias.ip_address.server.name}}</td>
+			<td><a href="/server/{{alias.ip_address.server.id}}/">{{alias.ip_address.server.name}}</a></td>
 			<td>
 				{% for ac in alias.aliascontact_set.all %}
 				{{ac.contact.name}}
