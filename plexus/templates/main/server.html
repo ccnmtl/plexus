@@ -173,9 +173,7 @@
   <div class="tab-pane active" id="daily">
 
 <h3>Load Avg (x10)</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.server.{{server.graphite_name}}.cpu.load_average.1_minute,'15min')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}" 
-width="{{width}}" height="{{height}}"
-/>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.server.{{server.graphite_name}}.cpu.load_average.1_minute,'15min')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}" width="{{width}}" height="{{height}}" />
 <h3>Free Memory (%)</h3>
 <img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=ccnmtl.server.{{server.graphite_name}}.memory.MemFree.percent&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&yMax=100&yMin=0" width="{{width}}" height="{{height}}"/>
 <h3>Network Traffic</h3>
