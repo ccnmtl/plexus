@@ -35,6 +35,7 @@ class Server(models.Model):
     swap = models.CharField(max_length=256)
     notes = models.TextField(blank=True, default=u"")
     deprecated = models.BooleanField(default=False)
+    graphite_name = models.CharField(max_length=256, default=u"")
 
     def __unicode__(self):
         return self.name

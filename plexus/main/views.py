@@ -27,8 +27,10 @@ def add_server(request):
         operating_system, created = OperatingSystem.objects.get_or_create(
             family=os_family,
             version=version)
+        name=request.POST.get('name', 'unknown server')
+        graphite_name = request.POST.get('graphite_name', '')
         server = Server.objects.create(
-            name=request.POST.get('name', 'unknown server'),
+            name=name,
             primary_function=request.POST.get('primary_function', ''),
             virtual=virtual,
             location=location,
@@ -37,6 +39,7 @@ def add_server(request):
             swap=request.POST.get('swap', ''),
             disk=request.POST.get('disk', ''),
             notes=request.POST.get('notes', ''),
+            graphite_name=graphite_name,
             )
         if request.POST.get('ip0', False):
             ipv4 = request.POST.get('ip0', '')
@@ -63,7 +66,7 @@ def add_server(request):
 @render_to("main/server.html")
 def server(request, id):
     server = get_object_or_404(Server, id=id)
-    return dict(server=server)
+    return dict(server=server, settings=settings)
 
 
 def add_alias(request, id):

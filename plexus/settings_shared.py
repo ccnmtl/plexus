@@ -135,3 +135,5 @@ SESSION_COOKIE_HTTPONLY = True
 
 HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
 SYSADMIN_LIST_EMAIL = "ccnmtl-sysadmin@columbia.edu"
+
+GRAPHITE_BASE = "http://nanny.cul.columbia.edu/"
