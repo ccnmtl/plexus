@@ -28,7 +28,7 @@ class Server(models.Model):
     name = models.CharField(max_length=256)
     primary_function = models.TextField(blank=True, default=u"")
     virtual = models.BooleanField()
-    location = models.ForeignKey(Location)
+    location = models.ForeignKey(Location, null=True, default="")
     operating_system = models.ForeignKey(OperatingSystem)
     memory = models.CharField(max_length=256)
     disk = models.CharField(max_length=256)
