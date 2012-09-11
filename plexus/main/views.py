@@ -120,3 +120,16 @@ Thanks,
 def alias(request, id):
     alias = get_object_or_404(Alias, id=id)
     return dict(alias=alias)
+
+
+def alias_confirm(request, id):
+    alias = get_object_or_404(Alias, id=id)
+    alias.status = 'active'
+    alias.save()
+    return HttpResponseRedirect("/alias/%d/" % alias.id)
+
+
+def alias_delete(request, id):
+    alias = get_object_or_404(Alias, id=id)
+    alias.delete()
+    return HttpResponseRedirect("/")
