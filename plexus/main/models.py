@@ -8,6 +8,7 @@ class Location(models.Model):
     def __unicode__(self):
         return self.name
 
+
 class OSFamily(models.Model):
     name = models.CharField(max_length=256)
 

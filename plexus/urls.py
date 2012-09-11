@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns, include
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic.simple import direct_to_template
@@ -6,32 +6,44 @@ import os.path
 admin.autodiscover()
 import staticmedia
 
-site_media_root = os.path.join(os.path.dirname(__file__),"../media")
+site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 
 redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
-auth_urls = (r'^accounts/',include('django.contrib.auth.urls'))
-logout_page = (r'^accounts/logout/$','django.contrib.auth.views.logout', {'next_page': redirect_after_logout})
-if hasattr(settings,'WIND_BASE'):
-    auth_urls = (r'^accounts/',include('djangowind.urls'))
-    logout_page = (r'^accounts/logout/$','djangowind.views.logout', {'next_page': redirect_after_logout})
+auth_urls = (r'^accounts/', include('django.contrib.auth.urls'))
+logout_page = (r'^accounts/logout/$', 'django.contrib.auth.views.logout',
+               {'next_page': redirect_after_logout})
+if hasattr(settings, 'WIND_BASE'):
+    auth_urls = (r'^accounts/', include('djangowind.urls'))
+    logout_page = (r'^accounts/logout/$',
+                   'djangowind.views.logout',
+                   {'next_page': redirect_after_logout})
 
 urlpatterns = patterns('',
                        # Example:
                        # (r'^plexus/', include('plexus.foo.urls')),
-		       auth_urls,
-		       logout_page,
+                       auth_urls,
+                       logout_page,
                        (r'^$', 'plexus.main.views.index'),
                        (r'^add_server/$', 'plexus.main.views.add_server'),
                        (r'^server/(?P<id>\d+)/$', 'plexus.main.views.server'),
-                       (r'^server/(?P<id>\d+)/add_alias/$', 'plexus.main.views.add_alias'),
-                       (r'^server/(?P<id>\d+)/request_alias/$', 'plexus.main.views.request_alias'),
-                       (r'^alias/(?P<id>\d+)/$', 'plexus.main.views.alias'),
-                       (r'^alias/(?P<id>\d+)/confirm/$', 'plexus.main.views.alias_confirm'),
-                       (r'^alias/(?P<id>\d+)/delete/$', 'plexus.main.views.alias_delete'),
+                       (r'^server/(?P<id>\d+)/add_alias/$',
+                        'plexus.main.views.add_alias'),
+                       (r'^server/(?P<id>\d+)/request_alias/$',
+                        'plexus.main.views.request_alias'),
+                       (r'^alias/(?P<id>\d+)/$',
+                        'plexus.main.views.alias'),
+                       (r'^alias/(?P<id>\d+)/confirm/$',
+                        'plexus.main.views.alias_confirm'),
+                       (r'^alias/(?P<id>\d+)/delete/$',
+                        'plexus.main.views.alias_delete'),
                        (r'^admin/', include(admin.site.urls)),
-                       (r'^munin/',include('munin.urls')),
-											 (r'^stats/', direct_to_template, {'template': 'stats.html'}),
-                       (r'^site_media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': site_media_root}),
-                       (r'^uploads/(?P<path>.*)$','django.views.static.serve',{'document_root' : settings.MEDIA_ROOT}),
+                       (r'^munin/', include('munin.urls')),
+                       (r'^stats/', direct_to_template,
+                        {'template': 'stats.html'}),
+                       (r'^site_media/(?P<path>.*)$',
+                        'django.views.static.serve',
+                        {'document_root': site_media_root}),
+                       (r'^uploads/(?P<path>.*)$',
+                        'django.views.static.serve',
+                        {'document_root': settings.MEDIA_ROOT}),
 ) + staticmedia.serve()
-

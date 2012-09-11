@@ -6,10 +6,12 @@ from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
 
+
 @render_to('main/index.html')
 def index(request):
     return dict(servers=Server.objects.all(),
                 aliases=Alias.objects.all())
+
 
 @render_to('main/add_server.html')
 def add_server(request):
@@ -18,7 +20,7 @@ def add_server(request):
         location = None
         if not virtual:
             location, created = Location.objects.get_or_create(
-                name=request.POST.get("location","unknown"))
+                name=request.POST.get("location", "unknown"))
         os_string = request.POST.get("operating_system")
         family, version = os_string.split(":")
         os_family, created = OSFamily.objects.get_or_create(name=family)
@@ -78,7 +80,7 @@ def add_alias(request, id):
         )
     for c in request.POST.get('contact', '').split(','):
         contact, created = Contact.objects.get_or_create(name=c)
-        ac = AliasContact.objects.create(alias=alias, contact=contact)
+        AliasContact.objects.create(alias=alias, contact=contact)
 
     return HttpResponseRedirect("/server/%d/" % server.id)
 
@@ -98,7 +100,7 @@ def request_alias(request, id):
         )
     for c in request.POST.get('contact', '').split(','):
         contact, created = Contact.objects.get_or_create(name=c)
-        ac = AliasContact.objects.create(alias=alias, contact=contact)
+        AliasContact.objects.create(alias=alias, contact=contact)
 
     subject = "DNS Alias Request: " + alias.hostname
     body = """
@@ -115,6 +117,7 @@ Thanks,
               [settings.HOSTMASTER_EMAIL, settings.SYSADMIN_LIST_EMAIL])
 
     return HttpResponseRedirect("/server/%d/" % server.id)
+
 
 @render_to("main/alias.html")
 def alias(request, id):
