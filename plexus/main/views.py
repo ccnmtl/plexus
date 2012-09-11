@@ -2,6 +2,7 @@ from annoying.decorators import render_to
 from django.shortcuts import get_object_or_404
 from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
 from plexus.main.models import OperatingSystem, Contact, AliasContact
+from plexus.main.models import Application, Technology
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
@@ -9,8 +10,11 @@ from django.conf import settings
 
 @render_to('main/index.html')
 def index(request):
-    return dict(servers=Server.objects.filter(deprecated=False).order_by('name'),
-                aliases=Alias.objects.all().exclude(status='deprecated').order_by('hostname'))
+    return dict(
+        servers=Server.objects.filter(deprecated=False).order_by('name'),
+        aliases=Alias.objects.all().exclude(status='deprecated').order_by('hostname'),
+        applications=Application.objects.all(),
+        )
 
 
 @render_to('main/add_server.html')
@@ -145,3 +149,29 @@ def alias_delete(request, id):
 def contact(request, id):
     contact = get_object_or_404(Contact, id=id)
     return dict(contact=contact)
+
+
+
+@render_to('main/add_application.html')
+def add_application(request):
+    if request.method == 'POST':
+        technology, created = Technology.objects.get_or_create(
+            name=request.POST.get("technology", "unknown"))
+        name=request.POST.get('name', 'unknown application')
+        graphite_name = request.POST.get('graphite_name', '')
+        application = Application.objects.create(
+            name=name,
+            description=request.POST.get('description', ''),
+            technology=technology,
+            pmt_id=request.POST.get('pmt_id', '0'),
+            graphite_name=graphite_name,
+            )
+
+        return HttpResponseRedirect("/")
+    return dict(all_technologies=Technology.objects.all())
+
+
+@render_to('main/application.html')
+def application(request, id):
+    application=get_object_or_404(Application, id=id)
+    return dict(application=application, settings=settings)

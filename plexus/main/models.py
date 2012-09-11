@@ -93,3 +93,26 @@ class AliasContact(models.Model):
 
     def __unicode__(self):
         return unicode(self.alias) + ": " + unicode(self.contact)
+
+
+class Technology(models.Model):
+    name = models.CharField(max_length=256)
+
+    def __unicode__(self):
+        return self.name
+
+
+class Application(models.Model):
+    name = models.CharField(max_length=256)
+    description = models.TextField(blank=True, default=u"")
+    technology = models.ForeignKey(Technology, null=True)
+    graphite_name = models.CharField(max_length=256, default=u"", blank=True)
+    pmt_id = models.IntegerField(default=0)
+    # rolf
+    # contacts
+    # aliases
+    # code repos
+    # renewals
+
+    def __unicode__(self):
+        return self.name

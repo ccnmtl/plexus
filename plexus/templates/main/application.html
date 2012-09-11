@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Application: {{application.name}}</h1>
+{% if request.user.is_staff %}
+<a href="/admin/main/application/{{application.id}}/">edit</a>
+{% endif %}
+
+<table class="table table-striped table-condensed table-bordered">
+	<tr>
+		<td>description</td>
+		<td>{{application.description}}</td>
+	</tr>
+	<tr><td>technology</td><td>{{application.technology.name}}</td></tr>
+</table>
+
+
+{% if application.graphite_name %}
+<h2>Graphs</h2>
+<ul class="nav nav-tabs">
+  <li><a href="#daily" data-toggle="tab">Daily</a></li>
+  <li><a href="#weekly" data-toggle="tab">Weekly</a></li>
+  <li><a href="#monthly" data-toggle="tab">Monthly</a></li>
+  <li><a href="#yearly" data-toggle="tab">Yearly</a></li>
+</ul>
+
+<div class="tab-content">
+{% with hidegrid='false' %}
+{% with bgcolor='FFFFFF' %}
+{% with fgcolor='999999' %}
+{% with width='1000' %}
+{% with height='200' %}
+
+
+  <div class="tab-pane active" id="daily">
+
+
+{% with summarize='15min' %}
+<h3>Traffic</h3>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.200,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}" width="{{width}}" height="{{height}}" />
+<h3>Response Times (max/mean/min)</h3>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.lower),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.mean),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.upper),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}" width="{{width}}" height="{{height}}" />
+<h3>Errors</h3>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.500,'{{summarize}}')&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.404,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}" width="{{width}}" height="{{height}}" />
+{% endwith %}
+</div>
+
+  <div class="tab-pane" id="weekly">
+{% with period="-7days" %}
+{% with summarize='1h' %}
+<h3>Traffic</h3>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.200,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
+<h3>Response Times (max/mean/min)</h3>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.lower),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.mean),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.upper),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
+<h3>Errors</h3>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.500,'{{summarize}}')&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.404,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}" width="{{width}}" height="{{height}}&from={{period}}" />
+{% endwith %}
+{% endwith %}
+</div>
+
+  <div class="tab-pane" id="monthly">
+{% with period="-1months" %}
+{% with summarize='6h' %}
+<h3>Traffic</h3>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.200,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
+<h3>Response Times (max/mean/min)</h3>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.lower),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.mean),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.upper),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
+<h3>Errors</h3>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.500,'{{summarize}}')&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.404,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
+{% endwith %}
+{% endwith %}
+
+</div>
+  <div class="tab-pane" id="yearly">
+
+{% with period='-1years' %}
+{% with summarize='1d' %}
+<h3>Traffic</h3>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.200,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
+<h3>Response Times (max/mean/min)</h3>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.lower),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.mean),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.upper),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
+<h3>Errors</h3>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.500,'{{summarize}}')&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.404,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
+{% endwith %}
+{% endwith %}
+
+</div>
+
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+</div>
+{% endif %}
+
+
+{% endblock %}
+

@@ -38,6 +38,13 @@ urlpatterns = patterns('',
                         'plexus.main.views.alias_delete'),
                        (r'^contact/(?P<id>\d+)/$',
                         'plexus.main.views.contact'),
+
+                       (r'^add_application/$',
+                        'plexus.main.views.add_application'),
+                       (r'^application/(?P<id>\d+)/$',
+                        'plexus.main.views.application'),
+
+
                        (r'^admin/', include(admin.site.urls)),
                        (r'^munin/', include('munin.urls')),
                        (r'^stats/', direct_to_template,

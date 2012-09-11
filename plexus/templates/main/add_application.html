@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="." method="post" class="form-horizontal">
+	<legend>Add Application</legend>
+	<div class="control-group">
+		<label class="control-label" for="name">Name</label>
+		<div class="controls">
+			<input type="text" name="name" id="name" />
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="description">Description</label>
+		<div class="controls">
+			<textarea name="description" id="description" rows="3"
+			class="input-xxlarge"></textarea>
+		</div>
+	</div>
+	<div class="control-group">
+		<label class="control-label">Technology</label>
+		<div class="controls">
+			<input type="text" name="technology" id="technology-input"
+data-provide="typeahead"
+data-items="4"
+data-source='[{% for technology in all_technologies %}"{{technology.name}}"{% if not forloop.last %},{% endif %}{% endfor %}]'
+/>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="name">Graphite Name</label>
+		<div class="controls">
+			<input type="text" name="graphite_name" id="graphite_name" />
+			<span class="help-inline">key for Graphite graphs.</span>
+		</div>
+	</div>
+
+	<div class="control-group">
+		<label class="control-label" for="pmt">PMT Id</label>
+		<div class="controls">
+			<input type="text" name="pmt_id" id="pmt-id" />
+			<span class="help-inline"></span>
+		</div>
+	</div>
+	
+	<div class="form-actions">
+		<input type="submit" value="add" class="btn btn-primary" />
+	</div>
+</form>
+
+
+{% endblock %}
