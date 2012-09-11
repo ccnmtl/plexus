@@ -6,6 +6,16 @@
 {% if request.user.is_staff %}
 <a href="/admin/main/server/{{server.id}}/">edit</a>
 {% endif %}
+
+{% if server.deprecated %}
+<div class="alert alert-error">
+<h2>Deprecated</h2>
+
+<p>This server has been deprecated.</p>
+
+</div>
+{% endif %}
+
 <table class="table table-striped table-condensed table-bordered">
 	<tr>
 		<td>primary function</td>
@@ -40,6 +50,8 @@
 
 
 <h2>Aliases</h2>
+
+{% if not server.deprecated %}
 {% if request.user.is_staff %}
 {% if server.ipaddress_set.count %}
 
@@ -124,7 +136,7 @@
 <p>Can not add aliases for a server with no IP addresses listed</p>
 {% endif %}
 {% endif %}
-
+{% endif %}
 
 <table class="table table-striped table-condensed table-bordered">
 	<thead>

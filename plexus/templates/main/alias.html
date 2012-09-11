@@ -3,7 +3,17 @@
 {% block content %}
 
 <h1>Alias: {{alias.hostname}}</h1>
+{% if request.user.is_staff %}
+<a href="/admin/main/alias/{{alias.id}}/">edit</a>
+{% endif %}
+{% ifequal alias.status "deprecated" %}
+<div class="alert alert-error">
+<h2>Deprecated</h2>
 
+<p>This alias has been deprecated.</p>
+
+</div>
+{% endifequal %}
 
 <table class="table table-striped table-condensed table-bordered">
 	<tr>

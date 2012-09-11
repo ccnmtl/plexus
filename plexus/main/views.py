@@ -9,8 +9,8 @@ from django.conf import settings
 
 @render_to('main/index.html')
 def index(request):
-    return dict(servers=Server.objects.all().order_by('name'),
-                aliases=Alias.objects.all().order_by('hostname'))
+    return dict(servers=Server.objects.filter(deprecated=False).order_by('name'),
+                aliases=Alias.objects.all().exclude(status='deprecated').order_by('hostname'))
 
 
 @render_to('main/add_server.html')

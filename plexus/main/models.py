@@ -30,12 +30,12 @@ class Server(models.Model):
     virtual = models.BooleanField()
     location = models.ForeignKey(Location, null=True, default="")
     operating_system = models.ForeignKey(OperatingSystem)
-    memory = models.CharField(max_length=256)
-    disk = models.CharField(max_length=256)
-    swap = models.CharField(max_length=256)
+    memory = models.CharField(max_length=256, blank=True)
+    disk = models.CharField(max_length=256, blank=True)
+    swap = models.CharField(max_length=256, blank=True)
     notes = models.TextField(blank=True, default=u"")
     deprecated = models.BooleanField(default=False)
-    graphite_name = models.CharField(max_length=256, default=u"")
+    graphite_name = models.CharField(max_length=256, default=u"", blank=True)
 
     def __unicode__(self):
         return self.name
