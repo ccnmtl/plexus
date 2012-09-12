@@ -77,6 +77,7 @@ INSTALLED_APPS = (
     'django_statsd',
     'bootstrapform',
     'lettuce.django',
+    'template_utils',
     'plexus.main',
 )
 

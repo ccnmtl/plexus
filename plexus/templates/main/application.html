@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load feeds %}
 
 {% block content %}
 
@@ -13,6 +14,17 @@
 		<td>{{application.description}}</td>
 	</tr>
 	<tr><td>technology</td><td>{{application.technology.name}}</td></tr>
+	{% if application.pmt_id %}
+	<tr>
+		<td>PMT</td>
+		<td>
+			<a href="http://pmt.ccnmtl.columbia.edu/home.pl?mode=project;pid={{application.pmt_id}}">Project Page</a>
+			[<a href="http://pmt.ccnmtl.columbia.edu/home.pl?mode=add_item_form;type=bug;pid={{application.pmt_id}}">report bug</a>]
+			[<a href="http://pmt.ccnmtl.columbia.edu/home.pl?mode=add_item_form;type=action;pid={{application.pmt_id}}">add
+			action item</a>]
+		</td>
+	</tr>
+	{% endif %}
 </table>
 
 {% if application.applicationalias_set.count %}
@@ -102,6 +114,17 @@
 {% endwith %}
 {% endwith %}
 </div>
+{% endif %}
+
+{% if application.pmt_id %}
+<h2>Recent PMT Activity</h2>
+{% parse_feed application.pmt_feed_url as pmt_feed %}
+{% for item in pmt_feed.entries %}
+<h4><a href="{{item.link}}">{{item.title}}</a></h4>
+{{item.description|safe}}
+{% endfor %}
+
+
 {% endif %}
 
 

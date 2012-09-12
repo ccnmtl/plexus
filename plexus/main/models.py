@@ -116,6 +116,9 @@ class Application(models.Model):
     def __unicode__(self):
         return self.name
 
+    def pmt_feed_url(self):
+        return "http://pmt.ccnmtl.columbia.edu/project_feed.pl?pid=%d" % self.pmt_id
+
 
 class ApplicationAlias(models.Model):
     application = models.ForeignKey(Application)
