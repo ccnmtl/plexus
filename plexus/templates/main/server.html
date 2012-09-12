@@ -44,6 +44,13 @@
 	</tr>
 	{% endif %}
 
+	{% if server.munin_name %}
+	<tr>
+		<td>Munin</td>
+		<td><a href="http://behemoth.ccnmtl.columbia.edu/munin/ccnmtl.columbia.edu/{{server.munin_name}}/index.html">View Munin Graphs</a></td>
+	</tr>
+	{% endif %}
+
 </table>
 
 {% if server.dom_0.count %}

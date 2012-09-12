@@ -37,7 +37,7 @@ class Server(models.Model):
     deprecated = models.BooleanField(default=False)
     graphite_name = models.CharField(max_length=256, default=u"", blank=True)
     sentry_name = models.CharField(max_length=256, default=u"", blank=True)
-    # munin
+    munin_name = models.CharField(max_length=256, default=u"", blank=True)
 
     def __unicode__(self):
         return self.name

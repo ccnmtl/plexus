@@ -46,6 +46,7 @@ def add_server(request):
             notes=request.POST.get('notes', ''),
             graphite_name=graphite_name,
             sentry_name=request.POST.get('sentry_name', ''),
+            munin_name=request.POST.get('munin_name', ''),
             )
         if request.POST.get('ip0', False):
             ipv4 = request.POST.get('ip0', '')
