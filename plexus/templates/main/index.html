@@ -8,11 +8,7 @@
 		<tr>
 			<th>name</th>
 			<th>primary function</th>
-			<th>ip addresses</th>
 			<th>location</th>
-			<th>OS</th>
-			<th>mem</th>
-			<th>disk</th>
 		</tr>
 	</thead>
 		
@@ -21,11 +17,6 @@
 		<tr>
 			<td><a href="/server/{{server.id}}/">{{server.name}}</a></td>
 			<td>{{server.primary_function}}</td>
-			<td>
-				{% for ip in server.ipaddress_set.all %}
-				{{ip.ipv4}}
-				{% endfor %}
-</td>
 			<td>
 				{% if server.virtual %}
 				{% if server.dom_u.count %}
@@ -37,10 +28,6 @@
 				{{server.location.name}}
 				{% endif %}
 			</td>
-			<td>{{server.operating_system.family.name}}
-				{{server.operating_system.version}}</td>
-			<td>{{server.memory}}{% if server.swap %} [{{server.swap}}]{% endif %}</td>
-			<td>{{server.disk}}</td>
 
 		</tr>
 		{% endfor %}

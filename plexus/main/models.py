@@ -75,6 +75,9 @@ class Alias(models.Model):
     status = models.CharField(max_length=256, default=u"active")
     description = models.TextField(blank=True, default=u"")
 
+    class Meta:
+        ordering = ['hostname',]
+
     def __unicode__(self):
         return self.hostname
 
