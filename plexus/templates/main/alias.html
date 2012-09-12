@@ -50,5 +50,14 @@ This alias is pending.
 </div>
 {% endifequal %}
  
+{% if alias.applicationalias_set.count %}
+<p>This alias is associated with the following application(s):</p>
+<ul>
+	{% for aa in alias.applicationalias_set.all %}
+	<li><a href="/application/{{aa.application.id}}/">{{aa.application.name}}</a></li>
+	{% endfor %}
+</ul>
+{% endif %}
+
 
 {% endblock %}

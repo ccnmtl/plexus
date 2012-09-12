@@ -1,9 +1,9 @@
 from models import Location, OSFamily, OperatingSystem, Server, IPAddress
 from models import VMLocation, Contact, Alias, AliasContact, Technology
-from models import Application
+from models import Application, ApplicationAlias
 from django.contrib import admin
 
 for c in [Location, OSFamily, OperatingSystem, Server, IPAddress,
           VMLocation, Contact, Alias, AliasContact, Technology,
-          Application]:
+          Application, ApplicationAlias]:
     admin.site.register(c)

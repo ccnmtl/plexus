@@ -110,9 +110,16 @@ class Application(models.Model):
     pmt_id = models.IntegerField(default=0)
     # rolf
     # contacts
-    # aliases
     # code repos
     # renewals
 
     def __unicode__(self):
         return self.name
+
+
+class ApplicationAlias(models.Model):
+    application = models.ForeignKey(Application)
+    alias = models.ForeignKey(Alias)
+
+    def __unicode__(self):
+        return unicode(self.application) + " -> " + unicode(self.alias)
