@@ -133,3 +133,25 @@ class ApplicationAlias(models.Model):
 
     def __unicode__(self):
         return unicode(self.application) + " -> " + unicode(self.alias)
+
+
+class ApplicationContact(models.Model):
+    application = models.ForeignKey(Application)
+    contact = models.ForeignKey(Contact)
+
+    class Meta:
+        order_with_respect_to = 'application'
+        
+    def __unicode__(self):
+        return unicode(self.application) + ": " + unicode(self.contact)
+
+
+class ServerContact(models.Model):
+    server = models.ForeignKey(Server)
+    contact = models.ForeignKey(Contact)
+
+    class Meta:
+        order_with_respect_to = 'server'
+        
+    def __unicode__(self):
+        return unicode(self.server) + ": " + unicode(self.contact)

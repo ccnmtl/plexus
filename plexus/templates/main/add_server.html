@@ -113,6 +113,15 @@ data-source='[{% for os in all_operating_systems %}"{{os.family.name}}: {{os.ver
 		</div>
 	</div>
 
+	<div class="control-group">
+		<label class="control-label" for="contact">Primary Contact</label>
+		<div class="controls">
+			<input type="text" name="contact"
+						 value="{{request.user.first_name}}" id="contact" />
+			<span class="help-inline">you can add more than one (comma separated)</span>
+		</div>
+	</div>
+
 	
 	<div class="form-actions">
 		<input type="submit" value="add" class="btn btn-primary" />

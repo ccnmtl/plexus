@@ -31,6 +31,15 @@
 		<td><a href="http://sentry.ccnmtl.columbia.edu/sentry/?server_name=&amp;site={{application.sentry_name}}">View Errors</a></td>
 	</tr>
 	{% endif %}
+	<tr>
+		<td>Contacts</td>
+		<td>
+			{% for ac in application.applicationcontact_set.all %}
+			<a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
+			{% endfor %}
+		</td>
+	</tr>
+
 </table>
 
 {% if application.applicationalias_set.count %}

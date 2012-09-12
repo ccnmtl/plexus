@@ -9,6 +9,7 @@
 			<th>name</th>
 			<th>primary function</th>
 			<th>location</th>
+			<th>contacts</th>
 		</tr>
 	</thead>
 		
@@ -27,6 +28,11 @@
 				{% else %}
 				{{server.location.name}}
 				{% endif %}
+			</td>
+			<td>
+				{% for ac in server.servercontact_set.all %}
+				<a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
+				{% endfor %}
 			</td>
 
 		</tr>
@@ -76,6 +82,7 @@
 			<th>application</th>
 			<th>technology</th>
 			<th>description</th>
+			<th>contacts</th>
 		</tr>
 	</thead>
 		
@@ -85,6 +92,11 @@
 			<td><a href="/application/{{application.id}}/">{{application.name}}</a></td>
 			<td>{{application.technology}}</td>
 			<td>{{application.description}}</td>
+			<td>
+				{% for ac in application.applicationcontact_set.all %}
+				<a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
+				{% endfor %}
+			</td>
 		</tr>
 		{% endfor %}
 	</tbody>

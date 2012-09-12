@@ -51,6 +51,16 @@
 	</tr>
 	{% endif %}
 
+	<tr>
+		<td>Contacts</td>
+		<td>
+			{% for ac in server.servercontact_set.all %}
+			<a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
+			{% endfor %}
+		</td>
+	</tr>
+
+
 </table>
 
 {% if server.dom_0.count %}
