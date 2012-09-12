@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
 from plexus.main.models import OperatingSystem, Contact, AliasContact
 from plexus.main.models import Application, Technology
-from plexus.main.models import ApplicationAlias
+from plexus.main.models import ApplicationAlias, VMLocation
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
@@ -14,7 +14,7 @@ def index(request):
     return dict(
         servers=Server.objects.filter(deprecated=False).order_by('name'),
         aliases=Alias.objects.all().exclude(status='deprecated').order_by('hostname'),
-        applications=Application.objects.all(),
+        applications=Application.objects.all().order_by('name'),
         )
 
 
@@ -73,7 +73,16 @@ def add_server(request):
 @render_to("main/server.html")
 def server(request, id):
     server = get_object_or_404(Server, id=id)
-    return dict(server=server, settings=settings)
+    return dict(server=server, settings=settings,
+                potential_dom0s=Server.objects.filter(virtual=False).exclude(id=server.id)
+                )
+
+
+def associate_dom0(request, id):
+    server = get_object_or_404(Server, id=id)
+    dom0 = get_object_or_404(Server, id=request.POST.get('dom0', '0'))
+    VMLocation.objects.create(dom_0=dom0, dom_u=server)
+    return HttpResponseRedirect("/server/%d/" % server.id)
 
 
 def add_alias(request, id):

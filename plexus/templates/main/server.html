@@ -60,6 +60,21 @@
 <li><a href="/server/{{vm.dom_u.id}}/">{{vm.dom_u.name}}</a></li>
 {% endfor %}
 </ul>
+{% else %}
+{% if server.virtual %}
+{% if server.dom_u.count %}
+{% else %}
+<form action="associate_dom0/" method="post" class="form form-inline">
+<label>associate with a dom0:
+	<select name="dom0">
+		{% for server in potential_dom0s %}
+		<option value="{{server.id}}">{{server.name}}</option>
+		{% endfor %}
+	</select>
+	<input type="submit" value="associate" class="btn btn-primary" />
+</form>
+{% endif %}
+{% endif %}
 {% endif %}
 
 

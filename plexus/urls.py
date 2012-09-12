@@ -30,6 +30,8 @@ urlpatterns = patterns('',
                         'plexus.main.views.add_alias'),
                        (r'^server/(?P<id>\d+)/request_alias/$',
                         'plexus.main.views.request_alias'),
+                       (r'^server/(?P<id>\d+)/associate_dom0/$',
+                        'plexus.main.views.associate_dom0'),
 
                        (r'^alias/(?P<id>\d+)/$',
                         'plexus.main.views.alias'),

@@ -28,14 +28,18 @@
 </td>
 			<td>
 				{% if server.virtual %}
-				[Virtual: {% for vm in server.dom_u.all %}{{vm.dom_0.name}}{% endfor %}]
+				{% if server.dom_u.count %}
+				{% for vm in server.dom_u.all %}<a href="/server/{{vm.dom_0.id}}/">{{vm.dom_0.name}}</a>{% endfor %}
+				{% else %}
+				Virtual
+				{% endif %}
 				{% else %}
 				{{server.location.name}}
 				{% endif %}
 			</td>
 			<td>{{server.operating_system.family.name}}
 				{{server.operating_system.version}}</td>
-			<td>{{server.memory}} [{{server.swap}}]</td>
+			<td>{{server.memory}}{% if server.swap %} [{{server.swap}}]{% endif %}</td>
 			<td>{{server.disk}}</td>
 
 		</tr>
