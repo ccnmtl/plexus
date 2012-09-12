@@ -37,6 +37,13 @@
 	<tr><td>mem</td><td>{{server.memory}} [{{server.swap}}]</td></tr>
 	<tr><td>disk</td><td>{{server.disk}}</td></tr>
 	<tr><td>notes</td><td>{{server.notes}}</td></tr>
+	{% if server.sentry_name %}
+	<tr>
+		<td>Sentry</td>
+		<td><a href="http://sentry.ccnmtl.columbia.edu/sentry/?server_name={{server.sentry_name}}&amp;site=">View Errors</a></td>
+	</tr>
+	{% endif %}
+
 </table>
 
 {% if server.dom_0.count %}

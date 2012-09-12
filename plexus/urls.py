@@ -30,12 +30,16 @@ urlpatterns = patterns('',
                         'plexus.main.views.add_alias'),
                        (r'^server/(?P<id>\d+)/request_alias/$',
                         'plexus.main.views.request_alias'),
+
                        (r'^alias/(?P<id>\d+)/$',
                         'plexus.main.views.alias'),
                        (r'^alias/(?P<id>\d+)/confirm/$',
                         'plexus.main.views.alias_confirm'),
                        (r'^alias/(?P<id>\d+)/delete/$',
                         'plexus.main.views.alias_delete'),
+                       (r'^alias/(?P<id>\d+)/associate_with_application/$',
+                        'plexus.main.views.alias_associate_with_application'),
+
                        (r'^contact/(?P<id>\d+)/$',
                         'plexus.main.views.contact'),
 

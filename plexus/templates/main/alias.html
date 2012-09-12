@@ -57,6 +57,17 @@ This alias is pending.
 	<li><a href="/application/{{aa.application.id}}/">{{aa.application.name}}</a></li>
 	{% endfor %}
 </ul>
+{% else %}
+<form action="associate_with_application/" method="post" class="form form-inline">
+	<label>Associate this alias with an application:
+		<select name="application">
+			{% for application in all_applications %}
+			<option value="{{application.id}}">{{application.name}}</option>
+			{% endfor %}
+		</select>
+	</label>
+	<input type="submit" class="btn btn-primary" value="associate" />
+</form>
 {% endif %}
 
 

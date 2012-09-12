@@ -36,6 +36,8 @@ class Server(models.Model):
     notes = models.TextField(blank=True, default=u"")
     deprecated = models.BooleanField(default=False)
     graphite_name = models.CharField(max_length=256, default=u"", blank=True)
+    sentry_name = models.CharField(max_length=256, default=u"", blank=True)
+    # munin
 
     def __unicode__(self):
         return self.name
@@ -107,11 +109,13 @@ class Application(models.Model):
     description = models.TextField(blank=True, default=u"")
     technology = models.ForeignKey(Technology, null=True)
     graphite_name = models.CharField(max_length=256, default=u"", blank=True)
+    sentry_name = models.CharField(max_length=256, default=u"", blank=True)
     pmt_id = models.IntegerField(default=0)
     # rolf
     # contacts
     # code repos
     # renewals
+    # google analytics
 
     def __unicode__(self):
         return self.name

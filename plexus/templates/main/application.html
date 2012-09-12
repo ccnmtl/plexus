@@ -25,6 +25,12 @@
 		</td>
 	</tr>
 	{% endif %}
+	{% if application.sentry_name %}
+	<tr>
+		<td>Sentry</td>
+		<td><a href="http://sentry.ccnmtl.columbia.edu/sentry/?server_name=&amp;site={{application.sentry_name}}">View Errors</a></td>
+	</tr>
+	{% endif %}
 </table>
 
 {% if application.applicationalias_set.count %}

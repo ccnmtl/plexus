@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
 from plexus.main.models import OperatingSystem, Contact, AliasContact
 from plexus.main.models import Application, Technology
+from plexus.main.models import ApplicationAlias
 from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
@@ -44,6 +45,7 @@ def add_server(request):
             disk=request.POST.get('disk', ''),
             notes=request.POST.get('notes', ''),
             graphite_name=graphite_name,
+            sentry_name=request.POST.get('sentry_name', ''),
             )
         if request.POST.get('ip0', False):
             ipv4 = request.POST.get('ip0', '')
@@ -129,7 +131,7 @@ Thanks,
 @render_to("main/alias.html")
 def alias(request, id):
     alias = get_object_or_404(Alias, id=id)
-    return dict(alias=alias)
+    return dict(alias=alias, all_applications=Application.objects.all())
 
 
 def alias_confirm(request, id):
@@ -143,6 +145,14 @@ def alias_delete(request, id):
     alias = get_object_or_404(Alias, id=id)
     alias.delete()
     return HttpResponseRedirect("/")
+
+
+def alias_associate_with_application(request, id):
+    alias = get_object_or_404(Alias, id=id)
+    application = get_object_or_404(Application,
+                                    id=request.POST.get('application', '0'))
+    ApplicationAlias.objects.create(alias=alias, application=application)
+    return HttpResponseRedirect("/alias/%d/" % alias.id)
 
 
 @render_to("main/contact.html")
@@ -165,6 +175,7 @@ def add_application(request):
             technology=technology,
             pmt_id=request.POST.get('pmt_id', '0'),
             graphite_name=graphite_name,
+            sentry_name=request.POST.get('sentry_name', ''),
             )
 
         return HttpResponseRedirect("/")
