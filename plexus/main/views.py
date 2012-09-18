@@ -189,7 +189,7 @@ def add_application(request):
             name=name,
             description=request.POST.get('description', ''),
             technology=technology,
-            pmt_id=request.POST.get('pmt_id', '0'),
+            pmt_id=request.POST.get('pmt_id', '') or '0',
             graphite_name=graphite_name,
             sentry_name=request.POST.get('sentry_name', ''),
             )
