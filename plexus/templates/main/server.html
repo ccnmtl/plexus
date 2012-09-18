@@ -88,6 +88,7 @@
 {% endif %}
 
 
+{% if server.ipaddress_set.count %}
 <h2>Aliases</h2>
 
 {% if not server.deprecated %}
@@ -204,7 +205,7 @@
 {% endfor %}
 </tbody>
 </table>
-
+{% endif %}
 
 {% if server.graphite_name %}
 <h2>Graphs</h2>

@@ -115,7 +115,6 @@ class Application(models.Model):
     sentry_name = models.CharField(max_length=256, default=u"", blank=True)
     pmt_id = models.IntegerField(default=0)
     # rolf
-    # contacts
     # code repos
     # renewals
     # google analytics
