@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Dashboard for {{contact.name}}</h1>
+
+<table class="table table-striped table-condensed table-bordered">
+	<thead>
+		<tr>
+			<th>Server</th>
+			<th>Load</th>
+			<th>% Mem Free</th>
+			<th>Network IO</th>
+			<th>Swap IO</th>
+		</tr>
+	</thead>
+	<tbody>
+{% for ac in contact.servercontact_set.all %}
+{% if ac.server.graphite_name %}
+	<tr>
+		<td><a href="/server/{{ac.server.id}}/">{{ac.server.name}}</a></td>
+{% with hidegrid='true' %}
+{% with bgcolor='FFFFFF' %}
+{% with fgcolor='999999' %}
+{% with width='200' %}
+{% with height='75' %}
+
+		<td>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.server.{{ac.server.graphite_name}}.cpu.load_average.1_minute,'1h')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-7days&graphOnly=true" width="{{width}}" height="{{height}}"/>
+</td><td>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=ccnmtl.server.{{ac.server.graphite_name}}.memory.MemFree.percent&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-7days&yMax=100&yMin=0&graphOnly=true" width="{{width}}" height="{{height}}"/>
+</td><td>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=nonNegativeDerivative(ccnmtl.server.{{ac.server.graphite_name}}.network.eth0.receive.byte_count)&target=nonNegativeDerivative(ccnmtl.server.{{ac.server.graphite_name}}.network.eth0.transmit.byte_count)&hideGrid={{hidegrid}}&hideLegend=false&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-7days&graphOnly=true" width="{{width}}" height="{{height}}"/>
+</td><td>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=nonNegativeDerivative(ccnmtl.server.{{ac.server.graphite_name}}.vmstat.swap.in)&target=nonNegativeDerivative(ccnmtl.server.{{ac.server.graphite_name}}.vmstat.swap.out)&hideGrid={{hidegrid}}&hideLegend=false&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-7days&graphOnly=true" width="{{width}}" height="{{height}}"/>
+</td>
+
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+</tr>
+{% endif %}
+{% endfor %}
+</tbody>
+
+<table class="table table-striped table-condensed table-bordered">
+	<thead>
+		<tr>
+			<th>Application</th>
+			<th>Traffic</th>
+			<th>Response Times</th>
+			<th>Errors</th>
+		</tr>
+	</thead>
+	<tbody>
+
+{% for ac in contact.applicationcontact_set.all %}
+{% if ac.application.graphite_name %}
+
+{% with hidegrid='true' %}
+{% with bgcolor='FFFFFF' %}
+{% with fgcolor='999999' %}
+{% with width='300' %}
+{% with height='75' %}
+
+{% with period="-7days" %}
+{% with summarize='1h' %}
+	<tr>
+		<td><a href="/application/{{ac.application.id}}/">{{ac.application.name}}</a></td>
+		<td>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{ac.application.graphite_name}}.response.200,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}&graphOnly=true" width="{{width}}" height="{{height}}" />
+		</td>
+
+		<td>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(keepLastValue(ccnmtl.app.timers.{{ac.application.graphite_name}}.view.GET.lower),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{ac.application.graphite_name}}.view.GET.mean),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{ac.application.graphite_name}}.view.GET.upper),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}&graphOnly=true"
+		 width="{{width}}" height="{{height}}" />		
+</td>
+
+		<td>
+<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{ac.application.graphite_name}}.response.500,'{{summarize}}')&target=summarize(ccnmtl.app.counters.{{ac.application.graphite_name}}.response.404,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}&graphOnly=true" width="{{width}}" height="{{height}}" />
+		</td>
+		
+</tr>
+{% endwith %}
+{% endwith %}
+
+
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+{% endif %}
+{% endfor %}
+</tbody>
+</table> 
+
+{% endblock %}

@@ -44,6 +44,8 @@ urlpatterns = patterns('',
 
                        (r'^contact/(?P<id>\d+)/$',
                         'plexus.main.views.contact'),
+                       (r'^contact/(?P<id>\d+)/dashboard/$',
+                        'plexus.main.views.contact_dashboard'),
 
                        (r'^add_application/$',
                         'plexus.main.views.add_application'),
