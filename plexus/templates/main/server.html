@@ -32,7 +32,7 @@
 				{% else %}
 				{{server.location.name}}
 				{% endif %}</td></tr>
-	<tr><td>OS</td><td>{{server.operating_system.family.name}}
+	<tr><td>OS</td><td><a href="/os/{{server.operating_system.family.id}}/">{{server.operating_system.family.name}}</a>
 				{{server.operating_system.version}}</td></tr>
 	<tr><td>mem</td><td>{{server.memory}} [{{server.swap}}]</td></tr>
 	<tr><td>disk</td><td>{{server.disk}}</td></tr>

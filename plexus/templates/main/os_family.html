@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{family.name}}</h2>
+
+<h3>Versions</h3>
+
+<ul>
+{% for v in family.operatingsystem_set.all %}
+<li>{{v.version}}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

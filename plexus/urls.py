@@ -52,6 +52,8 @@ urlpatterns = patterns('',
                        (r'^application/(?P<id>\d+)/$',
                         'plexus.main.views.application'),
 
+                       (r'^os/(?P<id>\d+)/',
+                        'plexus.main.views.os_family'),
 
                        (r'^admin/', include(admin.site.urls)),
                        (r'^munin/', include('munin.urls')),

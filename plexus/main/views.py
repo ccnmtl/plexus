@@ -212,3 +212,9 @@ def add_application(request):
 def application(request, id):
     application=get_object_or_404(Application, id=id)
     return dict(application=application, settings=settings)
+
+
+@render_to('main/os_family.html')
+def os_family(request, id):
+    family = get_object_or_404(OSFamily, id=id)
+    return dict(family=family)
