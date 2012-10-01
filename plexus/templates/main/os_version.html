@@ -5,10 +5,17 @@
 
 <h3>Servers</h3>
 
+{% if operating_system.server_set.count %}
 <ul>
 {% for s in operating_system.server_set.all %}
 <li><a href="/server/{{s.id}}/">{{s.name}}</a></li>
 {% endfor %}
 </ul>
+{% else %}
+<p>No Servers with this Version</p>
+{% if not request.user.is_anonymous %}
+<a href="/admin/main/operatingsystem/{{operating_system.id}}/">edit/delete</a>
+{% endif %}
+{% endif %}
 
 {% endblock %}
