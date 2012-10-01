@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>{{family.name}}</h2>
+<h2>Operating System: {{family.name}}</h2>
 
 <h3>Versions</h3>
 
 <ul>
 {% for v in family.operatingsystem_set.all %}
-<li>{{v.version}}</li>
+<li><a href="{{v.id}}/">{{v.version}}</a></li>
 {% endfor %}
 </ul>
 

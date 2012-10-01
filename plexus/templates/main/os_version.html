@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Operating System: <a href="/os/{{operating_system.family.id}}/">{{operating_system.family.name}}</a>: {{operating_system.version}}</h2>
+
+<h3>Servers</h3>
+
+<ul>
+{% for s in operating_system.server_set.all %}
+<li><a href="/server/{{s.id}}/">{{s.name}}</a></li>
+{% endfor %}
+</ul>
+
+{% endblock %}

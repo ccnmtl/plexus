@@ -217,3 +217,9 @@ def application(request, id):
 def os_family(request, id):
     family = get_object_or_404(OSFamily, id=id)
     return dict(family=family)
+
+
+@render_to('main/os_version.html')
+def os_version(request, family_id, id):
+    operating_system = get_object_or_404(OperatingSystem, id=id)
+    return dict(operating_system=operating_system)

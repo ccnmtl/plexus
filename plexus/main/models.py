@@ -12,6 +12,9 @@ class Location(models.Model):
 class OSFamily(models.Model):
     name = models.CharField(max_length=256)
 
+    class Meta:
+        ordering = ['name', ]
+
     def __unicode__(self):
         return self.name
 
@@ -19,6 +22,9 @@ class OSFamily(models.Model):
 class OperatingSystem(models.Model):
     family = models.ForeignKey(OSFamily)
     version = models.CharField(max_length=256)
+
+    class Meta:
+        ordering = ['version', ]
 
     def __unicode__(self):
         return unicode(self.family) + " " + self.version
