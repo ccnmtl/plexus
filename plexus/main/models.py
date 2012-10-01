@@ -76,7 +76,7 @@ class Alias(models.Model):
     description = models.TextField(blank=True, default=u"")
 
     class Meta:
-        ordering = ['hostname',]
+        ordering = ['hostname', ]
 
     def __unicode__(self):
         return self.hostname
@@ -123,7 +123,8 @@ class Application(models.Model):
         return self.name
 
     def pmt_feed_url(self):
-        return "http://pmt.ccnmtl.columbia.edu/project_feed.pl?pid=%d" % self.pmt_id
+        return ("http://pmt.ccnmtl.columbia.edu/project_feed.pl?pid=%d"
+                % self.pmt_id)
 
 
 class ApplicationAlias(models.Model):
@@ -140,7 +141,7 @@ class ApplicationContact(models.Model):
 
     class Meta:
         order_with_respect_to = 'application'
-        
+
     def __unicode__(self):
         return unicode(self.application) + ": " + unicode(self.contact)
 
@@ -151,6 +152,6 @@ class ServerContact(models.Model):
 
     class Meta:
         order_with_respect_to = 'server'
-        
+
     def __unicode__(self):
         return unicode(self.server) + ": " + unicode(self.contact)

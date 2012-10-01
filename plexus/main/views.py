@@ -14,7 +14,8 @@ from django.conf import settings
 def index(request):
     return dict(
         servers=Server.objects.filter(deprecated=False).order_by('name'),
-        aliases=Alias.objects.all().exclude(status='deprecated').order_by('hostname'),
+        aliases=(Alias.objects.all().exclude(status='deprecated')
+                 .order_by('hostname')),
         applications=Application.objects.all().order_by('name'),
         )
 
@@ -33,7 +34,7 @@ def add_server(request):
         operating_system, created = OperatingSystem.objects.get_or_create(
             family=os_family,
             version=version)
-        name=request.POST.get('name', 'unknown server')
+        name = request.POST.get('name', 'unknown server')
         graphite_name = request.POST.get('graphite_name', '')
         server = Server.objects.create(
             name=name,
@@ -70,7 +71,6 @@ def add_server(request):
             ServerContact.objects.create(server=server,
                                          contact=contact)
 
-
         return HttpResponseRedirect("/")
     return dict(all_locations=Location.objects.all(),
                 all_operating_systems=OperatingSystem.objects.all())
@@ -80,7 +80,8 @@ def add_server(request):
 def server(request, id):
     server = get_object_or_404(Server, id=id)
     return dict(server=server, settings=settings,
-                potential_dom0s=Server.objects.filter(virtual=False).exclude(id=server.id)
+                potential_dom0s=(Server.objects.filter(virtual=False)
+                                 .exclude(id=server.id))
                 )
 
 
@@ -188,7 +189,7 @@ def add_application(request):
     if request.method == 'POST':
         technology, created = Technology.objects.get_or_create(
             name=request.POST.get("technology", "unknown"))
-        name=request.POST.get('name', 'unknown application')
+        name = request.POST.get('name', 'unknown application')
         graphite_name = request.POST.get('graphite_name', '')
         application = Application.objects.create(
             name=name,
@@ -202,15 +203,13 @@ def add_application(request):
             contact, created = Contact.objects.get_or_create(name=c)
             ApplicationContact.objects.create(application=application,
                                               contact=contact)
-
-
         return HttpResponseRedirect("/")
     return dict(all_technologies=Technology.objects.all())
 
 
 @render_to('main/application.html')
 def application(request, id):
-    application=get_object_or_404(Application, id=id)
+    application = get_object_or_404(Application, id=id)
     return dict(application=application, settings=settings)
 
 
