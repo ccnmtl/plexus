@@ -29,6 +29,8 @@ def add_server(request):
             location, created = Location.objects.get_or_create(
                 name=request.POST.get("location", "unknown"))
         os_string = request.POST.get("operating_system")
+        if ":" not in os_string:
+            os_string = "Unknown: " + os_string
         family, version = os_string.split(":")
         os_family, created = OSFamily.objects.get_or_create(name=family)
         operating_system, created = OperatingSystem.objects.get_or_create(
