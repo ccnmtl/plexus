@@ -54,13 +54,14 @@ data-source='[{% for location in all_locations %}"{{location.name}}"{% if not fo
 	<div class="control-group">
 		<label class="control-label">OS</label>
 		<div class="controls">
-		<input type="text" name="operating_system" placeholder="Family:
-		Version"
+		<input type="text" name="operating_system" placeholder="Family: Version"
 data-provide="typeahead"
 data-items="4"
 data-source='[{% for os in all_operating_systems %}"{{os.family.name}}: {{os.version}}"{% if not forloop.last %},{% endif %}{% endfor %}]'
 
 />
+
+		<span class="help-inline">eg: "Linux: Ubuntu 12.04"</span>
 		</div>
 	</div>
 	<div class="control-group">
