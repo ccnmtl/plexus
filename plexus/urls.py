@@ -41,6 +41,8 @@ urlpatterns = patterns('',
                         'plexus.main.views.alias_delete'),
                        (r'^alias/(?P<id>\d+)/associate_with_application/$',
                         'plexus.main.views.alias_associate_with_application'),
+                       (r'^alias/(?P<id>\d+)/request_alias_change/$',
+                        'plexus.main.views.request_alias_change'),
 
                        (r'^contact/(?P<id>\d+)/$',
                         'plexus.main.views.contact'),

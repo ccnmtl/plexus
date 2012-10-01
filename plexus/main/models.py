@@ -45,6 +45,9 @@ class Server(models.Model):
     sentry_name = models.CharField(max_length=256, default=u"", blank=True)
     munin_name = models.CharField(max_length=256, default=u"", blank=True)
 
+    class Meta:
+        ordering = ['name', ]
+
     def __unicode__(self):
         return self.name
 
@@ -93,6 +96,11 @@ class Alias(models.Model):
         if self.status == 'deprecated':
             return "error"
         return ""
+
+    def can_request_dns_change(self):
+        """ it's not safe for Plexus to try to request DNS changes
+        outside our subdomain"""
+        return self.hostname.endswith(".ccnmtl.columbia.edu")
 
 
 class AliasContact(models.Model):

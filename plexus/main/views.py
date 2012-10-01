@@ -147,10 +147,47 @@ Thanks,
     return HttpResponseRedirect("/server/%d/" % server.id)
 
 
+def request_alias_change(request, id):
+    alias = get_object_or_404(Alias, id=id)
+    current_server = alias.ip_address.server
+    current_ip_address = alias.ip_address
+
+    new_server_id = request.POST.get('new_server', None)
+    new_server = get_object_or_404(Server, id=new_server_id)
+    new_ip_address = new_server.ipaddress_set.all()[0]
+
+    alias.ip_address = new_ip_address
+    alias.status = "pending"
+    alias.save()
+
+    subject = "DNS Alias Change Request: " + alias.hostname
+    body = """
+Please change the following alias:
+
+    %s
+
+Which currently is an alias for %s (%s).
+
+It should be changed to instead point to %s (%s).
+
+Thanks,
+%s
+""" % (alias.hostname, current_server.name, current_ip_address.ipv4,
+       new_server.name, new_ip_address.ipv4,
+       request.user.first_name)
+    send_mail(subject, body, request.user.email,
+              [settings.HOSTMASTER_EMAIL, settings.SYSADMIN_LIST_EMAIL])
+
+    return HttpResponseRedirect("/alias/%d/" % alias.id)
+
+
 @render_to("main/alias.html")
 def alias(request, id):
     alias = get_object_or_404(Alias, id=id)
-    return dict(alias=alias, all_applications=Application.objects.all())
+    return dict(alias=alias,
+                all_applications=Application.objects.all(),
+                all_servers=Server.objects.all(),
+                )
 
 
 def alias_confirm(request, id):

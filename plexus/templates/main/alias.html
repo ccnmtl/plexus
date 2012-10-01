@@ -37,6 +37,48 @@
 
 </table>
 
+{% if alias.can_request_dns_change %}
+{% if request.user.is_staff %}
+<a href="#requestAlias" role="button" class="btn" data-toggle="modal">Request Alias Change</a>
+
+	<form action="request_alias_change/" method="post">
+		<div class="modal hide" id="requestAlias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel1">Request Alias Change for {{alias.hostname}}</h3>
+  </div>
+  <div class="modal-body">
+		<p class="info">This will send an email to hostmaster with the
+		request. It may take a couple business days for the request to go
+		through. Once it does, please come back and update the status of
+		this alias from 'pending' to 'active'. If you just want to update
+		the record and not actually email hostmaster, use the "edit" link
+		above instead.</p>
+			
+		<label>New Server
+			<select name="new_server">
+				{% for server in all_servers %}
+				{% if server.ipaddress_set.count %}
+				{% ifequal server.id alias.ip_address.server.id %}
+				{% else %}
+				<option value="{{server.id}}">{{server.name}}</option>
+				{% endifequal %}
+				{% endif %}
+				{% endfor %}
+			</select>
+		</label>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary">Request Alias Change</button>
+  </div>
+</div>
+	</form>
+
+{% endif %}
+{% endif %}
+
 {% ifequal alias.status "pending" %}
 <div class="alert">
 <form action="confirm/" method="post" class="form-inline">
