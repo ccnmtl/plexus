@@ -34,7 +34,7 @@
 				{% endif %}</td></tr>
 	<tr><td>OS</td><td><a href="/os/{{server.operating_system.family.id}}/">{{server.operating_system.family.name}}</a>
 				<a href="/os/{{server.operating_system.family.id}}/{{server.operating_system.id}}/">{{server.operating_system.version}}</a></td></tr>
-	<tr><td>mem</td><td>{{server.memory}} [{{server.swap}}]</td></tr>
+	<tr><td>mem</td><td>{{server.memory}}{% if server.swap %} [{{server.swap}}]{% endif %}</td></tr>
 	<tr><td>disk</td><td>{{server.disk}}</td></tr>
 	<tr><td>notes</td><td>{{server.notes}}</td></tr>
 	{% if server.sentry_name %}
