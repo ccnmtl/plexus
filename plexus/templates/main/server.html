@@ -293,12 +293,12 @@ var context = cubism.context(), // a default context
 
 context.size(1000).step(1e5);
 
-var loadavg24h = graphite.metric("ccnmtl.server.{{server.graphite_name}}.cpu.load_average.1_minute").alias("Load Avg");
-var memory24h = graphite.metric("ccnmtl.server.{{server.graphite_name}}.memory.MemFree.percent").alias("Free Mem");
-var network_in24h = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.receive.byte_count)").alias("Eth0 in");
-var network_out24h = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.transmit.byte_count)").alias("Eth0 in");
-var swap_in24h = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.in)").alias("Swap in");
-var swap_out24h = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.out)").alias("Swap out");
+var loadavg = graphite.metric("ccnmtl.server.{{server.graphite_name}}.cpu.load_average.1_minute").alias("Load Avg");
+var memory = graphite.metric("ccnmtl.server.{{server.graphite_name}}.memory.MemFree.percent").alias("Free Mem");
+var network_in = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.receive.byte_count)").alias("Eth0 in");
+var network_out = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.transmit.byte_count)").alias("Eth0 in");
+var swap_in = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.in)").alias("Swap in");
+var swap_out = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.out)").alias("Swap out");
 
 
 d3.select("#loadavg24h").call(function(div) {
@@ -307,7 +307,7 @@ d3.select("#loadavg24h").call(function(div) {
       .call(context.axis().orient("top"));
 
   div.selectAll(".horizon")
-      .data([loadavg24h,memory24h,network_in24h.add(network_out24h),swap_in24h.add(swap_out24h)])
+      .data([loadavg,memory,network_in.add(network_out),swap_in.add(swap_out)])
     .enter().append("div")
       .attr("class", "horizon")
       
