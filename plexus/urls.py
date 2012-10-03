@@ -59,6 +59,9 @@ urlpatterns = patterns('',
                        (r'^os/(?P<family_id>\d+)/(?P<id>\d+)/$',
                         'plexus.main.views.os_version'),
 
+                       (r'^render','plexus.main.views.render_proxy'),
+                       (r'^metrics','plexus.main.views.metrics_proxy'),
+
                        (r'^admin/', include(admin.site.urls)),
                        (r'^munin/', include('munin.urls')),
                        (r'^stats/', direct_to_template,
