@@ -218,64 +218,18 @@
 </ul>
 
 <div class="tab-content">
-{% with hidegrid='false' %}
-{% with bgcolor='FFFFFF' %}
-{% with fgcolor='999999' %}
-{% with width='1000' %}
-{% with height='200' %}
-
-
   <div class="tab-pane active" id="daily">
-
-<div id="loadavg24h"></div>
-
-</div>
+    <div id="graphs-daily"></div>
+  </div>
   <div class="tab-pane" id="weekly">
-<h3>Load Avg (x10)</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.server.{{server.graphite_name}}.cpu.load_average.1_minute,'1h')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-7days" width="{{width}}" height="{{height}}"/>
-<h3>Free Memory (%)</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=ccnmtl.server.{{server.graphite_name}}.memory.MemFree.percent&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-7days&yMax=100&yMin=0" width="{{width}}" height="{{height}}"/>
-<h3>Network Traffic</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.receive.byte_count)&target=nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.transmit.byte_count)&hideGrid={{hidegrid}}&hideLegend=false&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-7days" width="{{width}}" height="{{height}}"/>
-<h3>Swap Activity</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.in)&target=nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.out)&hideGrid={{hidegrid}}&hideLegend=false&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-7days" width="{{width}}" height="{{height}}"/>
-
-</div>
+    <div id="graphs-weekly"></div>
+  </div>
   <div class="tab-pane" id="monthly">
-{% with summarize='6h' %}
-<h3>Load Avg (x10)</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.server.{{server.graphite_name}}.cpu.load_average.1_minute,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-1months" width="{{width}}" height="{{height}}"/>
-<h3>Free Memory (%)</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=ccnmtl.server.{{server.graphite_name}}.memory.MemFree.percent&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-1months&yMax=100&yMin=0" width="{{width}}" height="{{height}}"/>
-<h3>Network Traffic</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.receive.byte_count),'{{summarize}}')&target=summarize(nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.transmit.byte_count),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=false&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-1months" width="{{width}}" height="{{height}}"/>
-<h3>Swap Activity</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.in),'{{summarize}}')&target=summarize(nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.out),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=false&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-1months" width="{{width}}" height="{{height}}"/>
-{% endwith %}
-
-</div>
+    <div id="graphs-monthly"></div>
+  </div>
   <div class="tab-pane" id="yearly">
-
-{% with period='-1years' %}
-{% with summarize='1d' %}
-<h3>Load Avg (x10)</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.server.{{server.graphite_name}}.cpu.load_average.1_minute,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}"/>
-<h3>Free Memory (%)</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=ccnmtl.server.{{server.graphite_name}}.memory.MemFree.percent&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}&yMax=100&yMin=0" width="{{width}}" height="{{height}}"/>
-<h3>Network Traffic</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.receive.byte_count),'{{summarize}}')&target=summarize(nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.transmit.byte_count),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=false&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}"/>
-<h3>Swap Activity</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.in),'{{summarize}}')&target=summarize(nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.out),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=false&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}"/>
-{% endwith %}
-{% endwith %}
-
-</div>
-
-{% endwith %}
-{% endwith %}
-{% endwith %}
-{% endwith %}
-{% endwith %}
+   <div id="graphs-yearly"></div>
+  </div>
 </div>
 {% endif %}
 
@@ -283,15 +237,16 @@
 {% endblock %}
 
 {% block js %}
+{% if server.graphite_name %}
 <script src="/site_media/js/d3.v2.min.js"></script>
 <script src="/site_media/js/cubism.v1.min.js"></script>
 <script>
 
-(function () {
-  var context = cubism.context(), // a default context
+var makegraphs = function (el, size, step) {
+var context = cubism.context(), // a default context
       graphite = context.graphite("");
   
-  context.size(1000).step(1e5);
+  context.size(size).step(step);
   
   var metric_base = "ccnmtl.server.{{server.graphite_name}}";
   
@@ -328,7 +283,7 @@
   
   var metrics = metric_defs.map(gmetric);
   
-  d3.select("#loadavg24h").call(function(div) {
+  d3.select(el).call(function(div) {
     div.append("div")
         .attr("class", "axis")
         .call(context.axis().orient("top"));
@@ -342,10 +297,17 @@
         
         .call(context.horizon()
           .colors(["#08519c", "#*82bd", "#6baed6", "#fee6ce", "#fdae6b", "#e6550d" ])
-          .height(100));
+          .height(120));
   });
+};
+
+(function () {
+  window.makegraphs("#graphs-daily", 1000, 1e5);
+  window.makegraphs("#graphs-weekly", 1000, 7e5);
+  window.makegraphs("#graphs-monthly", 1000, 30e5);
+  window.makegraphs("#graphs-yearly", 1000, 365e5);
 }());
 </script>
-
+{% endif %}
 {% endblock %}
 
