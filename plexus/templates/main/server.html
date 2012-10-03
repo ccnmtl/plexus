@@ -290,16 +290,16 @@
 var context = cubism.context(), // a default context
     graphite = context.graphite("");
 
-
 context.size(1000).step(1e5);
 
-var loadavg = graphite.metric("ccnmtl.server.{{server.graphite_name}}.cpu.load_average.1_minute").alias("Load Avg");
-var memory = graphite.metric("ccnmtl.server.{{server.graphite_name}}.memory.MemFree.percent").alias("Free Mem");
-var network_in = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.receive.byte_count)").alias("Eth0 in");
-var network_out = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.transmit.byte_count)").alias("Eth0 in");
-var swap_in = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.in)").alias("Swap in");
-var swap_out = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.out)").alias("Swap out");
+var metric_base = "ccnmtl.server.{{server.graphite_name}}";
 
+var loadavg = graphite.metric(metric_base + ".cpu.load_average.1_minute").alias("Load Avg");
+var memory = graphite.metric(metric_base + ".memory.MemFree.percent").alias("Free Mem");
+var network_in = graphite.metric("nonNegativeDerivative(" + metric_base + ".network.eth0.receive.byte_count)").alias("Eth0 in");
+var network_out = graphite.metric("nonNegativeDerivative(" + metric_base + ".network.eth0.transmit.byte_count)").alias("Eth0 in");
+var swap_in = graphite.metric("nonNegativeDerivative(" + metric_base + ".vmstat.swap.in)").alias("Swap in");
+var swap_out = graphite.metric("nonNegativeDerivative(" + metric_base + ".vmstat.swap.out)").alias("Swap out");
 
 d3.select("#loadavg24h").call(function(div) {
   div.append("div")
