@@ -5,9 +5,10 @@ from plexus.main.models import OperatingSystem, Contact, AliasContact
 from plexus.main.models import Application, Technology
 from plexus.main.models import ApplicationAlias, VMLocation
 from plexus.main.models import ApplicationContact, ServerContact
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
+from restclient import GET
 
 
 @render_to('main/index.html')
@@ -262,3 +263,18 @@ def os_family(request, id):
 def os_version(request, family_id, id):
     operating_system = get_object_or_404(OperatingSystem, id=id)
     return dict(operating_system=operating_system)
+
+
+def render_proxy(request):
+    """ cross-domain javascript security prevents us from being able to just
+    point cubism.js at the graphite server, so we implement a very rudimentary
+    HTTP proxy here """
+    graphite_url = (settings.GRAPHITE_BASE + request.META['PATH_INFO']
+                    + "?" + request.META['QUERY_STRING'])
+    return HttpResponse(GET(graphite_url), content_type="text/plain")
+
+
+def metrics_proxy(request):
+    graphite_url = (settings.GRAPHITE_BASE + request.META['PATH_INFO']
+                    + "?" + request.META['QUERY_STRING'])
+    return HttpResponse(GET(graphite_url), content_type="text/plain")
