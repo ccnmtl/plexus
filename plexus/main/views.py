@@ -264,13 +264,17 @@ def os_version(request, family_id, id):
     operating_system = get_object_or_404(OperatingSystem, id=id)
     return dict(operating_system=operating_system)
 
+
 def render_proxy(request):
     """ cross-domain javascript security prevents us from being able to just
     point cubism.js at the graphite server, so we implement a very rudimentary
     HTTP proxy here """
-    graphite_url = settings.GRAPHITE_BASE + request.META['PATH_INFO'] + "?" + request.META['QUERY_STRING']
-    return HttpResponse(GET(graphite_url), content_type="text/plain");
+    graphite_url = (settings.GRAPHITE_BASE + request.META['PATH_INFO']
+                    + "?" + request.META['QUERY_STRING'])
+    return HttpResponse(GET(graphite_url), content_type="text/plain")
+
 
 def metrics_proxy(request):
-    graphite_url = settings.GRAPHITE_BASE + request.META['PATH_INFO'] + "?" + request.META['QUERY_STRING']
-    return HttpResponse(GET(graphite_url), content_type="text/plain");
+    graphite_url = (settings.GRAPHITE_BASE + request.META['PATH_INFO']
+                    + "?" + request.META['QUERY_STRING'])
+    return HttpResponse(GET(graphite_url), content_type="text/plain")
