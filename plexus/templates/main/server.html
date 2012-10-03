@@ -302,10 +302,11 @@ var context = cubism.context(), // a default context
 };
 
 (function () {
-  window.makegraphs("#graphs-daily", 1000, 1e5);
-  window.makegraphs("#graphs-weekly", 1000, 7e5);
-  window.makegraphs("#graphs-monthly", 1000, 30e5);
-  window.makegraphs("#graphs-yearly", 1000, 365e5);
+  var width = $("#graphs-daily").width();
+  window.makegraphs("#graphs-daily", width, 1e5);
+  window.makegraphs("#graphs-weekly", width, 7e5);
+  window.makegraphs("#graphs-monthly", width, 30e5);
+  window.makegraphs("#graphs-yearly", width, 365e5);
 }());
 </script>
 {% endif %}
