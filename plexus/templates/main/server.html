@@ -209,6 +209,7 @@
 
 {% if server.graphite_name %}
 <h2>Graphs</h2>
+
 <ul class="nav nav-tabs">
   <li><a href="#daily" data-toggle="tab">Daily</a></li>
   <li><a href="#weekly" data-toggle="tab">Weekly</a></li>
@@ -226,16 +227,7 @@
 
   <div class="tab-pane active" id="daily">
 
-<h3>Load Avg (x10)</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.server.{{server.graphite_name}}.cpu.load_average.1_minute,'15min')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}" width="{{width}}" height="{{height}}" />
-<h3>Free Memory (%)</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=ccnmtl.server.{{server.graphite_name}}.memory.MemFree.percent&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&yMax=100&yMin=0" width="{{width}}" height="{{height}}"/>
-<h3>Network Traffic</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.receive.byte_count)&target=nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.transmit.byte_count)&hideGrid={{hidegrid}}&hideLegend=false&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}" width="{{width}}" height="{{height}}"/>
-<h3>Swap Activity</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.in)&target=nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.out)&hideGrid={{hidegrid}}&hideLegend=false&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}" width="{{width}}" height="{{height}}"/>
-
-
+<div id="loadavg24h"></div>
 
 </div>
   <div class="tab-pane" id="weekly">
@@ -290,4 +282,41 @@
 
 {% endblock %}
 
+{% block js %}
+<script src="/site_media/js/d3.v2.min.js"></script>
+<script src="/site_media/js/cubism.v1.min.js"></script>
+<script>
+
+var context = cubism.context(), // a default context
+    graphite = context.graphite("");
+
+
+context.size(1000).step(1e5);
+
+var loadavg = graphite.metric("ccnmtl.server.{{server.graphite_name}}.cpu.load_average.1_minute").alias("Load Avg");
+var memory = graphite.metric("ccnmtl.server.{{server.graphite_name}}.memory.MemFree.percent").alias("Free Mem");
+var network_in = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.receive.byte_count)").alias("Eth0 in");
+var network_out = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.network.eth0.transmit.byte_count)").alias("Eth0 in");
+var swap_in = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.in)").alias("Swap in");
+var swap_out = graphite.metric("nonNegativeDerivative(ccnmtl.server.{{server.graphite_name}}.vmstat.swap.out)").alias("Swap out");
+
+
+d3.select("#loadavg24h").call(function(div) {
+  div.append("div")
+      .attr("class", "axis")
+      .call(context.axis().orient("top"));
+
+  div.selectAll(".horizon")
+      .data([loadavg,memory,network_in,network_out,swap_in,swap_out])
+    .enter().append("div")
+      .attr("class", "horizon")
+      
+      .call(context.horizon()
+        .colors(["#08519c", "#*82bd", "#6baed6", "#fee6ce", "#fdae6b", "#e6550d" ])
+        .height(120));
+});
+
+</script>
+
+{% endblock %}
 
