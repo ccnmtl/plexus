@@ -307,13 +307,13 @@ d3.select("#loadavg24h").call(function(div) {
       .call(context.axis().orient("top"));
 
   div.selectAll(".horizon")
-      .data([loadavg,memory,network_in,network_out,swap_in,swap_out])
+      .data([loadavg,memory,network_in.add(network_out),swap_in.add(swap_out)])
     .enter().append("div")
       .attr("class", "horizon")
       
       .call(context.horizon()
         .colors(["#08519c", "#*82bd", "#6baed6", "#fee6ce", "#fdae6b", "#e6550d" ])
-        .height(120));
+        .height(100));
 });
 
 </script>
