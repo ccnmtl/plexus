@@ -294,12 +294,38 @@ context.size(1000).step(1e5);
 
 var metric_base = "ccnmtl.server.{{server.graphite_name}}";
 
-var loadavg = graphite.metric(metric_base + ".cpu.load_average.1_minute").alias("Load Avg");
-var memory = graphite.metric(metric_base + ".memory.MemFree.percent").alias("Free Mem");
-var network_in = graphite.metric("nonNegativeDerivative(" + metric_base + ".network.eth0.receive.byte_count)").alias("Eth0 in");
-var network_out = graphite.metric("nonNegativeDerivative(" + metric_base + ".network.eth0.transmit.byte_count)").alias("Eth0 in");
-var swap_in = graphite.metric("nonNegativeDerivative(" + metric_base + ".vmstat.swap.in)").alias("Swap in");
-var swap_out = graphite.metric("nonNegativeDerivative(" + metric_base + ".vmstat.swap.out)").alias("Swap out");
+var metric_defs = [
+  {
+    metric: metric_base + ".cpu.load_average.1_minute",
+    alias: "Load Avg"
+  },
+  {
+    metric: metric_base + ".memory.MemFree.percent",
+    alias: "Free Mem"
+  },
+  {
+    metric: "nonNegativeDerivative(" + metric_base + ".network.eth0.receive.byte_count)",
+    alias: "Eth0 in"
+  },
+  {
+    metric: "nonNegativeDerivative(" + metric_base + ".network.eth0.transmit.byte_count)",
+    alias: "Eth0 out"
+  },
+  {
+    metric: "nonNegativeDerivative(" + metric_base + ".vmstat.swap.in)",
+    alias: "Swap in"
+  },
+  {
+    metric: "nonNegativeDerivative(" + metric_base + ".vmstat.swap.out)",
+    alias: "Swap out"
+  }
+];
+
+var gmetric = function(metric_def) {
+   return graphite.metric(metric_def.metric).alias(metric_def.alias);
+};
+
+var metrics = metric_defs.map(gmetric);
 
 d3.select("#loadavg24h").call(function(div) {
   div.append("div")
@@ -307,7 +333,9 @@ d3.select("#loadavg24h").call(function(div) {
       .call(context.axis().orient("top"));
 
   div.selectAll(".horizon")
-      .data([loadavg,memory,network_in.add(network_out),swap_in.add(swap_out)])
+    .data([metrics[0], metrics[1],
+           metrics[2].add(metrics[3]),
+           metrics[4].add(metrics[5])])
     .enter().append("div")
       .attr("class", "horizon")
       
