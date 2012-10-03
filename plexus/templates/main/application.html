@@ -62,72 +62,20 @@
 </ul>
 
 <div class="tab-content">
-{% with hidegrid='false' %}
-{% with bgcolor='FFFFFF' %}
-{% with fgcolor='999999' %}
-{% with width='1000' %}
-{% with height='200' %}
-
-
   <div class="tab-pane active" id="daily">
-
-
-{% with summarize='15min' %}
-<h3>Traffic</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.200,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}" width="{{width}}" height="{{height}}" />
-<h3>Response Times (max/mean/min)</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.lower),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.mean),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.upper),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}" width="{{width}}" height="{{height}}" />
-<h3>Errors</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.500,'{{summarize}}')&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.404,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}" width="{{width}}" height="{{height}}" />
-{% endwith %}
-</div>
+    <div id="graphs-daily"></div>
+  </div>
 
   <div class="tab-pane" id="weekly">
-{% with period="-7days" %}
-{% with summarize='1h' %}
-<h3>Traffic</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.200,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
-<h3>Response Times (max/mean/min)</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.lower),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.mean),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.upper),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
-<h3>Errors</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.500,'{{summarize}}')&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.404,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}" width="{{width}}" height="{{height}}&from={{period}}" />
-{% endwith %}
-{% endwith %}
-</div>
+    <div id="graphs-weekly"></div>
+  </div>
 
   <div class="tab-pane" id="monthly">
-{% with period="-1months" %}
-{% with summarize='6h' %}
-<h3>Traffic</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.200,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
-<h3>Response Times (max/mean/min)</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.lower),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.mean),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.upper),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
-<h3>Errors</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.500,'{{summarize}}')&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.404,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
-{% endwith %}
-{% endwith %}
-
-</div>
+    <div id="graphs-monthly"></div>
+  </div>
   <div class="tab-pane" id="yearly">
-
-{% with period='-1years' %}
-{% with summarize='1d' %}
-<h3>Traffic</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.200,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
-<h3>Response Times (max/mean/min)</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.lower),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.mean),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{application.graphite_name}}.view.GET.upper),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
-<h3>Errors</h3>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.500,'{{summarize}}')&target=summarize(ccnmtl.app.counters.{{application.graphite_name}}.response.404,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}" width="{{width}}" height="{{height}}" />
-{% endwith %}
-{% endwith %}
-
-</div>
-
-{% endwith %}
-{% endwith %}
-{% endwith %}
-{% endwith %}
-{% endwith %}
+    <div id="graphs-yearly"></div>
+  </div>
 </div>
 {% endif %}
 
@@ -145,3 +93,119 @@
 
 {% endblock %}
 
+{% block js %}
+{% if application.graphite_name %}
+<script src="/site_media/js/d3.v2.min.js"></script>
+<script src="/site_media/js/cubism.v1.min.js"></script>
+<script>
+
+var makegraphs = function (el, size, step) {
+var context = cubism.context(), // a default context
+      graphite = context.graphite("");
+  
+  context.size(size).step(step);
+
+  var counter_base = "ccnmtl.app.counters.{{application.graphite_name}}"; 
+  var timer_base = "ccnmtl.app.timers.{{application.graphite_name}}";
+
+  
+  var metric_defs = [
+    {
+      metric: counter_base + ".response.200",
+      alias: "Requests"
+    },
+    {
+      metric: timer_base + ".view.GET.mean",
+      alias: "request time (mean)"
+    },
+    {
+      metric: timer_base + ".view.GET.lower",
+      alias: "request time (lower)"
+    },
+    {
+      metric: timer_base + ".view.GET.upper",
+      alias: "request time (max)"
+    },
+    {
+      metric: counter_base + ".response.500",
+      alias: "500s"
+    },
+    {
+      metric: counter_base + ".response.404",
+      alias: "404s"
+    }
+  ];
+  
+  var gmetric = function(metric_def) {
+     return graphite.metric(metric_def.metric).alias(metric_def.alias);
+  };
+  
+  var metrics = metric_defs.map(gmetric);
+
+  var oranges = ["#08519c", "#*82bd", "#6baed6",
+                 "#fee6ce", "#fdae6b", "#e6550d" ];
+  var greens = ["#edf8b8", "#b2e2e2", "#66c2a4",
+                "#2ca25f", "#006d2c" ];
+  var blues = ["#eff3ff", "#c6dbef", "#9ecae1",
+               "#6baed6", "#3182bd", "#08519c"];
+  
+  d3.select(el).call(function(div) {
+    div.append("div")
+        .attr("class", "axis")
+        .call(context.axis().orient("top"));
+
+    div.append("div")
+      .datum(metrics[0])
+      .attr("class", "horizon")
+      .call(context.horizon()
+        .height(100)
+        .colors(greens)
+        );
+    div.append("div")
+      .datum(metrics[1])
+      .attr("class", "horizon")
+      .call(context.horizon()
+        .height(120)
+        .colors(oranges)
+        );
+    div.append("div")
+      .datum(metrics[1].subtract(metrics[2]))
+      .attr("class", "horizon")
+      .call(context.horizon()
+        .height(30)
+        .colors(blues)
+        );
+    div.append("div")
+      .datum(metrics[3].subtract(metrics[1]))
+      .attr("class", "horizon")
+      .call(context.horizon()
+        .height(30)
+        .colors(greens)
+        );
+    div.append("div")
+      .datum(metrics[4])
+      .attr("class", "horizon")
+      .call(context.horizon()
+        .height(60)
+        .colors(oranges)
+        );
+    div.append("div")
+      .datum(metrics[5])
+      .attr("class", "horizon")
+      .call(context.horizon()
+        .height(60)
+        .colors(greens)
+        );
+  });
+};
+
+(function () {
+  var width = $("#graphs-daily").width();
+  window.makegraphs("#graphs-daily", width, 1e5);
+  window.makegraphs("#graphs-weekly", width, 7e5);
+  window.makegraphs("#graphs-monthly", width, 30e5);
+  window.makegraphs("#graphs-yearly", width, 365e5);
+}());
+</script>
+{% endif %}
+{% endblock %}
