@@ -37,52 +37,84 @@
 
 var serverMetrics = function(graphiteName, serverName) {
   var metric_base = "ccnmtl.server." + graphiteName;
-    
-  return [
-    {
+  return {
+    load_avg: {
       metric: metric_base + ".cpu.load_average.1_minute",
       alias: "" + serverName + " " + "Load Avg"
     },
-    {
-      metric: metric_base + ".memory.MemFree.percent",
-      alias: serverName + " " + "Free Mem"
-    },
-    {
+    network_in: {
       metric: "nonNegativeDerivative(" + metric_base + ".network.eth0.receive.byte_count)",
       alias: serverName + " " + "Eth0 in"
     },
-    {
+    network_out: {
       metric: "nonNegativeDerivative(" + metric_base + ".network.eth0.transmit.byte_count)",
       alias: "Eth0 out"
     },
-    {
+    swap_in: {
       metric: "nonNegativeDerivative(" + metric_base + ".vmstat.swap.in)",
       alias: serverName + " " + "Swap in"
     },
-    {
+    swap_out: {
       metric: "nonNegativeDerivative(" + metric_base + ".vmstat.swap.out)",
       alias: "Swap out"
     }
-  ];
+  };
 };
 
-var joinServerMetrics = function(metrics) {
-   // turns each sequence of:
-   //     [load_avg, mem, eth_in, eth_out, swap_in, swap_out]
-   // into:
-   //     [load_avg, eth_in + eth_out, swap_in + swap_out]
-   // ie, it combines network in/out and swap in/out
+var regroupServerMetrics = function (metrics, gmetric) {
    var results = [];
-   for (var i=0; i < metrics.length; i++) {
-     if (i % 6 == 0) {
-       results.push(metrics[i]);
-     } else {
-       if (i % 6 == 3 || i % 6 == 5)
-       results.push(metrics[i - 1].add(metrics[i]));
-     }
+   for (var i = 0; i < metrics.length; i++) {
+      results.push(gmetric(metrics[i].load_avg));
+   }
+   for (var i = 0; i < metrics.length; i++) {
+      results.push(gmetric(metrics[i].network_in).add(gmetric(metrics[i].network_out)));
+   }
+   for (var i = 0; i < metrics.length; i++) {
+      results.push(gmetric(metrics[i].swap_in).add(gmetric(metrics[i].swap_out)));
    }
    return results;
 };
+
+var applicationMetrics = function(graphiteName, applicationName) {
+  var counter_base = "ccnmtl.app.counters." + graphiteName; 
+  var timer_base = "ccnmtl.app.timers." + graphiteName;
+  
+  return {
+    requests: {
+        metric: counter_base + ".response.200",
+        alias: applicationName + " " + "Requests"
+      },
+    request_time: {
+        metric: timer_base + ".view.GET.mean",
+        alias: applicationName + " " + "request time (mean)"
+      },
+    '500s': {
+        metric: counter_base + ".response.500",
+        alias: applicationName + " " + "500s"
+      },
+    '404s': {
+        metric: counter_base + ".response.404",
+        alias: applicationName + " " + "404s"
+      }
+  };
+};
+
+var regroupApplicationMetrics = function(metrics, gmetric) {
+   var results = [];
+   for (var i = 0; i < metrics.length; i++) {
+      results.push(gmetric(metrics[i].requests));
+   }
+   for (var i = 0; i < metrics.length; i++) {
+      results.push(gmetric(metrics[i].request_time));
+   }
+   for (var i = 0; i < metrics.length; i++) {
+      results.push(gmetric(metrics[i]['500s']));
+   }
+   for (var i = 0; i < metrics.length; i++) {
+      results.push(gmetric(metrics[i]['404s']));
+   }
+   return results;
+}
 
 var makegraphs = function (el, size, step) {
   var context = cubism.context(), // a default context
@@ -93,66 +125,23 @@ var makegraphs = function (el, size, step) {
   var server_metric_defs = [];
 {% for ac in contact.servercontact_set.all %}
 {% if ac.server.graphite_name %}
-  server_metric_defs = server_metric_defs.concat(serverMetrics("{{ac.server.graphite_name}}", "{{ac.server.name}}"));
+  server_metric_defs.push(serverMetrics("{{ac.server.graphite_name}}","{{ac.server.name}}"));
 {% endif %}
 {% endfor %}
 
   var application_metric_defs = [];
 {% for ac in contact.applicationcontact_set.all %}
 {% if ac.application.graphite_name %}
-  var counter_base = "ccnmtl.app.counters.{{ac.application.graphite_name}}"; 
-  application_metric_defs.push(
-    {
-      metric: counter_base + ".response.200",
-      alias: "{{ac.application.name}} Requests"
-    }
-  );
+  application_metric_defs.push(applicationMetrics("{{ac.application.graphite_name}}","{{ac.application.name}}"));
 {% endif %}
 {% endfor %}
-
-{% for ac in contact.applicationcontact_set.all %}
-{% if ac.application.graphite_name %}
-  var timer_base = "ccnmtl.app.timers.{{ac.application.graphite_name}}";
-  application_metric_defs.push(
-    {
-      metric: timer_base + ".view.GET.mean",
-      alias: "{{ac.application.name}} request time (mean)"
-    }
-  );
-{% endif %}
-{% endfor %}
-
-{% for ac in contact.applicationcontact_set.all %}
-{% if ac.application.graphite_name %}
-  var counter_base = "ccnmtl.app.counters.{{ac.application.graphite_name}}"; 
-  application_metric_defs.push(
-    {
-      metric: counter_base + ".response.500",
-      alias: "{{ac.application.name}} 500s"
-    }
-  );
-{% endif %}
-{% endfor %}
-
-{% for ac in contact.applicationcontact_set.all %}
-{% if ac.application.graphite_name %}
-  var counter_base = "ccnmtl.app.counters.{{ac.application.graphite_name}}"; 
-  application_metric_defs.push(
-    {
-      metric: counter_base + ".response.404",
-      alias: "{{ac.application.name}} 404s"
-    }
-  );
-{% endif %}
-{% endfor %}
-
 
   var gmetric = function(metric_def) {
-     return graphite.metric(metric_def.metric).alias(metric_def.alias);
+    return graphite.metric(metric_def.metric).alias(metric_def.alias);
   };
 
-  var metrics = joinServerMetrics(server_metric_defs.map(gmetric))
-    .concat(application_metric_defs.map(gmetric));
+  var metrics = regroupServerMetrics(server_metric_defs, gmetric)
+      .concat(regroupApplicationMetrics(application_metric_defs, gmetric));
   
   d3.select(el).call(function(div) {
     div.append("div")
