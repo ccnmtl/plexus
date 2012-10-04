@@ -84,30 +84,6 @@ var joinServerMetrics = function(metrics) {
    return results;
 };
 
-var applicationMetrics = function(graphiteName, applicationName) {
-  var counter_base = "ccnmtl.app.counters." + graphiteName; 
-  var timer_base = "ccnmtl.app.timers." + graphiteName;
-  
-  return [
-    {
-      metric: counter_base + ".response.200",
-      alias: applicationName + " " + "Requests"
-    },
-    {
-      metric: timer_base + ".view.GET.mean",
-      alias: applicationName + " " + "request time (mean)"
-    },
-    {
-      metric: counter_base + ".response.500",
-      alias: applicationName + " " + "500s"
-    },
-    {
-      metric: counter_base + ".response.404",
-      alias: applicationName + " " + "404s"
-    }
-  ];
-};
-
 var makegraphs = function (el, size, step) {
   var context = cubism.context(), // a default context
       graphite = context.graphite("");
@@ -120,12 +96,56 @@ var makegraphs = function (el, size, step) {
   server_metric_defs = server_metric_defs.concat(serverMetrics("{{ac.server.graphite_name}}", "{{ac.server.name}}"));
 {% endif %}
 {% endfor %}
+
   var application_metric_defs = [];
 {% for ac in contact.applicationcontact_set.all %}
 {% if ac.application.graphite_name %}
-  application_metric_defs = application_metric_defs.concat(applicationMetrics("{{ac.application.graphite_name}}","{{ac.application.name}}"));
+  var counter_base = "ccnmtl.app.counters.{{ac.application.graphite_name}}"; 
+  application_metric_defs.push(
+    {
+      metric: counter_base + ".response.200",
+      alias: "{{ac.application.name}} Requests"
+    }
+  );
 {% endif %}
 {% endfor %}
+
+{% for ac in contact.applicationcontact_set.all %}
+{% if ac.application.graphite_name %}
+  var timer_base = "ccnmtl.app.timers.{{ac.application.graphite_name}}";
+  application_metric_defs.push(
+    {
+      metric: timer_base + ".view.GET.mean",
+      alias: "{{ac.application.name}} request time (mean)"
+    }
+  );
+{% endif %}
+{% endfor %}
+
+{% for ac in contact.applicationcontact_set.all %}
+{% if ac.application.graphite_name %}
+  var counter_base = "ccnmtl.app.counters.{{ac.application.graphite_name}}"; 
+  application_metric_defs.push(
+    {
+      metric: counter_base + ".response.500",
+      alias: "{{ac.application.name}} 500s"
+    }
+  );
+{% endif %}
+{% endfor %}
+
+{% for ac in contact.applicationcontact_set.all %}
+{% if ac.application.graphite_name %}
+  var counter_base = "ccnmtl.app.counters.{{ac.application.graphite_name}}"; 
+  application_metric_defs.push(
+    {
+      metric: counter_base + ".response.404",
+      alias: "{{ac.application.name}} 404s"
+    }
+  );
+{% endif %}
+{% endfor %}
+
 
   var gmetric = function(metric_def) {
      return graphite.metric(metric_def.metric).alias(metric_def.alias);
