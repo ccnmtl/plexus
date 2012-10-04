@@ -133,6 +133,9 @@ class Application(models.Model):
     # renewals
     # google analytics
 
+    class Meta:
+        ordering = ['name', ]
+
     def __unicode__(self):
         return self.name
 

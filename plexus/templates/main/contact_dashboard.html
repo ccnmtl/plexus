@@ -91,10 +91,6 @@ var applicationMetrics = function(graphiteName, applicationName) {
     '500s': {
         metric: counter_base + ".response.500",
         alias: applicationName + " " + "500s"
-      },
-    '404s': {
-        metric: counter_base + ".response.404",
-        alias: applicationName + " " + "404s"
       }
   };
 };
@@ -109,9 +105,6 @@ var regroupApplicationMetrics = function(metrics, gmetric) {
    }
    for (var i = 0; i < metrics.length; i++) {
       results.push(gmetric(metrics[i]['500s']));
-   }
-   for (var i = 0; i < metrics.length; i++) {
-      results.push(gmetric(metrics[i]['404s']));
    }
    return results;
 }
