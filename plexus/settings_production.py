@@ -18,6 +18,17 @@ TEMPLATE_DEBUG = DEBUG
 SENTRY_SITE = 'plexus'
 SENTRY_SERVERS = ['http://sentry.ccnmtl.columbia.edu/sentry/store/']
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'plexus',
+        'HOST': '',
+        'PORT': 6432,
+        'USER': '',
+        'PASSWORD': '',
+        }
+}
+
 import logging
 from raven.contrib.django.handlers import SentryHandler
 logger = logging.getLogger()
