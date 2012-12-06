@@ -20,6 +20,29 @@ DATABASES = {
         }
 }
 
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+            'HOST': '',
+            'PORT': '',
+            'USER': '',
+            'PASSWORD': '',
+            }
+        }
+
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=plexus',
+]
+
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+SOUTH_TESTS_MIGRATE = False
+
+
 USE_TZ = True
 TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'en-us'
@@ -97,11 +120,6 @@ SENTRY_REMOTE_URL = 'http://sentry.ccnmtl.columbia.edu/sentry/store/'
 # as documented in the wiki
 SENTRY_SITE = 'plexus'
 
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-if 'test' in sys.argv:
-    DATABASE_ENGINE = 'sqlite3'
-
-SOUTH_TESTS_MIGRATE = False
 
 THUMBNAIL_SUBDIR = "thumbs"
 EMAIL_SUBJECT_PREFIX = "[plexus] "
