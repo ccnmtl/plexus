@@ -15,3 +15,4 @@ requirements/src/raven-0.7.0.tar.gz
 requirements/src/django-bootstrap-form-2.0.3.tar.gz
 requirements/src/template_utils-0.4p2.tar.gz
 requirements/src/django-debug-toolbar-0.9.4.tar.gz
+requirements/src/django-smoketest-0.1.1.tar.gz

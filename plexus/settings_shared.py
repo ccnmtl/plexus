@@ -104,6 +104,7 @@ INSTALLED_APPS = (
     'template_utils',
     'plexus.main',
     'debug_toolbar',
+    'smoketest',
 )
 
 INTERNAL_IPS = ('127.0.0.1', )
