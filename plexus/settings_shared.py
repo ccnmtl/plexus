@@ -17,7 +17,7 @@ DATABASES = {
         'PORT': 5432,
         'USER': '',
         'PASSWORD': '',
-        }
+    }
 }
 
 if 'test' in sys.argv:
@@ -29,8 +29,8 @@ if 'test' in sys.argv:
             'PORT': '',
             'USER': '',
             'PASSWORD': '',
-            }
         }
+    }
 
 NOSE_ARGS = [
     '--with-coverage',
@@ -58,11 +58,11 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-     'django.contrib.auth.context_processors.auth',
-     'django.core.context_processors.debug',
-     'django.core.context_processors.request',
-     'django.contrib.messages.context_processors.messages',
-     )
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+)
 
 MIDDLEWARE_CLASSES = (
     'django_statsd.middleware.GraphiteRequestTimingMiddleware',
@@ -79,8 +79,8 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'plexus.urls'
 
 TEMPLATE_DIRS = (
-     "/var/www/plexus/templates/",
-     os.path.join(os.path.dirname(__file__), "templates"),
+    "/var/www/plexus/templates/",
+    os.path.join(os.path.dirname(__file__), "templates"),
 )
 
 INSTALLED_APPS = (
