@@ -17,24 +17,23 @@ class BasicTest(TestCase):
         self.os = OperatingSystem.objects.create(
             family=self.osfam,
             version="1.0",
-            )
+        )
         self.server = Server.objects.create(
             name="test server",
             virtual=False,
             location=self.l,
             operating_system=self.os,
-            )
+        )
         self.ipaddr = IPAddress.objects.create(
             ipv4="127.0.0.1",
             mac_addr="00:16:3e:e3:61:53",
             server=self.server,
-            )
+        )
         self.alias = Alias.objects.create(
             hostname="foo.example.com",
             ip_address=self.ipaddr,
             status="active",
-            )
-
+        )
 
     def tearDown(self):
         self.l.delete()
@@ -54,3 +53,10 @@ class BasicTest(TestCase):
 
     def test_css_status(self):
         self.assertEquals(self.alias.status_css_class(), "")
+        self.alias.status = "pending"
+        self.assertEquals(self.alias.status_css_class(), "warning")
+        self.alias.status = "deprecated"
+        self.assertEquals(self.alias.status_css_class(), "error")
+
+    def test_can_request(self):
+        self.assertFalse(self.alias.can_request_dns_change())
