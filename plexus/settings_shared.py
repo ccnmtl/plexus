@@ -45,7 +45,7 @@ JENKINS_TASKS = (
     'django_jenkins.tasks.run_pyflakes',
 )
 
-PROJECT_APPS = ['plexus',]
+PROJECT_APPS = ['plexus.main',]
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 SOUTH_TESTS_MIGRATE = False
