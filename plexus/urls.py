@@ -21,7 +21,6 @@ if hasattr(settings, 'WIND_BASE'):
 urlpatterns = patterns(
     '',
     # Example:
-    # (r'^plexus/', include('plexus.foo.urls')),
     auth_urls,
     logout_page,
     (r'^$', 'plexus.main.views.index'),
