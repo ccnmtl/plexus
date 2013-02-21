@@ -29,6 +29,8 @@ DATABASES = {
         }
 }
 
+INSTALLED_APPS.append('raven.contrib.django')
+
 import logging
 from raven.contrib.django.handlers import SentryHandler
 logger = logging.getLogger()
