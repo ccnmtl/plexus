@@ -1,5 +1,6 @@
 # flake8: noqa
 from settings_shared import *
+import sys
 
 TEMPLATE_DIRS = (
     "/var/www/plexus/plexus/plexus/templates",
@@ -29,19 +30,20 @@ DATABASES = {
         }
 }
 
-INSTALLED_APPS.append('raven.contrib.django')
+if 'migrate' not in sys.argv:
+    INSTALLED_APPS.append('raven.contrib.django')
 
-import logging
-from raven.contrib.django.handlers import SentryHandler
-logger = logging.getLogger()
-# ensure we havent already registered the handler
-if SentryHandler not in map(type, logger.handlers):
-    logger.addHandler(SentryHandler())
+    import logging
+    from raven.contrib.django.handlers import SentryHandler
+    logger = logging.getLogger()
+    # ensure we havent already registered the handler
+    if SentryHandler not in map(type, logger.handlers):
+        logger.addHandler(SentryHandler())
 
-    # Add StreamHandler to sentry's default so you can catch missed exceptions
-    logger = logging.getLogger('sentry.errors')
-    logger.propagate = False
-    logger.addHandler(logging.StreamHandler())
+        # Add StreamHandler to sentry's default so you can catch missed exceptions
+        logger = logging.getLogger('sentry.errors')
+        logger.propagate = False
+        logger.addHandler(logging.StreamHandler())
 
 
 try:
