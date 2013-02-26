@@ -12,3 +12,8 @@ class SimpleTest(TestCase):
     def test_root(self):
         response = self.c.get("/")
         self.assertEquals(response.status_code, 200)
+
+    def test_smoketest(self):
+        """ just run the smoketests. we don't care if they pass/fail """
+        response = self.c.get("/smoketest/")
+        self.assertEquals(response.status_code, 200)
