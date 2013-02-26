@@ -21,3 +21,7 @@ class SimpleTest(TestCase):
     def test_add_server_form(self):
         response = self.c.get("/add_server/")
         self.assertEquals(response.status_code, 200)
+
+    def test_add_application_form(self):
+        response = self.c.get("/add_application/")
+        self.assertEquals(response.status_code, 200)
