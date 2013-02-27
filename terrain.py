@@ -3,6 +3,7 @@ from lettuce.django import django_url
 from lettuce import before, after, world, step
 from django.test import client
 import sys
+import os
 
 import time
 try:
@@ -15,29 +16,62 @@ try:
 except:
     pass
 
+def skip_selenium():
+    return (os.environ.get('LETTUCE_SKIP_SELENIUM', False)
+            or (hasattr(settings, 'LETTUCE_SKIP_SELENIUM')
+            and settings.LETTUCE_SKIP_SELENIUM))
+
+
 @before.harvest
 def setup_browser(variables):
-    ff_profile = FirefoxProfile()
-    ff_profile.set_preference("webdriver_enable_native_events", False)
-    world.firefox = webdriver.Firefox(ff_profile)
-    world.client = client.Client()
     world.using_selenium = False
+    if skip_selenium():
+        world.browser = None
+        world.skipping = False
+    else:
+        ff_profile = FirefoxProfile()
+        ff_profile.set_preference("webdriver_enable_native_events", False)
+        world.firefox = webdriver.Firefox(ff_profile)
+        world.using_selenium = False
+    world.client = client.Client()
+
 
 @after.harvest
 def teardown_browser(total):
-    world.firefox.quit()
+    if not skip_selenium():
+        world.firefox.quit()
+
+
+@before.harvest
+def setup_database(_foo):
+    # make sure we have a fresh test database
+    os.system("rm -f lettuce.db")
+    os.system("cp test_data/test.db lettuce.db")
+
+
+@after.harvest
+def teardown_database(_foo):
+    os.system("rm -f lettuce.db")
+
 
 @before.each_scenario
 def clear_data(_foo):
     pass
 
+
 @step(u'Using selenium')
 def using_selenium(step):
-    world.using_selenium = True
+    if skip_selenium():
+        world.skipping = True
+    else:
+        world.using_selenium = True
 
 @step(u'Finished using selenium')
 def finished_selenium(step):
-    world.using_selenium = False
+    if skip_selenium():
+        world.skipping = False
+    else:
+        world.using_selenium = False
 
 @before.each_scenario
 def clear_selenium(step):
@@ -139,7 +173,7 @@ def see_header(step, text):
     if world.using_selenium:
         assert text.strip() == world.firefox.find_element_by_css_selector(".hero-unit>h1").text.strip()
     else:
-        header = world.dom.cssselect('.hero-unit>h1')[0]
+        header = world.dom.cssselect('h1')[0]
         assert text.strip() == header.text_content().strip()
 
 @step(r'I see the page title "(.*)"')
