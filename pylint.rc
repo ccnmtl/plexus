@@ -1,0 +1,4 @@
+[MASTER]
+ignore=migrations
+[MESSAGES CONTROL]
+disable=E1103,C0103,R0904,C0111,E1101
