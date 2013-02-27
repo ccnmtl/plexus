@@ -18,6 +18,9 @@ class OSFamily(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return "/os/%d/" % self.id
+
 
 class OperatingSystem(models.Model):
     family = models.ForeignKey(OSFamily)
@@ -28,6 +31,9 @@ class OperatingSystem(models.Model):
 
     def __unicode__(self):
         return unicode(self.family) + " " + self.version
+
+    def get_absolute_url(self):
+        return "/os/%d/%d/" % (self.family.id, self.id)
 
 
 class Server(models.Model):
@@ -50,6 +56,9 @@ class Server(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return "/server/%d/" % self.id
 
 
 class IPAddress(models.Model):
@@ -76,6 +85,9 @@ class Contact(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return "/contact/%d/" % self.id
 
 
 class Alias(models.Model):
