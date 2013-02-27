@@ -265,6 +265,12 @@ def os_version(request, family_id, id):
     return dict(operating_system=operating_system)
 
 
+@render_to('main/location.html')
+def location(request, id):
+    l = get_object_or_404(Location, id=id)
+    return dict(location=l)
+
+
 def render_proxy(request):
     """ cross-domain javascript security prevents us from being able to just
     point cubism.js at the graphite server, so we implement a very rudimentary

@@ -4,6 +4,7 @@ from plexus.main.models import Server
 from plexus.main.models import Contact
 from plexus.main.models import OSFamily
 from plexus.main.models import OperatingSystem
+from plexus.main.models import Location
 
 
 class SimpleTest(TestCase):
@@ -43,7 +44,7 @@ class SimpleTest(TestCase):
                 'ip1': '127.0.0.2',
                 'mac1': '00:00:00:00:00:01',
                 'contact': 'Anders,Jonah',
-                })
+            })
         self.assertEquals(response.status_code, 302)
         response = self.c.get("/")
         assert "testserver" in response.content
@@ -55,6 +56,11 @@ class SimpleTest(TestCase):
         self.assertEquals(response.status_code, 200)
         assert '127.0.0.1' in response.content
         assert 'Anders' in response.content
+
+        l = Location.objects.get(name="test location")
+        response = self.c.get(l.get_absolute_url())
+        self.assertEquals(response.status_code, 200)
+        assert 'testserver' in response.content
 
         # contacts should exist too
         c = Contact.objects.get(name="Anders")

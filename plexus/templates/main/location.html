@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Location: {{location.name}}</h1>
+{% if location.details %}
+<p>{{location.details}}</p>
+{% endif %}
+
+<h2>Servers</h2>
+
+<table class="table table-striped table-condensed table-bordered">
+	<thead>
+		<tr>
+			<th>name</th>
+			<th>primary function</th>
+			<th>contacts</th>
+		</tr>
+	</thead>
+		
+	<tbody>
+		{% for server in location.server_set.all %}
+		<tr>
+			<td><a href="/server/{{server.id}}/">{{server.name}}</a></td>
+			<td>{{server.primary_function}}</td>
+			<td>
+				{% for ac in server.servercontact_set.all %}
+				<a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
+				{% endfor %}
+			</td>
+
+		</tr>
+		{% endfor %}
+	</tbody>
+
+</table>
+
+
+{% endblock %}
