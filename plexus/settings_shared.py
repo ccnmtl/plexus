@@ -82,6 +82,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
+    'waffle.middleware.WaffleMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
@@ -115,6 +116,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'smoketest',
     'django_jenkins',
+    'waffle',
 ]
 
 INTERNAL_IPS = ('127.0.0.1', )
