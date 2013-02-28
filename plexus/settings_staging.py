@@ -16,6 +16,7 @@ COMPRESS_ROOT = "/var/www/plexus/plexus/media/"
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
+STATSD_PREFIX = 'plexus-staging'
 SENTRY_SITE = 'plexus-staging'
 SENTRY_SERVERS = ['http://sentry.ccnmtl.columbia.edu/sentry/store/']
 
