@@ -15,6 +15,7 @@ STATICMEDIA_MOUNTS = (
 COMPRESS_ROOT = "/var/www/plexus/plexus/media/"
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
+STAGING_ENV = True
 
 STATSD_PREFIX = 'plexus-staging'
 SENTRY_SITE = 'plexus-staging'
