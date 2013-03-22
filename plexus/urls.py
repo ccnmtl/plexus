@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, include
+from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic.simple import direct_to_template
@@ -67,6 +67,7 @@ urlpatterns = patterns(
 
     (r'^admin/', include(admin.site.urls)),
     (r'^munin/', include('munin.urls')),
+    url(r'^impersonate/', include('impersonate.urls')),
     (r'^stats/', direct_to_template,
      {'template': 'stats.html'}),
     (r'smoketest/', include('smoketest.urls')),

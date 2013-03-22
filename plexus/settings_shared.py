@@ -83,6 +83,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
+    'impersonate.middleware.ImpersonateMiddleware',
     'waffle.middleware.WaffleMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -118,6 +119,7 @@ INSTALLED_APPS = [
     'smoketest',
     'django_jenkins',
     'waffle',
+    'impersonate',
 ]
 
 INTERNAL_IPS = ('127.0.0.1', )
@@ -179,3 +181,4 @@ HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
 SYSADMIN_LIST_EMAIL = "ccnmtl-sysadmin@columbia.edu"
 
 GRAPHITE_BASE = "http://nanny.cul.columbia.edu/"
+LOGIN_REDIRECT_URL = "/"
