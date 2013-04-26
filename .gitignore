@@ -3,3 +3,7 @@ local_settings.py
 *~
 *.pyc
 ve
+.coverage
+cover/
+media/CACHE
+reports/

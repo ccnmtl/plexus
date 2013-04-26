@@ -18,7 +18,7 @@ def index(request):
         aliases=(Alias.objects.all().exclude(status='deprecated')
                  .order_by('hostname')),
         applications=Application.objects.all().order_by('name'),
-        )
+    )
 
 
 @render_to('main/add_server.html')
@@ -52,7 +52,7 @@ def add_server(request):
             graphite_name=graphite_name,
             sentry_name=request.POST.get('sentry_name', ''),
             munin_name=request.POST.get('munin_name', ''),
-            )
+        )
         if request.POST.get('ip0', False):
             ipv4 = request.POST.get('ip0', '')
             mac = request.POST.get('mac0', '')
@@ -60,7 +60,7 @@ def add_server(request):
                 ipv4=ipv4,
                 mac_addr=mac,
                 server=server,
-                )
+            )
         if request.POST.get('ip1', False):
             ipv4 = request.POST.get('ip1', '')
             mac = request.POST.get('mac1', '')
@@ -68,7 +68,7 @@ def add_server(request):
                 ipv4=ipv4,
                 mac_addr=mac,
                 server=server,
-                )
+            )
         for c in request.POST.get('contact', '').split(','):
             contact, created = Contact.objects.get_or_create(name=c)
             ServerContact.objects.create(server=server,
@@ -106,7 +106,7 @@ def add_alias(request, id):
         hostname=request.POST.get('hostname', '[none]'),
         ip_address=ipaddress,
         description=request.POST.get('description', ''),
-        )
+    )
     for c in request.POST.get('contact', '').split(','):
         contact, created = Contact.objects.get_or_create(name=c)
         AliasContact.objects.create(alias=alias, contact=contact)
@@ -126,7 +126,7 @@ def request_alias(request, id):
         ip_address=ipaddress,
         description=request.POST.get('description', ''),
         status='pending',
-        )
+    )
     for c in request.POST.get('contact', '').split(','):
         contact, created = Contact.objects.get_or_create(name=c)
         AliasContact.objects.create(alias=alias, contact=contact)
@@ -238,7 +238,7 @@ def add_application(request):
             pmt_id=request.POST.get('pmt_id', '') or '0',
             graphite_name=graphite_name,
             sentry_name=request.POST.get('sentry_name', ''),
-            )
+        )
         for c in request.POST.get('contact', '').split(','):
             contact, created = Contact.objects.get_or_create(name=c)
             ApplicationContact.objects.create(application=application,
@@ -263,6 +263,12 @@ def os_family(request, id):
 def os_version(request, family_id, id):
     operating_system = get_object_or_404(OperatingSystem, id=id)
     return dict(operating_system=operating_system)
+
+
+@render_to('main/location.html')
+def location(request, id):
+    l = get_object_or_404(Location, id=id)
+    return dict(location=l)
 
 
 def render_proxy(request):

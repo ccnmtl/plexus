@@ -9,6 +9,8 @@ ADMINS = ()
 
 MANAGERS = ADMINS
 
+ALLOW_HOSTS = ['.ccnmtl.columbia.edu', 'localhost']
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -17,8 +19,39 @@ DATABASES = {
         'PORT': 5432,
         'USER': '',
         'PASSWORD': '',
-        }
+    }
 }
+
+if 'test' in sys.argv or 'jenkins' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+            'HOST': '',
+            'PORT': '',
+            'USER': '',
+            'PASSWORD': '',
+        }
+    }
+
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=plexus',
+]
+
+JENKINS_TASKS = (
+    'django_jenkins.tasks.run_pylint',
+    'django_jenkins.tasks.with_coverage',
+    'django_jenkins.tasks.django_tests',
+    'django_jenkins.tasks.run_pep8',
+    'django_jenkins.tasks.run_pyflakes',
+)
+
+PROJECT_APPS = ['plexus.main', ]
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+SOUTH_TESTS_MIGRATE = False
+
 
 USE_TZ = True
 TIME_ZONE = 'America/New_York'
@@ -35,11 +68,12 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-     'django.contrib.auth.context_processors.auth',
-     'django.core.context_processors.debug',
-     'django.core.context_processors.request',
-     'django.contrib.messages.context_processors.messages',
-     )
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+    'stagingcontext.staging_processor',
+)
 
 MIDDLEWARE_CLASSES = (
     'django_statsd.middleware.GraphiteRequestTimingMiddleware',
@@ -49,17 +83,20 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.middleware.transaction.TransactionMiddleware',
+    'impersonate.middleware.ImpersonateMiddleware',
+    'waffle.middleware.WaffleMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'plexus.urls'
 
 TEMPLATE_DIRS = (
-     "/var/www/plexus/templates/",
-     os.path.join(os.path.dirname(__file__), "templates"),
+    "/var/www/plexus/templates/",
+    os.path.join(os.path.dirname(__file__), "templates"),
 )
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -69,7 +106,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'staticmedia',
     'django.contrib.admin',
-    'raven.contrib.django',
     'munin',
     'south',
     'django_nose',
@@ -79,6 +115,24 @@ INSTALLED_APPS = (
     'lettuce.django',
     'template_utils',
     'plexus.main',
+    'debug_toolbar',
+    'smoketest',
+    'django_jenkins',
+    'waffle',
+    'impersonate',
+]
+
+INTERNAL_IPS = ('127.0.0.1', )
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.version.VersionDebugPanel',
+    'debug_toolbar.panels.timer.TimerDebugPanel',
+    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
+    'debug_toolbar.panels.headers.HeaderDebugPanel',
+    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
+    'debug_toolbar.panels.template.TemplateDebugPanel',
+    'debug_toolbar.panels.sql.SQLDebugPanel',
+    'debug_toolbar.panels.signals.SignalDebugPanel',
+    'debug_toolbar.panels.logger.LoggingPanel',
 )
 
 LETTUCE_APPS = (
@@ -91,17 +145,6 @@ STATSD_PREFIX = 'plexus'
 STATSD_HOST = '127.0.0.1'
 STATSD_PORT = 8125
 STATSD_PATCHES = ['django_statsd.patches.db', ]
-
-SENTRY_REMOTE_URL = 'http://sentry.ccnmtl.columbia.edu/sentry/store/'
-# remember to set the SENTRY_KEY in a local_settings.py
-# as documented in the wiki
-SENTRY_SITE = 'plexus'
-
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
-if 'test' in sys.argv:
-    DATABASE_ENGINE = 'sqlite3'
-
-SOUTH_TESTS_MIGRATE = False
 
 THUMBNAIL_SUBDIR = "thumbs"
 EMAIL_SUBJECT_PREFIX = "[plexus] "
@@ -138,3 +181,5 @@ HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
 SYSADMIN_LIST_EMAIL = "ccnmtl-sysadmin@columbia.edu"
 
 GRAPHITE_BASE = "http://nanny.cul.columbia.edu/"
+LOGIN_REDIRECT_URL = "/"
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')

@@ -4,98 +4,160 @@
 
 <h1>Dashboard for {{contact.name}}</h1>
 
-<table class="table table-striped table-condensed table-bordered">
-	<thead>
-		<tr>
-			<th>Server</th>
-			<th>Load</th>
-			<th>% Mem Free</th>
-			<th>Network IO</th>
-			<th>Swap IO</th>
-		</tr>
-	</thead>
-	<tbody>
+
+<ul class="nav nav-tabs">
+  <li><a href="#daily" data-toggle="tab">Daily</a></li>
+  <li><a href="#weekly" data-toggle="tab">Weekly</a></li>
+  <li><a href="#monthly" data-toggle="tab">Monthly</a></li>
+  <li><a href="#yearly" data-toggle="tab">Yearly</a></li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="daily">
+    <div id="graphs-daily"></div>
+  </div>
+  <div class="tab-pane" id="weekly">
+    <div id="graphs-weekly"></div>
+  </div>
+  <div class="tab-pane" id="monthly">
+    <div id="graphs-monthly"></div>
+  </div>
+  <div class="tab-pane" id="yearly">
+   <div id="graphs-yearly"></div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block js %}
+<script src="/site_media/js/d3.v2.min.js"></script>
+<script src="/site_media/js/cubism.v1.min.js"></script>
+<script>
+
+var serverMetrics = function(graphiteName, serverName) {
+  var metric_base = "ccnmtl.server." + graphiteName;
+  return {
+    load_avg: {
+      metric: metric_base + ".cpu.load_average.1_minute",
+      alias: "" + serverName + " " + "Load Avg"
+    },
+    network_in: {
+      metric: "nonNegativeDerivative(" + metric_base + ".network.eth0.receive.byte_count)",
+      alias: serverName + " " + "Eth0 in"
+    },
+    network_out: {
+      metric: "nonNegativeDerivative(" + metric_base + ".network.eth0.transmit.byte_count)",
+      alias: "Eth0 out"
+    },
+    swap_in: {
+      metric: "nonNegativeDerivative(" + metric_base + ".vmstat.swap.in)",
+      alias: serverName + " " + "Swap in"
+    },
+    swap_out: {
+      metric: "nonNegativeDerivative(" + metric_base + ".vmstat.swap.out)",
+      alias: "Swap out"
+    }
+  };
+};
+
+var regroupServerMetrics = function (metrics, gmetric) {
+   var results = [];
+   for (var i = 0; i < metrics.length; i++) {
+      results.push(gmetric(metrics[i].load_avg));
+   }
+   for (var i = 0; i < metrics.length; i++) {
+      results.push(gmetric(metrics[i].network_in).add(gmetric(metrics[i].network_out)));
+   }
+   for (var i = 0; i < metrics.length; i++) {
+      results.push(gmetric(metrics[i].swap_in).add(gmetric(metrics[i].swap_out)));
+   }
+   return results;
+};
+
+var applicationMetrics = function(graphiteName, applicationName) {
+  var counter_base = "ccnmtl.app.counters." + graphiteName; 
+  var timer_base = "ccnmtl.app.timers." + graphiteName;
+  
+  return {
+    requests: {
+        metric: counter_base + ".response.200",
+        alias: applicationName + " " + "Requests"
+      },
+    request_time: {
+        metric: timer_base + ".view.GET.mean",
+        alias: applicationName + " " + "request time (mean)"
+      },
+    '500s': {
+        metric: counter_base + ".response.500",
+        alias: applicationName + " " + "500s"
+      }
+  };
+};
+
+var regroupApplicationMetrics = function(metrics, gmetric) {
+   var results = [];
+   for (var i = 0; i < metrics.length; i++) {
+      results.push(gmetric(metrics[i].requests));
+   }
+   for (var i = 0; i < metrics.length; i++) {
+      results.push(gmetric(metrics[i].request_time));
+   }
+   for (var i = 0; i < metrics.length; i++) {
+      results.push(gmetric(metrics[i]['500s']));
+   }
+   return results;
+}
+
+var makegraphs = function (el, size, step) {
+  var context = cubism.context(), // a default context
+      graphite = context.graphite("");
+  
+  context.size(size).step(step);
+
+  var server_metric_defs = [];
 {% for ac in contact.servercontact_set.all %}
 {% if ac.server.graphite_name %}
-	<tr>
-		<td><a href="/server/{{ac.server.id}}/">{{ac.server.name}}</a></td>
-{% with hidegrid='true' %}
-{% with bgcolor='FFFFFF' %}
-{% with fgcolor='999999' %}
-{% with width='200' %}
-{% with height='75' %}
-
-		<td>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.server.{{ac.server.graphite_name}}.cpu.load_average.1_minute,'1h')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-7days&graphOnly=true" width="{{width}}" height="{{height}}"/>
-</td><td>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=ccnmtl.server.{{ac.server.graphite_name}}.memory.MemFree.percent&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-7days&yMax=100&yMin=0&graphOnly=true" width="{{width}}" height="{{height}}"/>
-</td><td>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=nonNegativeDerivative(ccnmtl.server.{{ac.server.graphite_name}}.network.eth0.receive.byte_count)&target=nonNegativeDerivative(ccnmtl.server.{{ac.server.graphite_name}}.network.eth0.transmit.byte_count)&hideGrid={{hidegrid}}&hideLegend=false&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-7days&graphOnly=true" width="{{width}}" height="{{height}}"/>
-</td><td>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=nonNegativeDerivative(ccnmtl.server.{{ac.server.graphite_name}}.vmstat.swap.in)&target=nonNegativeDerivative(ccnmtl.server.{{ac.server.graphite_name}}.vmstat.swap.out)&hideGrid={{hidegrid}}&hideLegend=false&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from=-7days&graphOnly=true" width="{{width}}" height="{{height}}"/>
-</td>
-
-{% endwith %}
-{% endwith %}
-{% endwith %}
-{% endwith %}
-{% endwith %}
-</tr>
+  server_metric_defs.push(serverMetrics("{{ac.server.graphite_name}}","{{ac.server.name}}"));
 {% endif %}
 {% endfor %}
-</tbody>
 
-<table class="table table-striped table-condensed table-bordered">
-	<thead>
-		<tr>
-			<th>Application</th>
-			<th>Traffic</th>
-			<th>Response Times</th>
-			<th>Errors</th>
-		</tr>
-	</thead>
-	<tbody>
-
+  var application_metric_defs = [];
 {% for ac in contact.applicationcontact_set.all %}
 {% if ac.application.graphite_name %}
-
-{% with hidegrid='true' %}
-{% with bgcolor='FFFFFF' %}
-{% with fgcolor='999999' %}
-{% with width='300' %}
-{% with height='75' %}
-
-{% with period="-7days" %}
-{% with summarize='1h' %}
-	<tr>
-		<td><a href="/application/{{ac.application.id}}/">{{ac.application.name}}</a></td>
-		<td>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{ac.application.graphite_name}}.response.200,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}&graphOnly=true" width="{{width}}" height="{{height}}" />
-		</td>
-
-		<td>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(keepLastValue(ccnmtl.app.timers.{{ac.application.graphite_name}}.view.GET.lower),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{ac.application.graphite_name}}.view.GET.mean),'{{summarize}}')&target=summarize(keepLastValue(ccnmtl.app.timers.{{ac.application.graphite_name}}.view.GET.upper),'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}&graphOnly=true"
-		 width="{{width}}" height="{{height}}" />		
-</td>
-
-		<td>
-<img src="{{settings.GRAPHITE_BASE}}render/?width={{width}}&height={{height}}&_salt=1337976132.743&target=summarize(ccnmtl.app.counters.{{ac.application.graphite_name}}.response.500,'{{summarize}}')&target=summarize(ccnmtl.app.counters.{{ac.application.graphite_name}}.response.404,'{{summarize}}')&hideGrid={{hidegrid}}&hideLegend=true&bgcolor={{bgcolor}}&fgcolor={{fgcolor}}&from={{period}}&graphOnly=true" width="{{width}}" height="{{height}}" />
-		</td>
-		
-</tr>
-{% endwith %}
-{% endwith %}
-
-
-{% endwith %}
-{% endwith %}
-{% endwith %}
-{% endwith %}
-{% endwith %}
-
+  application_metric_defs.push(applicationMetrics("{{ac.application.graphite_name}}","{{ac.application.name}}"));
 {% endif %}
 {% endfor %}
-</tbody>
-</table> 
 
+  var gmetric = function(metric_def) {
+    return graphite.metric(metric_def.metric).alias(metric_def.alias);
+  };
+
+  var metrics = regroupServerMetrics(server_metric_defs, gmetric)
+      .concat(regroupApplicationMetrics(application_metric_defs, gmetric));
+  
+  d3.select(el).call(function(div) {
+    div.append("div")
+        .attr("class", "axis")
+        .call(context.axis().orient("top"));
+  
+    div.selectAll(".horizon")
+      .data(metrics)
+      .enter().append("div")
+        .attr("class", "horizon")
+        
+        .call(context.horizon()
+          .colors(["#08519c", "#*82bd", "#6baed6", "#fee6ce", "#fdae6b", "#e6550d" ])
+          .height(25));
+  });
+};
+
+(function () {
+  var width = $("#graphs-daily").width();
+  window.makegraphs("#graphs-daily", width, 1e5);
+  window.makegraphs("#graphs-weekly", width, 7e5);
+  window.makegraphs("#graphs-monthly", width, 30e5);
+  window.makegraphs("#graphs-yearly", width, 365e5);
+}());
+</script>
 {% endblock %}
