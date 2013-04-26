@@ -1,0 +1,18 @@
+.inplaceedit.enable,
+.inplaceedit.enable img {
+    cursor: pointer; 
+}
+
+.inplaceedit.enable {
+    background: #FFFFBB;
+}
+
+.inplaceedit.enable img {
+   border: 2px solid #FFFFBB;
+}
+
+#toolbar-inplace-edit {
+   position: fixed;
+	 bottom: 0px;
+	 width: 100%;
+}

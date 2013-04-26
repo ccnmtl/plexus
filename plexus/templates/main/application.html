@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load feeds %}
+{% load inplace_edit %}
 
 {% block content %}
 
-<h1>Application: {{application.name}}</h1>
+<h1>Application: {% inplace_edit "application.name" %}</h1>
 {% if request.user.is_staff %}
 <a href="/admin/main/application/{{application.id}}/">edit</a>
 {% endif %}
@@ -11,9 +12,9 @@
 <table class="table table-striped table-condensed table-bordered">
 	<tr>
 		<td>description</td>
-		<td>{{application.description}}</td>
+		<td>{% inplace_edit "application.description" %}</td>
 	</tr>
-	<tr><td>technology</td><td>{{application.technology.name}}</td></tr>
+	<tr><td>technology</td><td>{% inplace_edit "application.technology" %}</td></tr>
 	{% if application.pmt_id %}
 	<tr>
 		<td>PMT</td>

@@ -65,6 +65,7 @@ urlpatterns = patterns(
     (r'^render', 'plexus.main.views.render_proxy'),
     (r'^metrics', 'plexus.main.views.metrics_proxy'),
 
+    (r'^inplaceeditform/', include('inplaceeditform.urls')),
     (r'^admin/', include(admin.site.urls)),
     (r'^munin/', include('munin.urls')),
     url(r'^impersonate/', include('impersonate.urls')),

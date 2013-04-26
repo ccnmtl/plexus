@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% load inplace_edit %}
 
 {% block content %}
 
-<h1>Server: {{server.name}}</h1>
+<h1>Server: {% inplace_edit "server.name" %}</h1>
 {% if request.user.is_staff %}
 <a href="/admin/main/server/{{server.id}}/">edit</a>
 {% endif %}
@@ -19,24 +20,23 @@
 <table class="table table-striped table-condensed table-bordered">
 	<tr>
 		<td>primary function</td>
-		<td>{{server.primary_function}}</td>
+		<td>{% inplace_edit "server.primary_function" %}</td>
 	</tr>
 	<tr><td>ip addresses</td>
 		<td>
 			{% for ip in server.ipaddress_set.all %}
-			<code>{{ip.ipv4}}</code>{% if ip.mac_addr %} [<code>{{ip.mac_addr}}</code>]{% endif %}
+			<code>{% inplace_edit "ip.ipv4"%}</code>{% if ip.mac_addr %} [<code>{% inplace_edit "ip.mac_addr"%}</code>]{% endif %}
 			{% endfor %}
 </td></tr>
 	<tr><td>location</td><td>{% if server.virtual %}
 				[Virtual: {% for vm in server.dom_u.all %}<a href="/server/{{vm.dom_0.id}}">{{vm.dom_0.name}}</a>{% endfor %}]
 				{% else %}
-				{{server.location.name}}
+				{% inplace_edit "server.location.name" %}
 				{% endif %}</td></tr>
-	<tr><td>OS</td><td><a href="/os/{{server.operating_system.family.id}}/">{{server.operating_system.family.name}}</a>
-				<a href="/os/{{server.operating_system.family.id}}/{{server.operating_system.id}}/">{{server.operating_system.version}}</a></td></tr>
-	<tr><td>mem</td><td>{{server.memory}}{% if server.swap %} [{{server.swap}}]{% endif %}</td></tr>
-	<tr><td>disk</td><td>{{server.disk}}</td></tr>
-	<tr><td>notes</td><td>{{server.notes}}</td></tr>
+	<tr><td>OS</td><td><a href="/os/{{server.operating_system.family.id}}/{{server.operating_system.id}}/">{% inplace_edit "server.operating_system" %}</a></td></tr>
+	<tr><td>mem</td><td>{% inplace_edit "server.memory" %}{% if server.swap %} [{% inplace_edit "server.swap" %}]{% endif %}</td></tr>
+	<tr><td>disk</td><td>{% inplace_edit "server.disk" %}</td></tr>
+	<tr><td>notes</td><td>{% inplace_edit "server.notes" %}</td></tr>
 	{% if server.sentry_name %}
 	<tr>
 		<td>Sentry</td>

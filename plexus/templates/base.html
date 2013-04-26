@@ -1,4 +1,5 @@
 {% load compress %}
+{% load inplace_edit %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +12,7 @@
 {% compress css %}
     <link href="/site_media/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="/site_media/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="/site_media/css/main.css" rel="stylesheet">
+    <link href="/site_media/css/main.css?plexus" rel="stylesheet">
 {% endcompress %}
 	<link rel="shortcut icon" href="/site_media/img/favicon.ico" type="image/x-icon" />
 	{% block css %}{% endblock %}
@@ -75,18 +76,15 @@
       <div class="row-fluid">
         <div class="span12" id="right-content">
 {% block pagetitle %}{% endblock %}
+
+
 {% block content %}{% endblock %}
         </div>
       </div>
     </div>
   </div>
 </div>
-
-{% block footer %}
-  <footer class="footer navbar-fixed-bottom hidden-phone">
-    <img src="/site_media/img/logo_ccnmtl_sidebar.gif" class="printonly pull-right" />
-  </footer>
-{% endblock %}
+{% inplace_toolbar %}
 
 <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 
