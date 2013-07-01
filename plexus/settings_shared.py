@@ -60,7 +60,7 @@ SITE_ID = 1
 USE_I18N = False
 MEDIA_ROOT = "/var/www/plexus/uploads/"
 MEDIA_URL = '/uploads/'
-STATIC_URL = '/site_media/'
+STATIC_URL = '/media/'
 SECRET_KEY = ')ng#)ef_u@_^zvvu@dxm7ql-yb^_!a6%v3v^j3b(mp+)l+5%@h'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
