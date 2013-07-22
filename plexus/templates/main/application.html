@@ -54,6 +54,10 @@
 
 
 {% if application.graphite_name %}
+<h2>Smoketests</h2>
+<div id="smoketests">passed/run</div>
+
+
 <h2>Graphs</h2>
 <ul class="nav nav-tabs">
   <li><a href="#daily" data-toggle="tab">Daily</a></li>
@@ -99,6 +103,54 @@
 <script src="/site_media/js/d3.v2.min.js"></script>
 <script src="/site_media/js/cubism.v1.min.js"></script>
 <script>
+
+// returns NaN if graphite data didn't contain a value
+var parseFromGraphite = function(r) {
+    r = r.replace(/\s+/g,'');
+    var parts = r.split("|");
+    var results = parts[1].split(",");
+    var found = 0.0;
+    for (var i=0; i < results.length; i++) {
+        if (results[i].replace(/ /g,'') === "None") {
+        } else {
+            found = results[i];
+        }
+    }
+    return parseFloat(found);
+};
+
+var makesmoketests = function(el) {
+   var render_base = "/render";
+   var run_base = "ccnmtl.app.smoketest.{{application.graphite_name}}.run";
+   var pass_base = "ccnmtl.app.smoketest.{{application.graphite_name}}.passed";
+   var combiner = {'run': undefined, 'passed': undefined};
+   combiner.render = function() {
+       if (combiner.run && combiner.passed) {
+           combiner.div.html("<b>" + combiner.passed + "/" + combiner.run + "</b>");
+       }
+   };
+   combiner.get_run = function() {
+       d3.text(render_base + "?format=raw&from=-10minutes&target=" + run_base,
+           function (r, e) {
+               combiner.run = parseFromGraphite(r);
+               combiner.render();
+           });
+   };
+
+   combiner.get_passed = function() {
+       d3.text(render_base + "?format=raw&from=-10minutes&target=" + pass_base,
+           function (r, e) {
+               combiner.passed = parseFromGraphite(r);
+               combiner.render();
+           });
+   };
+
+   d3.select(el).call(function (div) {
+       combiner.div = div;
+       combiner.get_run();
+       combiner.get_passed();
+    });
+};
 
 var makegraphs = function (el, size, step) {
 var context = cubism.context(), // a default context
@@ -206,6 +258,7 @@ var context = cubism.context(), // a default context
   window.makegraphs("#graphs-weekly", width, 7e5);
   window.makegraphs("#graphs-monthly", width, 30e5);
   window.makegraphs("#graphs-yearly", width, 365e5);
+  window.makesmoketests("#smoketests");
 }());
 </script>
 {% endif %}
