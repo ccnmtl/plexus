@@ -119,10 +119,10 @@ var parseFromGraphite = function(r) {
     return parseFloat(found);
 };
 
-var makesmoketests = function(el) {
+var makesmoketests = function(el, graphite_name) {
    var render_base = "/render";
-   var run_base = "ccnmtl.app.smoketest.{{application.graphite_name}}.run";
-   var pass_base = "ccnmtl.app.smoketest.{{application.graphite_name}}.passed";
+   var run_base = "ccnmtl.app.smoketest." + graphite_name + ".run";
+   var pass_base = "ccnmtl.app.smoketest." + graphite_name + ".passed";
    var combiner = {'run': undefined, 'passed': undefined};
    combiner.render = function() {
        if (combiner.run && combiner.passed) {
@@ -262,7 +262,7 @@ var context = cubism.context(), // a default context
   window.makegraphs("#graphs-weekly", width, 7e5);
   window.makegraphs("#graphs-monthly", width, 30e5);
   window.makegraphs("#graphs-yearly", width, 365e5);
-  window.makesmoketests("#smoketests");
+  window.makesmoketests("#smoketests", "{{application.graphite_name}}");
 }());
 </script>
 {% endif %}
