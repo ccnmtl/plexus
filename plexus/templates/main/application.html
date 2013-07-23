@@ -126,7 +126,11 @@ var makesmoketests = function(el) {
    var combiner = {'run': undefined, 'passed': undefined};
    combiner.render = function() {
        if (combiner.run && combiner.passed) {
-           combiner.div.html("<b>" + combiner.passed + "/" + combiner.run + "</b>");
+           var stclass = "badge-important";
+           if (combiner.passed === combiner.run) {
+							stclass = "badge-success";
+           }
+           combiner.div.html("<b class='badge " + stclass + "'>" + combiner.passed + "/" + combiner.run + "</b>");
        }
    };
    combiner.get_run = function() {
