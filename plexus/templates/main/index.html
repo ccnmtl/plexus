@@ -83,6 +83,7 @@
 			<th>application</th>
 			<th>technology</th>
 			<th>description</th>
+			<th>smoketests</th>
 			<th>contacts</th>
 		</tr>
 	</thead>
@@ -94,6 +95,11 @@
 			<td>{% inplace_edit "application.technology" %}</td>
 			<td>{% inplace_edit "application.description" %}</td>
 			<td>
+{% if application.graphite_name %}
+<div id="smoketests-{{application.id}}"></div>
+{% endif %}
+			</td>
+			<td>
 				{% for ac in application.applicationcontact_set.all %}
 				<a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
 				{% endfor %}
@@ -104,5 +110,18 @@
 </table>
 
 
+
+<script src="/site_media/js/d3.v2.min.js"></script>
+<script src="/site_media/js/cubism.v1.min.js"></script>
+<script src="/site_media/js/smoketests.js"></script>
+<script>
+(function () {
+{% for application in applications %}
+{% if application.graphite_name %}
+  window.makesmoketests("#smoketests-{{application.id}}", "{{application.graphite_name}}");
+{% endif %}
+{% endfor %}
+}());
+</script>
 
 {% endblock %}
