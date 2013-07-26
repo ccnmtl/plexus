@@ -7,3 +7,5 @@ ve
 cover/
 media/CACHE
 reports/
+config.json
+node_modules/
