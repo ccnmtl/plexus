@@ -274,7 +274,16 @@ var context = cubism.context(), // a default context
     {
       metric: "nonNegativeDerivative(" + metric_base + ".vmstat.swap.out)",
       alias: "Swap out"
+    },
+    {
+      metric: "asPercent(" + metric_base + ".disk.usage.available," + metric_base + ".disk.usage.total)",
+      alias: "Disk Available (%)"
+    },
+    {
+      metric: "asPercent(" + metric_base + ".disk.inode.used," + metric_base + ".disk.inode.total)",
+      alias: "Inodes Used (%)"
     }
+
   ];
   
   var gmetric = function(metric_def) {
@@ -291,7 +300,8 @@ var context = cubism.context(), // a default context
     div.selectAll(".horizon")
       .data([metrics[0], metrics[1],
              metrics[2].add(metrics[3]),
-             metrics[4].add(metrics[5])])
+             metrics[4].add(metrics[5]),
+             metrics[6], metrics[7]])
       .enter().append("div")
         .attr("class", "horizon")
         
