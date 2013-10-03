@@ -31,7 +31,7 @@ unittest2==0.5.1
 logilab-common==0.59.0
 logilab-astng==0.24.1
 pylint==0.26.0
-djangowind==0.10.3
+djangowind==0.11.0
 django-staticmedia==0.2
 django-indexer==0.2.1
 django-templatetag-sugar==0.1
