@@ -1,7 +1,7 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
-from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 import os.path
 admin.autodiscover()
 import staticmedia
@@ -69,10 +69,8 @@ urlpatterns = patterns(
     (r'^admin/', include(admin.site.urls)),
     (r'^munin/', include('munin.urls')),
     url(r'^impersonate/', include('impersonate.urls')),
-    (r'^stats/$', direct_to_template,
-     {'template': 'stats.html'}),
-    (r'^stats/auth/$', direct_to_template,
-     {'template': 'auth_stats.html'}),
+    (r'^stats/$', TemplateView.as_view(template_name="stats.html")),
+    (r'^stats/auth/$', TemplateView.as_view(template_name="auth_stats.html")),
     (r'smoketest/', include('smoketest.urls')),
     (r'^site_media/(?P<path>.*)$',
      'django.views.static.serve',
