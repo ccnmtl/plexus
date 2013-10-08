@@ -9,7 +9,7 @@ ADMINS = ()
 
 MANAGERS = ADMINS
 
-ALLOW_HOSTS = ['.ccnmtl.columbia.edu', 'localhost']
+ALLOWED_HOSTS = ['.ccnmtl.columbia.edu', 'localhost']
 
 DATABASES = {
     'default': {
@@ -190,3 +190,4 @@ LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
 }
+
