@@ -15,6 +15,11 @@
 {% with create_user="target=ccnmtl.app.counters.*.djangowind.windauthbackend.create_user" %}
 {% with ldap_lookup="target=ccnmtl.app.counters.*.djangowind.ldap_lookup" %}
 
+{% with windlocal_ratio="target=alias(summarize(sumSeries(ccnmtl.app.counters.*.djangowind.login_succeeded),'1h'),'local')&target=alias(summarize(sumSeries(ccnmtl.app.counters.*.djangowind.windlogin.success),'1h'),'WIND')" %}
+{% with stacked_opts="areaMode=stacked&lineMode=staircase&hideGrid=true" %}
+
+{% with fail_ratio="target=alias(color(summarize(sumSeries(ccnmtl.app.counters.*.djangowind.login.valid_form),'1h'),'green'),'Success')&target=alias(color(summarize(sumSeries(ccnmtl.app.counters.*.djangowind.login.invalid_form),'1h'),'red'),'Fail')" %}
+
 
 <ul class="nav nav-tabs">
   <li class="active"><a href="#day" data-toggle="tab">Last 24 Hours</a></li>
@@ -28,6 +33,18 @@
 
 {% with from="-24hours" %}
 
+<h2>WIND to local ratio</h2>
+
+<img width="{{width}}" height="{{height}}" src="{% spaceless %}
+{{graphite_base}}
+width={{width}}
+&height={{height}}
+&_salt=1337976132.743
+&{{windlocal_ratio}}
+&{{stacked_opts}}
+&from={{from}}
+{% endspaceless %}">
+
 <h2>Successful WIND Logins</h2>
 
 <img width="{{width}}" height="{{height}}" src="{% spaceless %}
@@ -39,6 +56,20 @@ width={{width}}
 &{{common_opts}}
 &from={{from}}
 {% endspaceless %}">
+
+
+<h2>Local login success/fail ratio</h2>
+
+<img width="{{width}}" height="{{height}}" src="{% spaceless %}
+{{graphite_base}}
+width={{width}}
+&height={{height}}
+&_salt=1337976132.743
+&{{fail_ratio}}
+&{{stacked_opts}}
+&from={{from}}
+{% endspaceless %}">
+
 
 <h2>Local Login Attempts</h2>
 
@@ -146,6 +177,18 @@ width={{width}}
 <div id="week" class="tab-pane">
 {% with from="-7days" %}
 
+<h2>WIND to local ratio</h2>
+
+<img width="{{width}}" height="{{height}}" src="{% spaceless %}
+{{graphite_base}}
+width={{width}}
+&height={{height}}
+&_salt=1337976132.743
+&{{windlocal_ratio}}
+&{{stacked_opts}}
+&from={{from}}
+{% endspaceless %}">
+
 <h2>Successful WIND Logins</h2>
 
 <img width="{{width}}" height="{{height}}" src="{% spaceless %}
@@ -155,6 +198,18 @@ width={{width}}
 &_salt=1337976132.743
 &{{windlogin_success}}
 &{{common_opts}}
+&from={{from}}
+{% endspaceless %}">
+
+<h2>Local login success/fail ratio</h2>
+
+<img width="{{width}}" height="{{height}}" src="{% spaceless %}
+{{graphite_base}}
+width={{width}}
+&height={{height}}
+&_salt=1337976132.743
+&{{fail_ratio}}
+&{{stacked_opts}}
 &from={{from}}
 {% endspaceless %}">
 
@@ -262,6 +317,18 @@ width={{width}}
 
 <div id="month" class="tab-pane">
 {% with from="-1months" %}
+<h2>WIND to local ratio</h2>
+
+<img width="{{width}}" height="{{height}}" src="{% spaceless %}
+{{graphite_base}}
+width={{width}}
+&height={{height}}
+&_salt=1337976132.743
+&{{windlocal_ratio}}
+&{{stacked_opts}}
+&from={{from}}
+{% endspaceless %}">
+
 
 <h2>Successful WIND Logins</h2>
 
@@ -274,6 +341,18 @@ width={{width}}
 &{{common_opts}}
 &from={{from}}
 p{% endspaceless %}">
+
+<h2>Local login success/fail ratio</h2>
+
+<img width="{{width}}" height="{{height}}" src="{% spaceless %}
+{{graphite_base}}
+width={{width}}
+&height={{height}}
+&_salt=1337976132.743
+&{{fail_ratio}}
+&{{stacked_opts}}
+&from={{from}}
+{% endspaceless %}">
 
 <h2>Local Login Attempts</h2>
 
@@ -380,6 +459,18 @@ width={{width}}
 <div id="year" class="tab-pane">
 {% with from="-1years" %}
 
+<h2>WIND to local ratio</h2>
+
+<img width="{{width}}" height="{{height}}" src="{% spaceless %}
+{{graphite_base}}
+width={{width}}
+&height={{height}}
+&_salt=1337976132.743
+&{{windlocal_ratio}}
+&{{stacked_opts}}
+&from={{from}}
+{% endspaceless %}">
+
 <h2>Successful WIND Logins</h2>
 
 <img width="{{width}}" height="{{height}}" src="{% spaceless %}
@@ -389,6 +480,18 @@ width={{width}}
 &_salt=1337976132.743
 &{{windlogin_success}}
 &{{common_opts}}
+&from={{from}}
+{% endspaceless %}">
+
+<h2>Local login success/fail ratio</h2>
+
+<img width="{{width}}" height="{{height}}" src="{% spaceless %}
+{{graphite_base}}
+width={{width}}
+&height={{height}}
+&_salt=1337976132.743
+&{{fail_ratio}}
+&{{stacked_opts}}
 &from={{from}}
 {% endspaceless %}">
 
@@ -493,6 +596,9 @@ width={{width}}
 {% endwith %}
 </div>
 </div>
+{% endwith %}
+{% endwith %}
+{% endwith %}
 {% endwith %}
 {% endwith %}
 {% endwith %}
