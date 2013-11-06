@@ -98,6 +98,14 @@ class Alias(models.Model):
     ip_address = models.ForeignKey(IPAddress, null=True)
     status = models.CharField(max_length=256, default=u"active")
     description = models.TextField(blank=True, default=u"")
+    administrative_info = models.TextField(
+        blank=True,
+        default=u"",
+        help_text=("Required if not a .ccnmtl.columbia.edu hostname."
+                   "Please use this field for information about "
+                   "where the domain is registered, what account "
+                   "it's set up with (don't enter passwords here though) "
+                   "and who handles payments, DNS changes, etc."))
 
     class Meta:
         ordering = ['hostname', ]

@@ -106,6 +106,7 @@ def add_alias(request, id):
         hostname=request.POST.get('hostname', '[none]'),
         ip_address=ipaddress,
         description=request.POST.get('description', ''),
+        administrative_info=request.POST.get('administrative_info', ''),
     )
     for c in request.POST.get('contact', '').split(','):
         contact, created = Contact.objects.get_or_create(name=c)

@@ -2,9 +2,9 @@ from django.test import TestCase
 from django.test.client import Client
 from plexus.main.models import Server
 from plexus.main.models import Contact
-from plexus.main.models import OSFamily
+from plexus.main.models import OSFamily, Alias
 from plexus.main.models import OperatingSystem
-from plexus.main.models import Location
+from plexus.main.models import Location, IPAddress
 
 
 class SimpleTest(TestCase):
@@ -78,3 +78,42 @@ class SimpleTest(TestCase):
         response = self.c.get(os.get_absolute_url())
         assert response.status_code == 200
         assert "testserver" in response.content
+
+    def test_add_alias(self):
+        l = Location.objects.create(
+            name="test",
+            details="test location")
+        osfam = OSFamily.objects.create(
+            name="test os family")
+        os = OperatingSystem.objects.create(
+            family=osfam,
+            version="1.0",
+        )
+        server = Server.objects.create(
+            name="test server",
+            virtual=False,
+            location=l,
+            operating_system=os,
+        )
+        IPAddress.objects.create(
+            ipv4="127.0.0.1",
+            mac_addr="00:16:3e:e3:61:53",
+            server=server,
+        )
+
+        response = self.c.post(
+            "/server/%d/add_alias/" % server.id,
+            {
+                'hostname': 'test.example.com',
+                'description': 'a description',
+                'administrative_info': 'admin info',
+                'contact': 'Anders,Jonah',
+            })
+        self.assertEquals(response.status_code, 302)
+        response = self.c.get("/server/%d/" % server.id)
+        assert "test.example.com" in response.content
+
+        a = Alias.objects.get(hostname='test.example.com')
+        response = self.c.get("/alias/%d/" % a.id)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("admin info" in response.content)

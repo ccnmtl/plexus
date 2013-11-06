@@ -117,7 +117,15 @@
 		</label>
 		{% endifequal %}
 		<label>Description
-		<textarea name="description" class="input-xxlarge"></textarea></label>
+		<textarea name="description"
+		class="input-xxlarge"></textarea></label>
+		<p><b>Required if a non-CU hostname:<b> 
+					Please use Administrative Info field for information about 
+          where the domain is registered, what account 
+          it's set up with (don't enter passwords here though) 
+          and who handles payments, DNS changes, etc.</p>
+		<label>Administrative Info
+		<textarea name="Administrative Info" class="input-xxlarge"></textarea></label>
 		<label>Primary Contact
 			<input type="text" name="contact"
 						 value="{{request.user.first_name}}" />

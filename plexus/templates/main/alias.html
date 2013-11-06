@@ -21,6 +21,13 @@
 		<td>{% inplace_edit "alias.description" %}</td>
 	</tr>
 
+{% if alias.administrative_info %}
+	<tr>
+		<td>Administrative Info</td>
+		<td>{% inplace_edit "alias.administrative_info" %}</td>
+	</tr>
+{% endif %}
+
 	<tr>
 		<td>server</td>
 		<td><a href="/server/{{alias.ip_address.server.id}}/">{{alias.ip_address.server.name}}</a></td>
