@@ -217,10 +217,10 @@ class OSFamilyView(DetailView):
     context_object_name = "family"
 
 
-@render_to('main/os_version.html')
-def os_version(request, family_id, id):
-    operating_system = get_object_or_404(OperatingSystem, id=id)
-    return dict(operating_system=operating_system)
+class OSVersionView(DetailView):
+    template_name = 'main/os_version.html'
+    model = OperatingSystem
+    context_object_name = "operating_system"
 
 
 @render_to('main/location.html')
