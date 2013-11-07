@@ -2,6 +2,7 @@ from django.test import TestCase
 from .factories import LocationFactory, OSFamilyFactory, AliasFactory
 from .factories import OperatingSystemFactory, ServerFactory, IPAddressFactory
 from .factories import ContactFactory, AliasContactFactory, VMLocationFactory
+from .factories import TechnologyFactory
 
 
 class BasicTest(TestCase):
@@ -31,3 +32,9 @@ class AliasContactTest(TestCase):
     def test_unicode(self):
         ac = AliasContactFactory()
         self.assertEqual(str(ac), "foo.example.com: anders")
+
+
+class TechnologyTest(TestCase):
+    def test_unicode(self):
+        t = TechnologyFactory()
+        self.assertEqual(str(t), "Django")
