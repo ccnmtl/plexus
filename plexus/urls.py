@@ -3,6 +3,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.views.generic import TemplateView
 from plexus.main.views import IndexView, ServerView, ContactView
+from plexus.main.views import ApplicationView
 import os.path
 admin.autodiscover()
 import staticmedia
@@ -51,8 +52,7 @@ urlpatterns = patterns(
 
     (r'^add_application/$',
      'plexus.main.views.add_application'),
-    (r'^application/(?P<id>\d+)/$',
-     'plexus.main.views.application'),
+    (r'^application/(?P<pk>\d+)/$', ApplicationView.as_view()),
 
     (r'^os/(?P<id>\d+)/$',
      'plexus.main.views.os_family'),

@@ -205,10 +205,10 @@ def add_application(request):
     return dict(all_technologies=Technology.objects.all())
 
 
-@render_to('main/application.html')
-def application(request, id):
-    application = get_object_or_404(Application, id=id)
-    return dict(application=application, settings=settings)
+class ApplicationView(DetailView):
+    template_name = 'main/application.html'
+    model = Application
+    context_object_name = "application"
 
 
 @render_to('main/os_family.html')
