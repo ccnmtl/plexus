@@ -67,11 +67,16 @@ class Server(models.Model):
         for c in contacts:
             contact, created = Contact.objects.get_or_create(name=c)
             ServerContact.objects.create(server=self,
-                                              contact=contact)
+                                         contact=contact)
 
     def set_contacts(self, contacts):
         self.servercontact_set.all().delete()
         self.add_contacts(contacts)
+
+    def ipaddress_default(self, ipaddress_id):
+        if ipaddress_id:
+            return IPAddress.objects.get(id=ipaddress_id)
+        return self.ipaddress_set.all()[0]
 
 
 class IPAddress(models.Model):

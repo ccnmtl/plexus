@@ -92,11 +92,8 @@ def associate_dom0(request, id):
 
 def add_alias(request, id):
     server = get_object_or_404(Server, id=id)
-    ipaddress = request.POST.get('ipaddress', None)
-    if ipaddress:
-        ipaddress = IPAddress.objects.get(id=ipaddress)
-    else:
-        ipaddress = server.ipaddress_set.all()[0]
+    ipaddress_id = request.POST.get('ipaddress', None)
+    ipaddress = server.ipaddress_default(ipaddress_id)
     alias = Alias.objects.create(
         hostname=request.POST.get('hostname', '[none]'),
         ip_address=ipaddress,
@@ -109,11 +106,8 @@ def add_alias(request, id):
 
 def request_alias(request, id):
     server = get_object_or_404(Server, id=id)
-    ipaddress = request.POST.get('ipaddress', None)
-    if ipaddress:
-        ipaddress = IPAddress.objects.get(id=ipaddress)
-    else:
-        ipaddress = server.ipaddress_set.all()[0]
+    ipaddress_id = request.POST.get('ipaddress', None)
+    ipaddress = server.ipaddress_default(ipaddress_id)
     alias = Alias.objects.create(
         hostname=request.POST.get('hostname', '[none]'),
         ip_address=ipaddress,

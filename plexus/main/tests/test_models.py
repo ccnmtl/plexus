@@ -185,3 +185,10 @@ class ServerTest(TestCase):
         # but we should be able to add/remove
         a.set_contacts(['Three', 'Four'])
         self.assertEqual(a.servercontact_set.count(), 2)
+
+    def test_ipaddress_default(self):
+        ipaddress = IPAddressFactory()
+        i = ipaddress.server.ipaddress_default(None)
+        self.assertEqual(ipaddress, i)
+        i2 = ipaddress.server.ipaddress_default(ipaddress.id)
+        self.assertEqual(ipaddress, i2)
