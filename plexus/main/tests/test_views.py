@@ -7,6 +7,7 @@ from plexus.main.models import Contact
 from plexus.main.models import OSFamily, Alias
 from plexus.main.models import OperatingSystem
 from plexus.main.models import Location
+from plexus.main.models import VMLocation
 
 
 class SimpleTest(TestCase):
@@ -129,3 +130,12 @@ class SimpleTest(TestCase):
         response = self.c.post("/alias/%d/delete/" % alias.id)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Alias.objects.count(), 0)
+
+    def test_associate_dom0(self):
+        s1 = ServerFactory()
+        s2 = ServerFactory()
+        response = self.c.post(
+            "/server/%d/associate_dom0/" % s1.id,
+            dict(dom0=s2.id))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(VMLocation.objects.count(), 1)

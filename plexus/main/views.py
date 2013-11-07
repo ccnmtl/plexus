@@ -94,11 +94,12 @@ class ServerView(DetailView):
         return dict(settings=settings, server=kwargs['object'])
 
 
-def associate_dom0(request, id):
-    server = get_object_or_404(Server, id=id)
-    dom0 = get_object_or_404(Server, id=request.POST.get('dom0', '0'))
-    VMLocation.objects.create(dom_0=dom0, dom_u=server)
-    return HttpResponseRedirect("/server/%d/" % server.id)
+class AssociateDom0View(View):
+    def post(self, request, id):
+        server = get_object_or_404(Server, id=id)
+        dom0 = get_object_or_404(Server, id=request.POST.get('dom0', '0'))
+        VMLocation.objects.create(dom_0=dom0, dom_u=server)
+        return HttpResponseRedirect("/server/%d/" % server.id)
 
 
 def add_alias(request, id):
