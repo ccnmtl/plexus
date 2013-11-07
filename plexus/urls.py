@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 from plexus.main.views import IndexView, ServerView, ContactView
 from plexus.main.views import ApplicationView, OSFamilyView
 from plexus.main.views import OSVersionView, LocationView
+from plexus.main.views import AliasDeleteView
 import os.path
 admin.autodiscover()
 import staticmedia
@@ -40,8 +41,7 @@ urlpatterns = patterns(
      'plexus.main.views.alias'),
     (r'^alias/(?P<id>\d+)/confirm/$',
      'plexus.main.views.alias_confirm'),
-    (r'^alias/(?P<id>\d+)/delete/$',
-     'plexus.main.views.alias_delete'),
+    (r'^alias/(?P<pk>\d+)/delete/$', AliasDeleteView.as_view()),
     (r'^alias/(?P<id>\d+)/associate_with_application/$',
      'plexus.main.views.alias_associate_with_application'),
     (r'^alias/(?P<id>\d+)/request_alias_change/$',

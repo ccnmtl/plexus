@@ -1,6 +1,6 @@
 from django.test import TestCase
 from .factories import ServerFactory, IPAddressFactory, ContactFactory
-from .factories import ApplicationFactory
+from .factories import ApplicationFactory, AliasFactory
 from django.test.client import Client
 from plexus.main.models import Server
 from plexus.main.models import Contact
@@ -119,3 +119,13 @@ class SimpleTest(TestCase):
         response = self.c.get("/application/%d/" % application.id)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['application'], application)
+
+    def test_delete_alias(self):
+        alias = AliasFactory()
+        response = self.c.get("/alias/%d/delete/" % alias.id)
+        self.assertEqual(response.status_code, 200)
+        # should just be a confirmation
+        self.assertEqual(Alias.objects.count(), 1)
+        response = self.c.post("/alias/%d/delete/" % alias.id)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Alias.objects.count(), 0)

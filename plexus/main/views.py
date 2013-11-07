@@ -1,6 +1,6 @@
 from annoying.decorators import render_to
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import TemplateView, DetailView, DeleteView
 from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
 from plexus.main.models import OperatingSystem, Contact
 from plexus.main.models import Application, Technology
@@ -165,10 +165,9 @@ def alias_confirm(request, id):
     return HttpResponseRedirect("/alias/%d/" % alias.id)
 
 
-def alias_delete(request, id):
-    alias = get_object_or_404(Alias, id=id)
-    alias.delete()
-    return HttpResponseRedirect("/")
+class AliasDeleteView(DeleteView):
+    model = Alias
+    success_url = "/"
 
 
 def alias_associate_with_application(request, id):
