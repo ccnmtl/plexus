@@ -4,7 +4,7 @@ from django.conf import settings
 from django.views.generic import TemplateView
 from plexus.main.views import IndexView, ServerView, ContactView
 from plexus.main.views import ApplicationView, OSFamilyView
-from plexus.main.views import OSVersionView
+from plexus.main.views import OSVersionView, LocationView
 import os.path
 admin.autodiscover()
 import staticmedia
@@ -58,8 +58,7 @@ urlpatterns = patterns(
     (r'^os/(?P<pk>\d+)/$', OSFamilyView.as_view()),
     (r'^os/(?P<family_id>\d+)/(?P<pk>\d+)/$', OSVersionView.as_view()),
 
-    (r'^location/(?P<id>\d+)/$',
-     'plexus.main.views.location'),
+    (r'^location/(?P<pk>\d+)/$', LocationView.as_view()),
 
     (r'^render', 'plexus.main.views.render_proxy'),
     (r'^metrics', 'plexus.main.views.metrics_proxy'),

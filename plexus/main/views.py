@@ -223,10 +223,10 @@ class OSVersionView(DetailView):
     context_object_name = "operating_system"
 
 
-@render_to('main/location.html')
-def location(request, id):
-    l = get_object_or_404(Location, id=id)
-    return dict(location=l)
+class LocationView(DetailView):
+    template_name = 'main/location.html'
+    model = Location
+    context_object_name = "location"
 
 
 def render_proxy(request):
