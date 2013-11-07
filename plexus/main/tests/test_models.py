@@ -3,6 +3,7 @@ from .factories import LocationFactory, OSFamilyFactory, AliasFactory
 from .factories import OperatingSystemFactory, ServerFactory, IPAddressFactory
 from .factories import ContactFactory, AliasContactFactory, VMLocationFactory
 from .factories import TechnologyFactory, ApplicationFactory
+from .factories import ApplicationAliasFactory
 
 
 class BasicTest(TestCase):
@@ -50,3 +51,9 @@ class ApplicationTest(TestCase):
         self.assertEqual(
             a.pmt_feed_url(),
             "http://pmt.ccnmtl.columbia.edu/project_feed.pl?pid=123")
+
+
+class ApplicationAliasTest(TestCase):
+    def test_unicode(self):
+        a = ApplicationAliasFactory()
+        self.assertEqual(str(a), "Test Application -> foo.example.com")

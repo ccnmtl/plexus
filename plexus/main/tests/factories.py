@@ -10,6 +10,7 @@ from plexus.main.models import Contact
 from plexus.main.models import AliasContact
 from plexus.main.models import Technology
 from plexus.main.models import Application
+from plexus.main.models import ApplicationAlias
 
 
 class LocationFactory(factory.DjangoModelFactory):
@@ -83,3 +84,9 @@ class ApplicationFactory(factory.DjangoModelFactory):
     graphite_name = "foo"
     sentry_name = "foo"
     pmt_id = 123
+
+
+class ApplicationAliasFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = ApplicationAlias
+    application = factory.SubFactory(ApplicationFactory)
+    alias = factory.SubFactory(AliasFactory)
