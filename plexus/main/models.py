@@ -78,6 +78,9 @@ class Server(models.Model):
             return IPAddress.objects.get(id=ipaddress_id)
         return self.ipaddress_set.all()[0]
 
+    def potential_dom0s(self):
+        return Server.objects.filter(virtual=False).exclude(id=self.id)
+
 
 class IPAddress(models.Model):
     ipv4 = models.CharField(max_length=256)

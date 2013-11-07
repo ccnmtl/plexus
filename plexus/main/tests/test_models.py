@@ -192,3 +192,7 @@ class ServerTest(TestCase):
         self.assertEqual(ipaddress, i)
         i2 = ipaddress.server.ipaddress_default(ipaddress.id)
         self.assertEqual(ipaddress, i2)
+
+    def test_potential_dom0s(self):
+        s = ServerFactory()
+        self.assertEqual(s.potential_dom0s().count(), 0)

@@ -77,7 +77,7 @@
 <form action="associate_dom0/" method="post" class="form form-inline">
 <label>associate with a dom0:
 	<select name="dom0">
-		{% for server in potential_dom0s %}
+		{% for server in server.potential_dom0s %}
 		<option value="{{server.id}}">{{server.name}}</option>
 		{% endfor %}
 	</select>

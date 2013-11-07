@@ -1,6 +1,6 @@
 from annoying.decorators import render_to
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
 from plexus.main.models import OperatingSystem, Contact
 from plexus.main.models import Application, Technology
@@ -77,13 +77,13 @@ def add_server(request):
                 all_operating_systems=OperatingSystem.objects.all())
 
 
-@render_to("main/server.html")
-def server(request, id):
-    server = get_object_or_404(Server, id=id)
-    return dict(server=server, settings=settings,
-                potential_dom0s=(Server.objects.filter(virtual=False)
-                                 .exclude(id=server.id))
-                )
+class ServerView(DetailView):
+    model = Server
+    template_name = "main/server.html"
+    context_object_name = "server"
+
+    def get_context_data(self, **kwargs):
+        return dict(settings=settings, server=kwargs['object'])
 
 
 def associate_dom0(request, id):
