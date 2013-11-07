@@ -102,18 +102,19 @@ class AssociateDom0View(View):
         return HttpResponseRedirect("/server/%d/" % server.id)
 
 
-def add_alias(request, id):
-    server = get_object_or_404(Server, id=id)
-    ipaddress_id = request.POST.get('ipaddress', None)
-    ipaddress = server.ipaddress_default(ipaddress_id)
-    alias = Alias.objects.create(
-        hostname=request.POST.get('hostname', '[none]'),
-        ip_address=ipaddress,
-        description=request.POST.get('description', ''),
-        administrative_info=request.POST.get('administrative_info', ''),
-    )
-    alias.set_contacts(request.POST.get('contact', '').split(','))
-    return HttpResponseRedirect("/server/%d/" % server.id)
+class AddAliasView(View):
+    def post(self, request, id):
+        server = get_object_or_404(Server, id=id)
+        ipaddress_id = request.POST.get('ipaddress', None)
+        ipaddress = server.ipaddress_default(ipaddress_id)
+        alias = Alias.objects.create(
+            hostname=request.POST.get('hostname', '[none]'),
+            ip_address=ipaddress,
+            description=request.POST.get('description', ''),
+            administrative_info=request.POST.get('administrative_info', ''),
+        )
+        alias.set_contacts(request.POST.get('contact', '').split(','))
+        return HttpResponseRedirect("/server/%d/" % server.id)
 
 
 def request_alias(request, id):

@@ -82,6 +82,20 @@ class SimpleTest(TestCase):
         assert response.status_code == 200
         assert "testserver" in response.content
 
+    def test_add_server_alternates(self):
+        response = self.c.post(
+            "/add_server/",
+            {
+                'virtual': '1',
+                'location': 'test location',
+                'operating_system': 'Foobar',
+                'name': 'testserver',
+                'contact': 'Anders,Jonah',
+            })
+        self.assertEquals(response.status_code, 302)
+        response = self.c.get("/")
+        assert "testserver" in response.content
+
     def test_add_alias(self):
         server = ServerFactory()
         IPAddressFactory(server=server)
