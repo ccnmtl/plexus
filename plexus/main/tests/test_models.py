@@ -14,9 +14,13 @@ class BasicTest(TestCase):
         self.assertEquals(str(OperatingSystemFactory()), "test os family 1.0")
         self.assertEquals(str(ServerFactory()), "test server")
         self.assertEquals(str(IPAddressFactory()), "127.0.0.1")
-        self.assertEquals(str(AliasFactory()), "foo.example.com")
         self.assertEquals(str(VMLocationFactory()), "test server")
         self.assertEquals(str(ContactFactory()), "anders")
+
+
+class AliasTest(TestCase):
+    def test_unicode(self):
+        self.assertEquals(str(AliasFactory()), "foo.example.com")
 
     def test_css_status(self):
         alias = AliasFactory()
