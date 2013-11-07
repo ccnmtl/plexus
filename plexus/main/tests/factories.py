@@ -9,6 +9,7 @@ from plexus.main.models import VMLocation
 from plexus.main.models import Contact
 from plexus.main.models import AliasContact
 from plexus.main.models import Technology
+from plexus.main.models import Application
 
 
 class LocationFactory(factory.DjangoModelFactory):
@@ -72,3 +73,13 @@ class AliasContactFactory(factory.DjangoModelFactory):
 class TechnologyFactory(factory.DjangoModelFactory):
     FACTORY_FOR = Technology
     name = "Django"
+
+
+class ApplicationFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = Application
+    name = "Test Application"
+    description = "A Description"
+    technology = factory.SubFactory(TechnologyFactory)
+    graphite_name = "foo"
+    sentry_name = "foo"
+    pmt_id = 123

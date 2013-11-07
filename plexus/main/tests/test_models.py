@@ -2,7 +2,7 @@ from django.test import TestCase
 from .factories import LocationFactory, OSFamilyFactory, AliasFactory
 from .factories import OperatingSystemFactory, ServerFactory, IPAddressFactory
 from .factories import ContactFactory, AliasContactFactory, VMLocationFactory
-from .factories import TechnologyFactory
+from .factories import TechnologyFactory, ApplicationFactory
 
 
 class BasicTest(TestCase):
@@ -38,3 +38,15 @@ class TechnologyTest(TestCase):
     def test_unicode(self):
         t = TechnologyFactory()
         self.assertEqual(str(t), "Django")
+
+
+class ApplicationTest(TestCase):
+    def test_unicode(self):
+        a = ApplicationFactory()
+        self.assertEqual(str(a), "Test Application")
+
+    def test_pmt_feed_url(self):
+        a = ApplicationFactory()
+        self.assertEqual(
+            a.pmt_feed_url(),
+            "http://pmt.ccnmtl.columbia.edu/project_feed.pl?pid=123")
