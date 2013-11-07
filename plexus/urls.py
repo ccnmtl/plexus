@@ -2,7 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic import TemplateView
-from plexus.main.views import IndexView, ServerView
+from plexus.main.views import IndexView, ServerView, ContactView
 import os.path
 admin.autodiscover()
 import staticmedia
@@ -45,8 +45,7 @@ urlpatterns = patterns(
     (r'^alias/(?P<id>\d+)/request_alias_change/$',
      'plexus.main.views.request_alias_change'),
 
-    (r'^contact/(?P<id>\d+)/$',
-     'plexus.main.views.contact'),
+    (r'^contact/(?P<pk>\d+)/$', ContactView.as_view()),
     (r'^contact/(?P<id>\d+)/dashboard/$',
      'plexus.main.views.contact_dashboard'),
 

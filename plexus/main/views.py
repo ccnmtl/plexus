@@ -179,10 +179,10 @@ def alias_associate_with_application(request, id):
     return HttpResponseRedirect("/alias/%d/" % alias.id)
 
 
-@render_to("main/contact.html")
-def contact(request, id):
-    contact = get_object_or_404(Contact, id=id)
-    return dict(contact=contact)
+class ContactView(DetailView):
+    template_name = "main/contact.html"
+    model = Contact
+    context_object_name = "contact"
 
 
 @render_to("main/contact_dashboard.html")
