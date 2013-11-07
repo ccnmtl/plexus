@@ -144,6 +144,23 @@ Thanks,
 """ % (self.hostname, self.ip_address.server.name,
        self.ip_address.ipv4, requester)
 
+    def dns_change_request_email_body(self, current_server, current_ip_address,
+                                      requester):
+        return """
+Please change the following alias:
+
+    %s
+
+Which currently is an alias for %s (%s).
+
+It should be changed to instead point to %s (%s).
+
+Thanks,
+%s
+""" % (self.hostname, current_server.name, current_ip_address.ipv4,
+       self.ip_address.server.name, self.ip_address.ipv4,
+       requester)
+
     def add_contacts(self, contacts):
         for c in contacts:
             contact, created = Contact.objects.get_or_create(name=c)
@@ -152,7 +169,6 @@ Thanks,
     def set_contacts(self, contacts):
         self.aliascontact_set.all().delete()
         self.add_contacts(contacts)
-
 
 
 class AliasContact(models.Model):

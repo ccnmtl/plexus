@@ -1,7 +1,7 @@
 from annoying.decorators import render_to
 from django.shortcuts import get_object_or_404
 from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
-from plexus.main.models import OperatingSystem, Contact, AliasContact
+from plexus.main.models import OperatingSystem, Contact
 from plexus.main.models import Application, Technology
 from plexus.main.models import ApplicationAlias, VMLocation
 from plexus.main.models import ApplicationContact, ServerContact
@@ -148,20 +148,9 @@ def request_alias_change(request, id):
     alias.save()
 
     subject = alias.dns_change_request_email_subject()
-    body = """
-Please change the following alias:
-
-    %s
-
-Which currently is an alias for %s (%s).
-
-It should be changed to instead point to %s (%s).
-
-Thanks,
-%s
-""" % (alias.hostname, current_server.name, current_ip_address.ipv4,
-       new_server.name, new_ip_address.ipv4,
-       request.user.first_name)
+    body = alias.dns_change_request_email_body(
+        current_server, current_ip_address,
+        request.user.first_name)
     send_mail(subject, body, request.user.email,
               [settings.HOSTMASTER_EMAIL, settings.SYSADMIN_LIST_EMAIL])
 

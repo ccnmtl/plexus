@@ -60,6 +60,28 @@ Thanks,
 Anders
 """)
 
+    def test_dns_change_request_email_body(self):
+        a = AliasFactory()
+        current_server = ServerFactory(name="current")
+        current_ipaddr = IPAddressFactory(
+            server=current_server,
+            ipv4="127.0.0.2")
+        self.assertEqual(
+            a.dns_change_request_email_body(
+                current_server, current_ipaddr, "Anders"),
+            """
+Please change the following alias:
+
+    foo.example.com
+
+Which currently is an alias for current (127.0.0.2).
+
+It should be changed to instead point to test server (127.0.0.1).
+
+Thanks,
+Anders
+""")
+
     def test_add_contacts(self):
         a = AliasFactory()
         self.assertEqual(a.aliascontact_set.count(), 0)
