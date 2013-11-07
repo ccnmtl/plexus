@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.contrib.auth.models import User
 from .factories import ServerFactory, IPAddressFactory, ContactFactory
 from .factories import ApplicationFactory, AliasFactory
 from django.test.client import Client
@@ -153,3 +154,33 @@ class SimpleTest(TestCase):
             dict(dom0=s2.id))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(VMLocation.objects.count(), 1)
+
+
+class LoggedInTest(TestCase):
+    def setUp(self):
+        self.c = Client()
+        self.user = User.objects.create(username="foo", first_name="first",
+                                        last_name="last")
+        self.user.set_password("test")
+        self.user.save()
+        self.c.login(username="foo", password="test")
+
+    def test_request_alias(self):
+        server = ServerFactory()
+        IPAddressFactory(server=server)
+
+        response = self.c.post(
+            "/server/%d/request_alias/" % server.id,
+            {
+                'hostname': 'test.example.com',
+                'description': 'a description',
+                'administrative_info': 'admin info',
+                'contact': 'Anders,Jonah',
+            })
+        self.assertEquals(response.status_code, 302)
+        response = self.c.get("/server/%d/" % server.id)
+        assert "test.example.com" in response.content
+
+        a = Alias.objects.get(hostname='test.example.com')
+        response = self.c.get("/alias/%d/" % a.id)
+        self.assertEqual(response.status_code, 200)
