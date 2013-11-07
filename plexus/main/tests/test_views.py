@@ -1,10 +1,11 @@
 from django.test import TestCase
+from .factories import ServerFactory, IPAddressFactory
 from django.test.client import Client
 from plexus.main.models import Server
 from plexus.main.models import Contact
 from plexus.main.models import OSFamily, Alias
 from plexus.main.models import OperatingSystem
-from plexus.main.models import Location, IPAddress
+from plexus.main.models import Location
 
 
 class SimpleTest(TestCase):
@@ -80,26 +81,8 @@ class SimpleTest(TestCase):
         assert "testserver" in response.content
 
     def test_add_alias(self):
-        l = Location.objects.create(
-            name="test",
-            details="test location")
-        osfam = OSFamily.objects.create(
-            name="test os family")
-        os = OperatingSystem.objects.create(
-            family=osfam,
-            version="1.0",
-        )
-        server = Server.objects.create(
-            name="test server",
-            virtual=False,
-            location=l,
-            operating_system=os,
-        )
-        IPAddress.objects.create(
-            ipv4="127.0.0.1",
-            mac_addr="00:16:3e:e3:61:53",
-            server=server,
-        )
+        server = ServerFactory()
+        IPAddressFactory(server=server)
 
         response = self.c.post(
             "/server/%d/add_alias/" % server.id,
