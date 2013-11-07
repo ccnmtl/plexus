@@ -162,7 +162,7 @@ def request_alias_change(request, id):
     alias.status = "pending"
     alias.save()
 
-    subject = "DNS Alias Change Request: " + alias.hostname
+    subject = alias.dns_change_request_email_subject()
     body = """
 Please change the following alias:
 

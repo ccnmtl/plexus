@@ -33,6 +33,12 @@ class AliasTest(TestCase):
     def test_can_request(self):
         self.assertFalse(AliasFactory().can_request_dns_change())
 
+    def test_dns_change_request_email_subject(self):
+        a = AliasFactory()
+        self.assertEqual(
+            a.dns_change_request_email_subject(),
+            "DNS Alias Change Request: foo.example.com")
+
 
 class AliasContactTest(TestCase):
     def test_unicode(self):

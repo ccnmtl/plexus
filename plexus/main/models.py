@@ -125,6 +125,9 @@ class Alias(models.Model):
         outside our subdomain"""
         return str(self.hostname).endswith(".ccnmtl.columbia.edu")
 
+    def dns_change_request_email_subject(self):
+        return "DNS Alias Change Request: " + self.hostname
+
 
 class AliasContact(models.Model):
     alias = models.ForeignKey(Alias)
