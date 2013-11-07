@@ -108,10 +108,7 @@ def add_alias(request, id):
         description=request.POST.get('description', ''),
         administrative_info=request.POST.get('administrative_info', ''),
     )
-    for c in request.POST.get('contact', '').split(','):
-        contact, created = Contact.objects.get_or_create(name=c)
-        AliasContact.objects.create(alias=alias, contact=contact)
-
+    alias.set_contacts(request.POST.get('contact', '').split(','))
     return HttpResponseRedirect("/server/%d/" % server.id)
 
 
@@ -128,10 +125,7 @@ def request_alias(request, id):
         description=request.POST.get('description', ''),
         status='pending',
     )
-    for c in request.POST.get('contact', '').split(','):
-        contact, created = Contact.objects.get_or_create(name=c)
-        AliasContact.objects.create(alias=alias, contact=contact)
-
+    alias.set_contacts(request.POST.get('contact', '').split(','))
     subject = alias.dns_request_email_subject()
     body = alias.dns_request_body(request.user.first_name)
     send_mail(subject, body, request.user.email,

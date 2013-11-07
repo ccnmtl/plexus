@@ -60,6 +60,26 @@ Thanks,
 Anders
 """)
 
+    def test_add_contacts(self):
+        a = AliasFactory()
+        self.assertEqual(a.aliascontact_set.count(), 0)
+        a.add_contacts(['One', 'Two', 'Three'])
+        self.assertEqual(a.aliascontact_set.count(), 3)
+
+    def test_set_contacts(self):
+        a = AliasFactory()
+        # start with none
+        self.assertEqual(a.aliascontact_set.count(), 0)
+        # set it to three
+        a.set_contacts(['One', 'Two', 'Three'])
+        self.assertEqual(a.aliascontact_set.count(), 3)
+        # repeating shouldn't change that
+        a.set_contacts(['One', 'Two', 'Three'])
+        self.assertEqual(a.aliascontact_set.count(), 3)
+        # but we should be able to add/remove
+        a.set_contacts(['Three', 'Four'])
+        self.assertEqual(a.aliascontact_set.count(), 2)
+
 
 class AliasContactTest(TestCase):
     def test_unicode(self):
