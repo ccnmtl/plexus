@@ -11,6 +11,7 @@ from plexus.main.models import AliasContact
 from plexus.main.models import Technology
 from plexus.main.models import Application
 from plexus.main.models import ApplicationAlias
+from plexus.main.models import ApplicationContact
 
 
 class LocationFactory(factory.DjangoModelFactory):
@@ -90,3 +91,9 @@ class ApplicationAliasFactory(factory.DjangoModelFactory):
     FACTORY_FOR = ApplicationAlias
     application = factory.SubFactory(ApplicationFactory)
     alias = factory.SubFactory(AliasFactory)
+
+
+class ApplicationContactFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = ApplicationContact
+    application = factory.SubFactory(ApplicationFactory)
+    contact = factory.SubFactory(ContactFactory)

@@ -3,7 +3,7 @@ from .factories import LocationFactory, OSFamilyFactory, AliasFactory
 from .factories import OperatingSystemFactory, ServerFactory, IPAddressFactory
 from .factories import ContactFactory, AliasContactFactory, VMLocationFactory
 from .factories import TechnologyFactory, ApplicationFactory
-from .factories import ApplicationAliasFactory
+from .factories import ApplicationAliasFactory, ApplicationContactFactory
 
 
 class BasicTest(TestCase):
@@ -57,3 +57,9 @@ class ApplicationAliasTest(TestCase):
     def test_unicode(self):
         a = ApplicationAliasFactory()
         self.assertEqual(str(a), "Test Application -> foo.example.com")
+
+
+class ApplicationContactTest(TestCase):
+    def test_unicode(self):
+        a = ApplicationContactFactory()
+        self.assertEqual(str(a), "Test Application: anders")
