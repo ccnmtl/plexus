@@ -63,6 +63,16 @@ class Server(models.Model):
     def get_absolute_url(self):
         return "/server/%d/" % self.id
 
+    def add_contacts(self, contacts):
+        for c in contacts:
+            contact, created = Contact.objects.get_or_create(name=c)
+            ServerContact.objects.create(server=self,
+                                              contact=contact)
+
+    def set_contacts(self, contacts):
+        self.servercontact_set.all().delete()
+        self.add_contacts(contacts)
+
 
 class IPAddress(models.Model):
     ipv4 = models.CharField(max_length=256)

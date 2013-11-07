@@ -4,7 +4,6 @@ from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
 from plexus.main.models import OperatingSystem, Contact
 from plexus.main.models import Application, Technology
 from plexus.main.models import ApplicationAlias, VMLocation
-from plexus.main.models import ServerContact
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
@@ -69,11 +68,7 @@ def add_server(request):
                 mac_addr=mac,
                 server=server,
             )
-        for c in request.POST.get('contact', '').split(','):
-            contact, created = Contact.objects.get_or_create(name=c)
-            ServerContact.objects.create(server=server,
-                                         contact=contact)
-
+            server.set_contacts(request.POST.get('contact', '').split(','))
         return HttpResponseRedirect("/")
     return dict(all_locations=Location.objects.all(),
                 all_operating_systems=OperatingSystem.objects.all())

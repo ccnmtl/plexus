@@ -163,3 +163,25 @@ class ServerContactTest(TestCase):
     def test_unicode(self):
         a = ServerContactFactory()
         self.assertEqual(str(a), "test server: anders")
+
+
+class ServerTest(TestCase):
+    def test_add_contacts(self):
+        a = ServerFactory()
+        self.assertEqual(a.servercontact_set.count(), 0)
+        a.add_contacts(['One', 'Two', 'Three'])
+        self.assertEqual(a.servercontact_set.count(), 3)
+
+    def test_set_contacts(self):
+        a = ServerFactory()
+        # start with none
+        self.assertEqual(a.servercontact_set.count(), 0)
+        # set it to three
+        a.set_contacts(['One', 'Two', 'Three'])
+        self.assertEqual(a.servercontact_set.count(), 3)
+        # repeating shouldn't change that
+        a.set_contacts(['One', 'Two', 'Three'])
+        self.assertEqual(a.servercontact_set.count(), 3)
+        # but we should be able to add/remove
+        a.set_contacts(['Three', 'Four'])
+        self.assertEqual(a.servercontact_set.count(), 2)
