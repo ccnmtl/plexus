@@ -4,6 +4,7 @@ from .factories import OperatingSystemFactory, ServerFactory, IPAddressFactory
 from .factories import ContactFactory, AliasContactFactory, VMLocationFactory
 from .factories import TechnologyFactory, ApplicationFactory
 from .factories import ApplicationAliasFactory, ApplicationContactFactory
+from .factories import ServerContactFactory
 
 
 class BasicTest(TestCase):
@@ -63,3 +64,9 @@ class ApplicationContactTest(TestCase):
     def test_unicode(self):
         a = ApplicationContactFactory()
         self.assertEqual(str(a), "Test Application: anders")
+
+
+class ServerContactTest(TestCase):
+    def test_unicode(self):
+        a = ServerContactFactory()
+        self.assertEqual(str(a), "test server: anders")
