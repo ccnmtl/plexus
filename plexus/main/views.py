@@ -1,5 +1,6 @@
 from annoying.decorators import render_to
 from django.shortcuts import get_object_or_404
+from django.views.generic import TemplateView
 from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
 from plexus.main.models import OperatingSystem, Contact
 from plexus.main.models import Application, Technology
@@ -10,14 +11,16 @@ from django.conf import settings
 from restclient import GET
 
 
-@render_to('main/index.html')
-def index(request):
-    return dict(
-        servers=Server.objects.filter(deprecated=False).order_by('name'),
-        aliases=(Alias.objects.all().exclude(status='deprecated')
-                 .order_by('hostname')),
-        applications=Application.objects.all().order_by('name'),
-    )
+class IndexView(TemplateView):
+    template_name = 'main/index.html'
+
+    def get_context_data(self):
+        return dict(
+            servers=Server.objects.filter(deprecated=False).order_by('name'),
+            aliases=(Alias.objects.all().exclude(status='deprecated')
+                     .order_by('hostname')),
+            applications=Application.objects.all().order_by('name'),
+        )
 
 
 @render_to('main/add_server.html')

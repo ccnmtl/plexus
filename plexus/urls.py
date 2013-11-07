@@ -2,6 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
 from django.views.generic import TemplateView
+from plexus.main.views import IndexView
 import os.path
 admin.autodiscover()
 import staticmedia
@@ -23,7 +24,7 @@ urlpatterns = patterns(
     # Example:
     auth_urls,
     logout_page,
-    (r'^$', 'plexus.main.views.index'),
+    (r'^$', IndexView.as_view()),
     (r'^add_server/$', 'plexus.main.views.add_server'),
     (r'^server/(?P<id>\d+)/$', 'plexus.main.views.server'),
     (r'^server/(?P<id>\d+)/add_alias/$',
