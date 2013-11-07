@@ -126,6 +126,26 @@ class ApplicationTest(TestCase):
             a.pmt_feed_url(),
             "http://pmt.ccnmtl.columbia.edu/project_feed.pl?pid=123")
 
+    def test_add_contacts(self):
+        a = ApplicationFactory()
+        self.assertEqual(a.applicationcontact_set.count(), 0)
+        a.add_contacts(['One', 'Two', 'Three'])
+        self.assertEqual(a.applicationcontact_set.count(), 3)
+
+    def test_set_contacts(self):
+        a = ApplicationFactory()
+        # start with none
+        self.assertEqual(a.applicationcontact_set.count(), 0)
+        # set it to three
+        a.set_contacts(['One', 'Two', 'Three'])
+        self.assertEqual(a.applicationcontact_set.count(), 3)
+        # repeating shouldn't change that
+        a.set_contacts(['One', 'Two', 'Three'])
+        self.assertEqual(a.applicationcontact_set.count(), 3)
+        # but we should be able to add/remove
+        a.set_contacts(['Three', 'Four'])
+        self.assertEqual(a.applicationcontact_set.count(), 2)
+
 
 class ApplicationAliasTest(TestCase):
     def test_unicode(self):

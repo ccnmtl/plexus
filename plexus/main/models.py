@@ -211,6 +211,16 @@ class Application(models.Model):
         return ("http://pmt.ccnmtl.columbia.edu/project_feed.pl?pid=%d"
                 % self.pmt_id)
 
+    def add_contacts(self, contacts):
+        for c in contacts:
+            contact, created = Contact.objects.get_or_create(name=c)
+            ApplicationContact.objects.create(application=self,
+                                              contact=contact)
+
+    def set_contacts(self, contacts):
+        self.applicationcontact_set.all().delete()
+        self.add_contacts(contacts)
+
 
 class ApplicationAlias(models.Model):
     application = models.ForeignKey(Application)

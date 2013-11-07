@@ -4,7 +4,7 @@ from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
 from plexus.main.models import OperatingSystem, Contact
 from plexus.main.models import Application, Technology
 from plexus.main.models import ApplicationAlias, VMLocation
-from plexus.main.models import ApplicationContact, ServerContact
+from plexus.main.models import ServerContact
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
@@ -214,10 +214,7 @@ def add_application(request):
             graphite_name=graphite_name,
             sentry_name=request.POST.get('sentry_name', ''),
         )
-        for c in request.POST.get('contact', '').split(','):
-            contact, created = Contact.objects.get_or_create(name=c)
-            ApplicationContact.objects.create(application=application,
-                                              contact=contact)
+        application.set_contacts(request.POST.get('contact', '').split(','))
         return HttpResponseRedirect("/")
     return dict(all_technologies=Technology.objects.all())
 
