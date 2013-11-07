@@ -211,10 +211,10 @@ class ApplicationView(DetailView):
     context_object_name = "application"
 
 
-@render_to('main/os_family.html')
-def os_family(request, id):
-    family = get_object_or_404(OSFamily, id=id)
-    return dict(family=family)
+class OSFamilyView(DetailView):
+    template_name = 'main/os_family.html'
+    model = OSFamily
+    context_object_name = "family"
 
 
 @render_to('main/os_version.html')
