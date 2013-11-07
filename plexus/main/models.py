@@ -128,6 +128,9 @@ class Alias(models.Model):
     def dns_change_request_email_subject(self):
         return "DNS Alias Change Request: " + self.hostname
 
+    def dns_request_email_subject(self):
+        return "DNS Alias Request: " + self.hostname
+
 
 class AliasContact(models.Model):
     alias = models.ForeignKey(Alias)

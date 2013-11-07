@@ -132,7 +132,7 @@ def request_alias(request, id):
         contact, created = Contact.objects.get_or_create(name=c)
         AliasContact.objects.create(alias=alias, contact=contact)
 
-    subject = "DNS Alias Request: " + alias.hostname
+    subject = alias.dns_request_email_subject()
     body = """
 Please add the following alias:
 
