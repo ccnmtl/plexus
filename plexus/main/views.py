@@ -185,12 +185,6 @@ class ContactView(DetailView):
     context_object_name = "contact"
 
 
-@render_to("main/contact_dashboard.html")
-def contact_dashboard(request, id):
-    contact = get_object_or_404(Contact, id=id)
-    return dict(contact=contact, settings=settings)
-
-
 @render_to('main/add_application.html')
 def add_application(request):
     if request.method == 'POST':

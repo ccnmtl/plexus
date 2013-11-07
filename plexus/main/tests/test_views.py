@@ -1,5 +1,5 @@
 from django.test import TestCase
-from .factories import ServerFactory, IPAddressFactory
+from .factories import ServerFactory, IPAddressFactory, ContactFactory
 from django.test.client import Client
 from plexus.main.models import Server
 from plexus.main.models import Contact
@@ -100,3 +100,15 @@ class SimpleTest(TestCase):
         response = self.c.get("/alias/%d/" % a.id)
         self.assertEqual(response.status_code, 200)
         self.assertTrue("admin info" in response.content)
+
+    def test_contact(self):
+        contact = ContactFactory()
+        response = self.c.get("/contact/%d/" % contact.id)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['contact'], contact)
+
+    def test_contact_dashboard(self):
+        contact = ContactFactory()
+        response = self.c.get("/contact/%d/dashboard/" % contact.id)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['contact'], contact)

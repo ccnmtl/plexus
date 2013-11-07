@@ -46,8 +46,8 @@ urlpatterns = patterns(
      'plexus.main.views.request_alias_change'),
 
     (r'^contact/(?P<pk>\d+)/$', ContactView.as_view()),
-    (r'^contact/(?P<id>\d+)/dashboard/$',
-     'plexus.main.views.contact_dashboard'),
+    (r'^contact/(?P<pk>\d+)/dashboard/$',
+     ContactView.as_view(template_name="main/contact_dashboard.html")),
 
     (r'^add_application/$',
      'plexus.main.views.add_application'),
