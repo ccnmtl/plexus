@@ -45,6 +45,21 @@ class AliasTest(TestCase):
             a.dns_request_email_subject(),
             "DNS Alias Request: foo.example.com")
 
+    def test_dns_request_email_body(self):
+        a = AliasFactory()
+        self.assertEqual(
+            a.dns_request_email_body("Anders"),
+            """
+Please add the following alias:
+
+      foo.example.com
+
+It should resolve to test server (127.0.0.1)
+
+Thanks,
+Anders
+""")
+
 
 class AliasContactTest(TestCase):
     def test_unicode(self):

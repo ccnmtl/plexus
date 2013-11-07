@@ -133,16 +133,7 @@ def request_alias(request, id):
         AliasContact.objects.create(alias=alias, contact=contact)
 
     subject = alias.dns_request_email_subject()
-    body = """
-Please add the following alias:
-
-      %s
-
-It should resolve to %s (%s)
-
-Thanks,
-%s
-""" % (alias.hostname, server.name, ipaddress.ipv4, request.user.first_name)
+    body = alias.dns_request_body(request.user.first_name)
     send_mail(subject, body, request.user.email,
               [settings.HOSTMASTER_EMAIL, settings.SYSADMIN_LIST_EMAIL])
 
