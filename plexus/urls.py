@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from plexus.main.views import IndexView, ServerView, ContactView
 from plexus.main.views import ApplicationView, OSFamilyView
 from plexus.main.views import OSVersionView, LocationView
-from plexus.main.views import AliasDeleteView
+from plexus.main.views import AliasDeleteView, AddServerView
 import os.path
 admin.autodiscover()
 import staticmedia
@@ -28,7 +28,7 @@ urlpatterns = patterns(
     auth_urls,
     logout_page,
     (r'^$', IndexView.as_view()),
-    (r'^add_server/$', 'plexus.main.views.add_server'),
+    (r'^add_server/$', AddServerView.as_view()),
     (r'^server/(?P<pk>\d+)/$', ServerView.as_view()),
     (r'^server/(?P<id>\d+)/add_alias/$',
      'plexus.main.views.add_alias'),

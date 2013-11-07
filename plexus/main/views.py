@@ -1,5 +1,7 @@
 from annoying.decorators import render_to
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+from django.views.generic.base import View
 from django.views.generic import TemplateView, DetailView, DeleteView
 from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
 from plexus.main.models import OperatingSystem, Contact
@@ -23,9 +25,10 @@ class IndexView(TemplateView):
         )
 
 
-@render_to('main/add_server.html')
-def add_server(request):
-    if request.method == 'POST':
+class AddServerView(View):
+    template_name = 'main/add_server.html'
+
+    def post(self, request):
         virtual = request.POST.get('virtual', False) == '1'
         location = None
         if not virtual:
@@ -73,8 +76,13 @@ def add_server(request):
             )
             server.set_contacts(request.POST.get('contact', '').split(','))
         return HttpResponseRedirect("/")
-    return dict(all_locations=Location.objects.all(),
-                all_operating_systems=OperatingSystem.objects.all())
+
+    def get(self, request):
+        return render(
+            request,
+            self.template_name,
+            dict(all_locations=Location.objects.all(),
+                 all_operating_systems=OperatingSystem.objects.all()))
 
 
 class ServerView(DetailView):
