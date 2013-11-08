@@ -172,11 +172,12 @@ class AliasView(DetailView):
         return context
 
 
-def alias_confirm(request, id):
-    alias = get_object_or_404(Alias, id=id)
-    alias.status = 'active'
-    alias.save()
-    return HttpResponseRedirect("/alias/%d/" % alias.id)
+class AliasConfirmView(View):
+    def post(self, request, id):
+        alias = get_object_or_404(Alias, id=id)
+        alias.status = 'active'
+        alias.save()
+        return HttpResponseRedirect("/alias/%d/" % alias.id)
 
 
 class AliasDeleteView(DeleteView):

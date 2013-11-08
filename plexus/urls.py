@@ -9,6 +9,7 @@ from plexus.main.views import AliasDeleteView, AddServerView
 from plexus.main.views import AssociateDom0View, AddAliasView
 from plexus.main.views import RequestAliasView, AddApplicationView
 from plexus.main.views import AliasView, RequestAliasChangeView
+from plexus.main.views import AliasConfirmView
 import os.path
 admin.autodiscover()
 import staticmedia
@@ -38,8 +39,7 @@ urlpatterns = patterns(
     (r'^server/(?P<id>\d+)/associate_dom0/$', AssociateDom0View.as_view()),
 
     (r'^alias/(?P<pk>\d+)/$', AliasView.as_view()),
-    (r'^alias/(?P<id>\d+)/confirm/$',
-     'plexus.main.views.alias_confirm'),
+    (r'^alias/(?P<id>\d+)/confirm/$', AliasConfirmView.as_view()),
     (r'^alias/(?P<pk>\d+)/delete/$', AliasDeleteView.as_view()),
     (r'^alias/(?P<id>\d+)/associate_with_application/$',
      'plexus.main.views.alias_associate_with_application'),
