@@ -184,3 +184,19 @@ class LoggedInTest(TestCase):
         a = Alias.objects.get(hostname='test.example.com')
         response = self.c.get("/alias/%d/" % a.id)
         self.assertEqual(response.status_code, 200)
+
+    def test_request_alias_change(self):
+        server = ServerFactory()
+        ipaddress = IPAddressFactory(server=server)
+        alias = AliasFactory(ip_address=ipaddress)
+        newipaddress = IPAddressFactory()
+        newserver = newipaddress.server
+
+        response = self.c.post(
+            "/alias/%d/request_alias_change/" % alias.id,
+            {
+                'new_server': newserver.id,
+            })
+        self.assertEquals(response.status_code, 302)
+        response = self.c.get("/alias/%d/" % alias.id)
+        assert "pending" in response.content
