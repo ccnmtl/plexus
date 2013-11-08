@@ -5,7 +5,7 @@ from django.views.generic import TemplateView, DetailView, UpdateView
 from plexus.main.models import Location, OperatingSystem, Server
 from plexus.main.models import OSFamily, Application, Contact
 from plexus.main.models import Alias
-from plexus.main.forms import AliasForm
+from plexus.main.forms import AliasForm, ContactForm
 from plexus.main.views import IndexView
 from plexus.main.views import AliasDeleteView, AddServerView
 from plexus.main.views import AssociateDom0View, AddAliasView
@@ -57,6 +57,9 @@ urlpatterns = patterns(
     (r'^contact/(?P<pk>\d+)/dashboard/$',
      DetailView.as_view(model=Contact,
                         template_name="main/contact_dashboard.html")),
+    (r'^contact/(?P<pk>\d+)/edit/$',
+     UpdateView.as_view(model=Contact,
+                        form_class=ContactForm)),
 
     (r'^add_application/$', AddApplicationView.as_view()),
     (r'^application/(?P<pk>\d+)/$', DetailView.as_view(model=Application)),

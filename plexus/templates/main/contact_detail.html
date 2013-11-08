@@ -4,7 +4,7 @@
 
 <h1>Contact: {% inplace_edit "object.name" %}</h1>
 {% if request.user.is_staff %}
-<a href="/admin/main/contact/{{object.id}}/">edit</a>
+<a href="/contact/{{object.id}}/edit/">edit</a>
 {% endif %}
 
 <p><a href="dashboard/">Dashboard View</a></p>
