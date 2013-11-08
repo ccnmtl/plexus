@@ -155,6 +155,14 @@ class SimpleTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(VMLocation.objects.count(), 1)
 
+    def test_alias_confirm(self):
+        alias = AliasFactory(status="pending")
+        response = self.c.post("/alias/%d/confirm/" % alias.id)
+        self.assertEqual(response.status_code, 302)
+        response = self.c.get("/alias/%d/" % alias.id)
+        self.assertTrue("pending" not in response.content)
+        
+
 
 class LoggedInTest(TestCase):
     def setUp(self):
