@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Location: {{location.name}}</h1>
-{% if location.details %}
-<p>{{location.details}}</p>
+<h1>Location: {{object.name}}</h1>
+{% if object.details %}
+<p>{{object.details}}</p>
 {% endif %}
 
 <h2>Servers</h2>
@@ -18,7 +18,7 @@
 	</thead>
 		
 	<tbody>
-		{% for server in location.server_set.all %}
+		{% for server in object.server_set.all %}
 		<tr>
 			<td><a href="/server/{{server.id}}/">{{server.name}}</a></td>
 			<td>{{server.primary_function}}</td>

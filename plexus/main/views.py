@@ -86,7 +86,6 @@ class AddServerView(View):
 
 class ServerView(DetailView):
     model = Server
-    context_object_name = "server"
 
 
 class AssociateDom0View(View):
@@ -158,7 +157,6 @@ class RequestAliasChangeView(View):
 
 class AliasView(DetailView):
     model = Alias
-    context_object_name = 'alias'
 
     def get_context_data(self, **kwargs):
         context = super(AliasView, self).get_context_data(**kwargs)
@@ -192,7 +190,6 @@ class AliasAssociateWithApplicationView(View):
 
 class ContactView(DetailView):
     model = Contact
-    context_object_name = "contact"
 
 
 class AddApplicationView(View):
@@ -223,22 +220,18 @@ class AddApplicationView(View):
 
 class ApplicationView(DetailView):
     model = Application
-    context_object_name = "application"
 
 
 class OSFamilyView(DetailView):
     model = OSFamily
-    context_object_name = "family"
 
 
 class OSVersionView(DetailView):
     model = OperatingSystem
-    context_object_name = "operating_system"
 
 
 class LocationView(DetailView):
     model = Location
-    context_object_name = "location"
 
 
 class GraphiteProxyView(View):

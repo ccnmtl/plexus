@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Dashboard for {{contact.name}}</h1>
+<h1>Dashboard for {{object.name}}</h1>
 
 
 <ul class="nav nav-tabs">
@@ -116,14 +116,14 @@ var makegraphs = function (el, size, step) {
   context.size(size).step(step);
 
   var server_metric_defs = [];
-{% for ac in contact.servercontact_set.all %}
+{% for ac in object.servercontact_set.all %}
 {% if ac.server.graphite_name %}
   server_metric_defs.push(serverMetrics("{{ac.server.graphite_name}}","{{ac.server.name}}"));
 {% endif %}
 {% endfor %}
 
   var application_metric_defs = [];
-{% for ac in contact.applicationcontact_set.all %}
+{% for ac in object.applicationcontact_set.all %}
 {% if ac.application.graphite_name %}
   application_metric_defs.push(applicationMetrics("{{ac.application.graphite_name}}","{{ac.application.name}}"));
 {% endif %}

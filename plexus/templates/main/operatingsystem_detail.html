@@ -1,20 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Operating System: <a href="/os/{{operating_system.family.id}}/">{{operating_system.family.name}}</a>: {{operating_system.version}}</h2>
+<h2>Operating System: <a href="/os/{{object.family.id}}/">{{object.family.name}}</a>: {{object.version}}</h2>
 
 <h3>Servers</h3>
 
-{% if operating_system.server_set.count %}
+{% if object.server_set.count %}
 <ul>
-{% for s in operating_system.server_set.all %}
+{% for s in object.server_set.all %}
 <li><a href="/server/{{s.id}}/">{{s.name}}</a></li>
 {% endfor %}
 </ul>
 {% else %}
 <p>No Servers with this Version</p>
 {% if not request.user.is_anonymous %}
-<a href="/admin/main/operatingsystem/{{operating_system.id}}/">edit/delete</a>
+<a href="/admin/main/operatingsystem/{{object.id}}/">edit/delete</a>
 {% endif %}
 {% endif %}
 
