@@ -7,7 +7,7 @@ from plexus.main.views import ApplicationView, OSFamilyView
 from plexus.main.views import OSVersionView, LocationView
 from plexus.main.views import AliasDeleteView, AddServerView
 from plexus.main.views import AssociateDom0View, AddAliasView
-from plexus.main.views import RequestAliasView
+from plexus.main.views import RequestAliasView, AddApplicationView
 import os.path
 admin.autodiscover()
 import staticmedia
@@ -50,8 +50,7 @@ urlpatterns = patterns(
     (r'^contact/(?P<pk>\d+)/dashboard/$',
      ContactView.as_view(template_name="main/contact_dashboard.html")),
 
-    (r'^add_application/$',
-     'plexus.main.views.add_application'),
+    (r'^add_application/$', AddApplicationView.as_view()),
     (r'^application/(?P<pk>\d+)/$', ApplicationView.as_view()),
 
     (r'^os/(?P<pk>\d+)/$', OSFamilyView.as_view()),

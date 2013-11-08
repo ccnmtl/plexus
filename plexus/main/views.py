@@ -195,9 +195,10 @@ class ContactView(DetailView):
     context_object_name = "contact"
 
 
-@render_to('main/add_application.html')
-def add_application(request):
-    if request.method == 'POST':
+class AddApplicationView(View):
+    template_name = 'main/add_application.html'
+
+    def post(self, request):
         technology, created = Technology.objects.get_or_create(
             name=request.POST.get("technology", "unknown"))
         name = request.POST.get('name', 'unknown application')
@@ -212,7 +213,12 @@ def add_application(request):
         )
         application.set_contacts(request.POST.get('contact', '').split(','))
         return HttpResponseRedirect("/")
-    return dict(all_technologies=Technology.objects.all())
+
+    def get(self, request):
+        return render(
+            request,
+            self.template_name,
+            dict(all_technologies=Technology.objects.all()))
 
 
 class ApplicationView(DetailView):
