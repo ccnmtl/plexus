@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.views.generic.base import View
 from django.views.generic import TemplateView, DetailView, DeleteView
 from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
-from plexus.main.models import OperatingSystem, Contact
+from plexus.main.models import OperatingSystem
 from plexus.main.models import Application, Technology
 from plexus.main.models import ApplicationAlias, VMLocation
 from django.http import HttpResponseRedirect, HttpResponse
@@ -82,10 +82,6 @@ class AddServerView(View):
             self.template_name,
             dict(all_locations=Location.objects.all(),
                  all_operating_systems=OperatingSystem.objects.all()))
-
-
-class ServerView(DetailView):
-    model = Server
 
 
 class AssociateDom0View(View):
@@ -188,10 +184,6 @@ class AliasAssociateWithApplicationView(View):
         return HttpResponseRedirect("/alias/%d/" % alias.id)
 
 
-class ContactView(DetailView):
-    model = Contact
-
-
 class AddApplicationView(View):
     template_name = 'main/add_application.html'
 
@@ -216,22 +208,6 @@ class AddApplicationView(View):
             request,
             self.template_name,
             dict(all_technologies=Technology.objects.all()))
-
-
-class ApplicationView(DetailView):
-    model = Application
-
-
-class OSFamilyView(DetailView):
-    model = OSFamily
-
-
-class OSVersionView(DetailView):
-    model = OperatingSystem
-
-
-class LocationView(DetailView):
-    model = Location
 
 
 class GraphiteProxyView(View):

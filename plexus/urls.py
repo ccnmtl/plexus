@@ -1,10 +1,10 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
-from django.views.generic import TemplateView
-from plexus.main.views import IndexView, ServerView, ContactView
-from plexus.main.views import ApplicationView, OSFamilyView
-from plexus.main.views import OSVersionView, LocationView
+from django.views.generic import TemplateView, DetailView
+from plexus.main.models import Location, OperatingSystem, Server
+from plexus.main.models import OSFamily, Application, Contact
+from plexus.main.views import IndexView
 from plexus.main.views import AliasDeleteView, AddServerView
 from plexus.main.views import AssociateDom0View, AddAliasView
 from plexus.main.views import RequestAliasView, AddApplicationView
@@ -35,7 +35,7 @@ urlpatterns = patterns(
     logout_page,
     (r'^$', IndexView.as_view()),
     (r'^add_server/$', AddServerView.as_view()),
-    (r'^server/(?P<pk>\d+)/$', ServerView.as_view()),
+    (r'^server/(?P<pk>\d+)/$', DetailView.as_view(model=Server)),
     (r'^server/(?P<id>\d+)/add_alias/$', AddAliasView.as_view()),
     (r'^server/(?P<id>\d+)/request_alias/$', RequestAliasView.as_view()),
     (r'^server/(?P<id>\d+)/associate_dom0/$', AssociateDom0View.as_view()),
@@ -48,17 +48,19 @@ urlpatterns = patterns(
     (r'^alias/(?P<id>\d+)/request_alias_change/$',
      RequestAliasChangeView.as_view()),
 
-    (r'^contact/(?P<pk>\d+)/$', ContactView.as_view()),
+    (r'^contact/(?P<pk>\d+)/$', DetailView.as_view(model=Contact)),
     (r'^contact/(?P<pk>\d+)/dashboard/$',
-     ContactView.as_view(template_name="main/contact_dashboard.html")),
+     DetailView.as_view(model=Contact,
+                        template_name="main/contact_dashboard.html")),
 
     (r'^add_application/$', AddApplicationView.as_view()),
-    (r'^application/(?P<pk>\d+)/$', ApplicationView.as_view()),
+    (r'^application/(?P<pk>\d+)/$', DetailView.as_view(model=Application)),
 
-    (r'^os/(?P<pk>\d+)/$', OSFamilyView.as_view()),
-    (r'^os/(?P<family_id>\d+)/(?P<pk>\d+)/$', OSVersionView.as_view()),
+    (r'^os/(?P<pk>\d+)/$', DetailView.as_view(model=OSFamily)),
+    (r'^os/(?P<family_id>\d+)/(?P<pk>\d+)/$',
+     DetailView.as_view(model=OperatingSystem)),
 
-    (r'^location/(?P<pk>\d+)/$', LocationView.as_view()),
+    (r'^location/(?P<pk>\d+)/$', DetailView.as_view(model=Location)),
 
     (r'^render', GraphiteProxyView.as_view()),
     (r'^metrics', GraphiteProxyView.as_view()),
