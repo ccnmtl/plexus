@@ -8,7 +8,7 @@ from plexus.main.views import OSVersionView, LocationView
 from plexus.main.views import AliasDeleteView, AddServerView
 from plexus.main.views import AssociateDom0View, AddAliasView
 from plexus.main.views import RequestAliasView, AddApplicationView
-from plexus.main.views import AliasView
+from plexus.main.views import AliasView, RequestAliasChangeView
 import os.path
 admin.autodiscover()
 import staticmedia
@@ -44,7 +44,7 @@ urlpatterns = patterns(
     (r'^alias/(?P<id>\d+)/associate_with_application/$',
      'plexus.main.views.alias_associate_with_application'),
     (r'^alias/(?P<id>\d+)/request_alias_change/$',
-     'plexus.main.views.request_alias_change'),
+     RequestAliasChangeView.as_view()),
 
     (r'^contact/(?P<pk>\d+)/$', ContactView.as_view()),
     (r'^contact/(?P<pk>\d+)/dashboard/$',

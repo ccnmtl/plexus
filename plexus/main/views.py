@@ -136,27 +136,28 @@ class RequestAliasView(View):
         return HttpResponseRedirect("/server/%d/" % server.id)
 
 
-def request_alias_change(request, id):
-    alias = get_object_or_404(Alias, id=id)
-    current_server = alias.ip_address.server
-    current_ip_address = alias.ip_address
+class RequestAliasChangeView(View):
+    def post(self, request, id):
+        alias = get_object_or_404(Alias, id=id)
+        current_server = alias.ip_address.server
+        current_ip_address = alias.ip_address
 
-    new_server_id = request.POST.get('new_server', None)
-    new_server = get_object_or_404(Server, id=new_server_id)
-    new_ip_address = new_server.ipaddress_set.all()[0]
+        new_server_id = request.POST.get('new_server', None)
+        new_server = get_object_or_404(Server, id=new_server_id)
+        new_ip_address = new_server.ipaddress_set.all()[0]
 
-    alias.ip_address = new_ip_address
-    alias.status = "pending"
-    alias.save()
+        alias.ip_address = new_ip_address
+        alias.status = "pending"
+        alias.save()
 
-    subject = alias.dns_change_request_email_subject()
-    body = alias.dns_change_request_email_body(
-        current_server, current_ip_address,
-        request.user.first_name)
-    send_mail(subject, body, request.user.email,
-              [settings.HOSTMASTER_EMAIL, settings.SYSADMIN_LIST_EMAIL])
+        subject = alias.dns_change_request_email_subject()
+        body = alias.dns_change_request_email_body(
+            current_server, current_ip_address,
+            request.user.first_name)
+        send_mail(subject, body, request.user.email,
+                  [settings.HOSTMASTER_EMAIL, settings.SYSADMIN_LIST_EMAIL])
 
-    return HttpResponseRedirect("/alias/%d/" % alias.id)
+        return HttpResponseRedirect("/alias/%d/" % alias.id)
 
 
 class AliasView(DetailView):
