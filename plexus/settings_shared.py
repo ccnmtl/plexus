@@ -107,7 +107,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'staticmedia',
     'django.contrib.admin',
-    'munin',
     'south',
     'django_nose',
     'compressor',

@@ -67,7 +67,6 @@ urlpatterns = patterns(
 
     (r'^inplaceeditform/', include('inplaceeditform.urls')),
     (r'^admin/', include(admin.site.urls)),
-    (r'^munin/', include('munin.urls')),
     url(r'^impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),
     (r'^stats/auth/$', TemplateView.as_view(template_name="auth_stats.html")),
