@@ -1,4 +1,3 @@
-from annoying.decorators import render_to
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.views.generic.base import View
@@ -160,13 +159,16 @@ def request_alias_change(request, id):
     return HttpResponseRedirect("/alias/%d/" % alias.id)
 
 
-@render_to("main/alias.html")
-def alias(request, id):
-    alias = get_object_or_404(Alias, id=id)
-    return dict(alias=alias,
-                all_applications=Application.objects.all(),
-                all_servers=Server.objects.all(),
-                )
+class AliasView(DetailView):
+    template_name = "main/alias.html"
+    model = Alias
+    context_object_name = 'alias'
+
+    def get_context_data(self, **kwargs):
+        context = super(AliasView, self).get_context_data(**kwargs)
+        context['all_applications'] = Application.objects.all()
+        context['all_servers'] = Server.objects.all()
+        return context
 
 
 def alias_confirm(request, id):
