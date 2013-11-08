@@ -1,9 +1,11 @@
 from django.conf.urls.defaults import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import TemplateView, DetailView, UpdateView
 from plexus.main.models import Location, OperatingSystem, Server
 from plexus.main.models import OSFamily, Application, Contact
+from plexus.main.models import Alias
+from plexus.main.forms import AliasForm
 from plexus.main.views import IndexView
 from plexus.main.views import AliasDeleteView, AddServerView
 from plexus.main.views import AssociateDom0View, AddAliasView
@@ -43,6 +45,9 @@ urlpatterns = patterns(
     (r'^alias/(?P<pk>\d+)/$', AliasView.as_view()),
     (r'^alias/(?P<id>\d+)/confirm/$', AliasConfirmView.as_view()),
     (r'^alias/(?P<pk>\d+)/delete/$', AliasDeleteView.as_view()),
+    (r'^alias/(?P<pk>\d+)/edit/$',
+     UpdateView.as_view(model=Alias,
+                        form_class=AliasForm)),
     (r'^alias/(?P<id>\d+)/associate_with_application/$',
      AliasAssociateWithApplicationView.as_view()),
     (r'^alias/(?P<id>\d+)/request_alias_change/$',

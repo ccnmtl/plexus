@@ -102,6 +102,10 @@ Anders
         a.set_contacts(['Three', 'Four'])
         self.assertEqual(a.aliascontact_set.count(), 2)
 
+    def test_get_absolute_url(self):
+        a = AliasFactory()
+        self.assertEqual(a.get_absolute_url(), "/alias/%d/" % a.id)
+
 
 class AliasContactTest(TestCase):
     def test_unicode(self):

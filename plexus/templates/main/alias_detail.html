@@ -4,7 +4,7 @@
 
 <h1>Alias: {% inplace_edit "object.hostname" %}</h1>
 {% if request.user.is_staff %}
-<a href="/admin/main/alias/{{object.id}}/">edit</a>
+<a href="/alias/{{object.id}}/edit/">edit</a>
 {% endif %}
 {% ifequal object.status "deprecated" %}
 <div class="alert alert-error">

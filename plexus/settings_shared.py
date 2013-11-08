@@ -184,6 +184,7 @@ SYSADMIN_LIST_EMAIL = "ccnmtl-sysadmin@columbia.edu"
 GRAPHITE_BASE = "http://nanny.cul.columbia.edu/"
 LOGIN_REDIRECT_URL = "/"
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
 LOGGING = {
     'version': 1,

@@ -178,6 +178,23 @@ class SimpleTest(TestCase):
         response = self.c.get("/alias/%d/" % alias.id)
         self.assertTrue("pending" not in response.content)
 
+    def test_alias_edit_form(self):
+        alias = AliasFactory(status="pending")
+        response = self.c.get("/alias/%d/edit/" % alias.id)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("<form " in response.content)
+        response = self.c.post(
+            "/alias/%d/edit/" % alias.id,
+            dict(hostname=alias.hostname,
+                 status="active",
+                 description="new description",
+                 administrative_info="new admin info"),
+        )
+        self.assertEqual(response.status_code, 302)
+        response = self.c.get("/alias/%d/" % alias.id)
+        self.assertTrue("new description" in response.content)
+        self.assertTrue("new admin info" in response.content)
+
     def test_alias_associate_with_application(self):
         alias = AliasFactory()
         application = ApplicationFactory()

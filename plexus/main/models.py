@@ -188,6 +188,9 @@ Thanks,
         self.aliascontact_set.all().delete()
         self.add_contacts(contacts)
 
+    def get_absolute_url(self):
+        return "/alias/%d/" % self.id
+
 
 class AliasContact(models.Model):
     alias = models.ForeignKey(Alias)
