@@ -1,7 +1,9 @@
 from django.test import TestCase
+from django.test.utils import override_settings
 from django.contrib.auth.models import User
 from .factories import ServerFactory, IPAddressFactory, ContactFactory
 from .factories import ApplicationFactory, AliasFactory
+import httpretty
 from django.test.client import Client
 from plexus.main.models import Server
 from plexus.main.models import Contact
@@ -229,3 +231,34 @@ class LoggedInTest(TestCase):
         self.assertEquals(response.status_code, 302)
         response = self.c.get("/alias/%d/" % alias.id)
         assert "pending" in response.content
+
+
+class ProxyTests(TestCase):
+    def setUp(self):
+        self.c = Client()
+
+    @override_settings(GRAPHITE_BASE="http://mock.example.com")
+    def test_render_proxy(self):
+        httpretty.enable()
+        httpretty.register_uri(
+            httpretty.GET,
+            "http://mock.example.com/render/?foo=bar",
+            body="success",
+        )
+        response = self.c.get("/render/?foo=bar")
+        self.assertEqual(response.content, "success")
+        httpretty.disable()
+        httpretty.reset()
+
+    @override_settings(GRAPHITE_BASE="http://mock.example.com")
+    def test_metric_proxy(self):
+        httpretty.enable()
+        httpretty.register_uri(
+            httpretty.GET,
+            "http://mock.example.com/metrics/?foo=bar",
+            body="success",
+        )
+        response = self.c.get("/metrics/?foo=bar")
+        self.assertEqual(response.content, "success")
+        httpretty.disable()
+        httpretty.reset()
