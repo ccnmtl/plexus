@@ -86,11 +86,7 @@ class AddServerView(View):
 
 class ServerView(DetailView):
     model = Server
-    template_name = "main/server.html"
     context_object_name = "server"
-
-    def get_context_data(self, **kwargs):
-        return dict(settings=settings, server=kwargs['object'])
 
 
 class AssociateDom0View(View):
@@ -161,7 +157,6 @@ class RequestAliasChangeView(View):
 
 
 class AliasView(DetailView):
-    template_name = "main/alias.html"
     model = Alias
     context_object_name = 'alias'
 
@@ -196,7 +191,6 @@ class AliasAssociateWithApplicationView(View):
 
 
 class ContactView(DetailView):
-    template_name = "main/contact.html"
     model = Contact
     context_object_name = "contact"
 
@@ -228,25 +222,21 @@ class AddApplicationView(View):
 
 
 class ApplicationView(DetailView):
-    template_name = 'main/application.html'
     model = Application
     context_object_name = "application"
 
 
 class OSFamilyView(DetailView):
-    template_name = 'main/os_family.html'
     model = OSFamily
     context_object_name = "family"
 
 
 class OSVersionView(DetailView):
-    template_name = 'main/os_version.html'
     model = OperatingSystem
     context_object_name = "operating_system"
 
 
 class LocationView(DetailView):
-    template_name = 'main/location.html'
     model = Location
     context_object_name = "location"
 
