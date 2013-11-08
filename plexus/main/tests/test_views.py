@@ -161,7 +161,14 @@ class SimpleTest(TestCase):
         self.assertEqual(response.status_code, 302)
         response = self.c.get("/alias/%d/" % alias.id)
         self.assertTrue("pending" not in response.content)
-        
+
+    def test_alias_associate_with_application(self):
+        alias = AliasFactory()
+        application = ApplicationFactory()
+        response = self.c.post(
+            "/alias/%d/associate_with_application/" % alias.id,
+            dict(application=application.id))
+        self.assertEqual(response.status_code, 302)
 
 
 class LoggedInTest(TestCase):
