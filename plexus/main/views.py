@@ -185,12 +185,14 @@ class AliasDeleteView(DeleteView):
     success_url = "/"
 
 
-def alias_associate_with_application(request, id):
-    alias = get_object_or_404(Alias, id=id)
-    application = get_object_or_404(Application,
-                                    id=request.POST.get('application', '0'))
-    ApplicationAlias.objects.create(alias=alias, application=application)
-    return HttpResponseRedirect("/alias/%d/" % alias.id)
+class AliasAssociateWithApplicationView(View):
+    def post(self, request, id):
+        alias = get_object_or_404(Alias, id=id)
+        application = get_object_or_404(
+            Application,
+            id=request.POST.get('application', '0'))
+        ApplicationAlias.objects.create(alias=alias, application=application)
+        return HttpResponseRedirect("/alias/%d/" % alias.id)
 
 
 class ContactView(DetailView):
