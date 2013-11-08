@@ -11,6 +11,7 @@ from plexus.main.views import RequestAliasView, AddApplicationView
 from plexus.main.views import AliasView, RequestAliasChangeView
 from plexus.main.views import AliasConfirmView
 from plexus.main.views import AliasAssociateWithApplicationView
+from plexus.main.views import GraphiteProxyView
 import os.path
 admin.autodiscover()
 import staticmedia
@@ -59,8 +60,8 @@ urlpatterns = patterns(
 
     (r'^location/(?P<pk>\d+)/$', LocationView.as_view()),
 
-    (r'^render', 'plexus.main.views.render_proxy'),
-    (r'^metrics', 'plexus.main.views.metrics_proxy'),
+    (r'^render', GraphiteProxyView.as_view()),
+    (r'^metrics', GraphiteProxyView.as_view()),
 
     (r'^inplaceeditform/', include('inplaceeditform.urls')),
     (r'^admin/', include(admin.site.urls)),

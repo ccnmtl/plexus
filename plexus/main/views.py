@@ -251,16 +251,11 @@ class LocationView(DetailView):
     context_object_name = "location"
 
 
-def render_proxy(request):
+class GraphiteProxyView(View):
     """ cross-domain javascript security prevents us from being able to just
     point cubism.js at the graphite server, so we implement a very rudimentary
     HTTP proxy here """
-    graphite_url = (settings.GRAPHITE_BASE + request.META['PATH_INFO']
-                    + "?" + request.META['QUERY_STRING'])
-    return HttpResponse(GET(graphite_url), content_type="text/plain")
-
-
-def metrics_proxy(request):
-    graphite_url = (settings.GRAPHITE_BASE + request.META['PATH_INFO']
-                    + "?" + request.META['QUERY_STRING'])
-    return HttpResponse(GET(graphite_url), content_type="text/plain")
+    def get(self, request):
+        graphite_url = (settings.GRAPHITE_BASE + request.META['PATH_INFO']
+                        + "?" + request.META['QUERY_STRING'])
+        return HttpResponse(GET(graphite_url), content_type="text/plain")
