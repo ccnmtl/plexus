@@ -35,6 +35,20 @@ class SimpleTest(TestCase):
         response = self.c.get("/add_application/")
         self.assertEquals(response.status_code, 200)
 
+    def test_add_application(self):
+        response = self.c.post(
+            "/add_application/",
+            dict(
+                name="testapp",
+                description="application for testing",
+                technology="Erlang",
+                graphite_name="testapp",
+            )
+        )
+        self.assertEqual(response.status_code, 302)
+        response = self.c.get("/")
+        self.assertTrue("testapp" in response.content)
+
     def test_add_server(self):
         response = self.c.post(
             "/add_server/",
