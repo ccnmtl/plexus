@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Alias, Contact
+from .models import Alias, Contact, Server
 
 
 class AliasForm(ModelForm):
@@ -11,3 +11,8 @@ class AliasForm(ModelForm):
 class ContactForm(ModelForm):
     class Meta:
         model = Contact
+
+
+class ServerForm(ModelForm):
+    class Meta:
+        model = Server

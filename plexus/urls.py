@@ -5,7 +5,7 @@ from django.views.generic import TemplateView, DetailView, UpdateView
 from plexus.main.models import Location, OperatingSystem, Server
 from plexus.main.models import OSFamily, Application, Contact
 from plexus.main.models import Alias
-from plexus.main.forms import AliasForm, ContactForm
+from plexus.main.forms import AliasForm, ContactForm, ServerForm
 from plexus.main.views import IndexView
 from plexus.main.views import AliasDeleteView, AddServerView
 from plexus.main.views import AssociateDom0View, AddAliasView
@@ -38,6 +38,9 @@ urlpatterns = patterns(
     (r'^$', IndexView.as_view()),
     (r'^add_server/$', AddServerView.as_view()),
     (r'^server/(?P<pk>\d+)/$', DetailView.as_view(model=Server)),
+    (r'^server/(?P<pk>\d+)/edit/$',
+     UpdateView.as_view(model=Server,
+                        form_class=ServerForm)),
     (r'^server/(?P<id>\d+)/add_alias/$', AddAliasView.as_view()),
     (r'^server/(?P<id>\d+)/request_alias/$', RequestAliasView.as_view()),
     (r'^server/(?P<id>\d+)/associate_dom0/$', AssociateDom0View.as_view()),

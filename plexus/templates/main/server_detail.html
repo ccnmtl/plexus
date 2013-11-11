@@ -5,7 +5,7 @@
 
 <h1>Server: {% inplace_edit "object.name" %}</h1>
 {% if request.user.is_staff %}
-<a href="/admin/main/server/{{object.id}}/">edit</a>
+<a href="/server/{{object.id}}/edit/">edit</a>
 {% endif %}
 
 {% if object.deprecated %}
