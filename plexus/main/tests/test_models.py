@@ -124,6 +124,10 @@ class ApplicationTest(TestCase):
         a = ApplicationFactory()
         self.assertEqual(str(a), "Test Application")
 
+    def test_get_absolute_url(self):
+        a = ApplicationFactory()
+        self.assertEqual(a.get_absolute_url(), "/application/%d/" % a.id)
+
     def test_pmt_feed_url(self):
         a = ApplicationFactory()
         self.assertEqual(

@@ -242,6 +242,9 @@ class Application(models.Model):
         self.applicationcontact_set.all().delete()
         self.add_contacts(contacts)
 
+    def get_absolute_url(self):
+        return "/application/%d/" % self.id
+
 
 class ApplicationAlias(models.Model):
     application = models.ForeignKey(Application)

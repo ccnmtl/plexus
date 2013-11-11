@@ -6,6 +6,7 @@ from plexus.main.models import Location, OperatingSystem, Server
 from plexus.main.models import OSFamily, Application, Contact
 from plexus.main.models import Alias
 from plexus.main.forms import AliasForm, ContactForm, ServerForm
+from plexus.main.forms import ApplicationForm
 from plexus.main.views import IndexView
 from plexus.main.views import AliasDeleteView, AddServerView
 from plexus.main.views import AssociateDom0View, AddAliasView
@@ -66,6 +67,8 @@ urlpatterns = patterns(
 
     (r'^add_application/$', AddApplicationView.as_view()),
     (r'^application/(?P<pk>\d+)/$', DetailView.as_view(model=Application)),
+    (r'^application/(?P<pk>\d+)/edit/$',
+     UpdateView.as_view(model=Application, form_class=ApplicationForm)),
 
     (r'^os/(?P<pk>\d+)/$', DetailView.as_view(model=OSFamily)),
     (r'^os/(?P<family_id>\d+)/(?P<pk>\d+)/$',
