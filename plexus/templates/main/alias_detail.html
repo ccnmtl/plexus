@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-{% load inplace_edit %}
 {% block content %}
 
-<h1>Alias: {% inplace_edit "object.hostname" %}</h1>
+<h1>Alias: {{ object.hostname }}</h1>
 {% if request.user.is_staff %}
 <a href="/alias/{{object.id}}/edit/">edit</a>
 {% endif %}
@@ -18,13 +17,13 @@
 <table class="table table-striped table-condensed table-bordered">
 	<tr>
 		<td>description</td>
-		<td>{% inplace_edit "object.description" %}</td>
+		<td>{{ object.description }}</td>
 	</tr>
 
 {% if object.administrative_info %}
 	<tr>
 		<td>Administrative Info</td>
-		<td>{% inplace_edit "object.administrative_info" %}</td>
+		<td>{{ object.administrative_info }}</td>
 	</tr>
 {% endif %}
 

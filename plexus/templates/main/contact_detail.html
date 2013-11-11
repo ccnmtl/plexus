@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
-{% load inplace_edit %}
 {% block content %}
 
-<h1>Contact: {% inplace_edit "object.name" %}</h1>
+<h1>Contact: {{ object.name }}</h1>
 {% if request.user.is_staff %}
 <a href="/contact/{{object.id}}/edit/">edit</a>
 {% endif %}
@@ -12,12 +11,12 @@
 <table class="table table-striped table-condensed table-bordered">
 	<tr>
 		<td>email</td>
-		<td>{% inplace_edit "object.email" %}</td>
+		<td>{{ object.email }}</td>
 	</tr>
 
 	<tr>
 		<td>phone</td>
-		<td>{% inplace_edit "object.phone" %}</td>
+		<td>{{ object.phone }}</td>
 	</tr>
 
 	<tr>

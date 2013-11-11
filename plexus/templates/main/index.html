@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load inplace_edit %}
 
 {% block content %}
 
@@ -17,8 +16,8 @@
 	<tbody>
 		{% for server in servers %}
 		<tr>
-			<td><a href="/server/{{server.id}}/">{% inplace_edit "server.name" %}</a></td>
-			<td>{% inplace_edit "server.primary_function" %}</td>
+			<td><a href="/server/{{server.id}}/">{{ server.name }}</a></td>
+			<td>{{ server.primary_function }}</td>
 			<td>
 				{% if server.virtual %}
 				{% if server.dom_u.count %}
@@ -27,7 +26,7 @@
 				Virtual
 				{% endif %}
 				{% else %}
-				{% inplace_edit "server.location" %}
+				{{ server.location }}
 				{% endif %}
 			</td>
 			<td>
@@ -59,8 +58,8 @@
 	<tbody>
 		{% for alias in aliases %}
 		<tr class="{{alias.status_css_class}}">
-			<td><a href="/alias/{{alias.id}}/">{% inplace_edit "alias.hostname" %}</a></td>
-			<td>{% inplace_edit "alias.description" %}</td>
+			<td><a href="/alias/{{alias.id}}/">{{ alias.hostname }}</a></td>
+			<td>{{ alias.description }}</td>
 			<td><a href="/server/{{alias.ip_address.server.id}}/">{{alias.ip_address.server.name}}</a></td>
 			<td>
 				{% for ac in alias.aliascontact_set.all %}
@@ -91,9 +90,9 @@
 	<tbody>
 		{% for application in applications %}
 		<tr class="{{application.status_css_class}}">
-			<td><a href="/application/{{application.id}}/">{% inplace_edit "application.name" %}</a></td>
-			<td>{% inplace_edit "application.technology" %}</td>
-			<td>{% inplace_edit "application.description" %}</td>
+			<td><a href="/application/{{application.id}}/">{{ application.name }}</a></td>
+			<td>{{ application.technology }}</td>
+			<td>{{ application.description }}</td>
 			<td>
 {% if application.graphite_name %}
 <div id="smoketests-{{application.id}}"></div>

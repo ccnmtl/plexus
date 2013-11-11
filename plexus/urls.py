@@ -15,7 +15,6 @@ from plexus.main.views import AliasView, RequestAliasChangeView
 from plexus.main.views import AliasConfirmView
 from plexus.main.views import AliasAssociateWithApplicationView
 from plexus.main.views import GraphiteProxyView
-import os.path
 admin.autodiscover()
 
 redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
@@ -76,7 +75,6 @@ urlpatterns = patterns(
     (r'^render', GraphiteProxyView.as_view()),
     (r'^metrics', GraphiteProxyView.as_view()),
 
-    (r'^inplaceeditform/', include('inplaceeditform.urls')),
     (r'^admin/', include(admin.site.urls)),
     url(r'^impersonate/', include('impersonate.urls')),
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),

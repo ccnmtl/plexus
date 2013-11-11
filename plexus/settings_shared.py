@@ -121,7 +121,6 @@ INSTALLED_APPS = [
     'django_jenkins',
     'waffle',
     'impersonate',
-    'inplaceeditform',
 ]
 
 INTERNAL_IPS = ('127.0.0.1', )
