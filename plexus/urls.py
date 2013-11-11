@@ -17,9 +17,6 @@ from plexus.main.views import AliasAssociateWithApplicationView
 from plexus.main.views import GraphiteProxyView
 import os.path
 admin.autodiscover()
-import staticmedia
-
-site_media_root = os.path.join(os.path.dirname(__file__), "../media")
 
 redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
 auth_urls = (r'^accounts/', include('django.contrib.auth.urls'))
@@ -85,10 +82,7 @@ urlpatterns = patterns(
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),
     (r'^stats/auth/$', TemplateView.as_view(template_name="auth_stats.html")),
     (r'smoketest/', include('smoketest.urls')),
-    (r'^site_media/(?P<path>.*)$',
-     'django.views.static.serve',
-     {'document_root': site_media_root}),
     (r'^uploads/(?P<path>.*)$',
      'django.views.static.serve',
      {'document_root': settings.MEDIA_ROOT}),
-) + staticmedia.serve()
+)

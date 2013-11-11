@@ -100,10 +100,10 @@
 
 {% block js %}
 {% if object.graphite_name %}
-<script src="/site_media/js/d3.v2.min.js"></script>
-<script src="/site_media/js/cubism.v1.min.js"></script>
-<script src="/site_media/js/smoketests.js"></script>
-<script src="/site_media/js/makegraphs.js"></script>
+<script src="{{STATIC_URL}}js/d3.v2.min.js"></script>
+<script src="{{STATIC_URL}}js/cubism.v1.min.js"></script>
+<script src="{{STATIC_URL}}js/smoketests.js"></script>
+<script src="{{STATIC_URL}}js/makegraphs.js"></script>
 <script>
 (function () {
   var width = $("#graphs-daily").width();

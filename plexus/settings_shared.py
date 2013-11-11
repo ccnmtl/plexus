@@ -60,7 +60,7 @@ SITE_ID = 1
 USE_I18N = False
 MEDIA_ROOT = "/var/www/plexus/uploads/"
 MEDIA_URL = '/uploads/'
-STATIC_URL = '/site_media/'
+STATIC_URL = '/media/'
 SECRET_KEY = ')ng#)ef_u@_^zvvu@dxm7ql-yb^_!a6%v3v^j3b(mp+)l+5%@h'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -74,6 +74,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
     'stagingcontext.staging_processor',
     'django.core.context_processors.request',
+    'django.core.context_processors.static',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -105,7 +106,7 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'django.contrib.markup',
     'django.contrib.messages',
-    'staticmedia',
+    'django.contrib.staticfiles',
     'django.contrib.admin',
     'south',
     'django_nose',
@@ -153,12 +154,15 @@ EMAIL_HOST = 'localhost'
 SERVER_EMAIL = "plexus@ccnmtl.columbia.edu"
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
-# put any static media here to override app served static media
-STATICMEDIA_MOUNTS = (
-    ('/sitemedia', 'sitemedia'),
+STATIC_ROOT = os.path.join(os.path.dirname(__file__), "../media")
+STATICFILES_DIRS = ()
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'compressor.finders.CompressorFinder',
 )
 
-COMPRESS_URL = "/site_media/"
+COMPRESS_URL = "/media/"
 COMPRESS_ROOT = "media/"
 
 # WIND settings

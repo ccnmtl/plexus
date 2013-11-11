@@ -31,8 +31,8 @@
 
 
 {% block js %}
-<script src="/site_media/js/d3.v2.min.js"></script>
-<script src="/site_media/js/cubism.v1.min.js"></script>
+<script src="{{STATIC_URL}}js/d3.v2.min.js"></script>
+<script src="{{STATIC_URL}}js/cubism.v1.min.js"></script>
 <script>
 
 var serverMetrics = function(graphiteName, serverName) {

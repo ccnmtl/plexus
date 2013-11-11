@@ -10,9 +10,3 @@
 .inplaceedit.enable img {
    border: 2px solid #FFFFBB;
 }
-
-#toolbar-inplace-edit {
-   position: fixed;
-	 bottom: 0px;
-	 width: 100%;
-}
