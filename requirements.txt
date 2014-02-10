@@ -43,7 +43,7 @@ django-nose==1.2
 django-appconf==0.4.1
 django_compressor==1.1.1
 django-statsd-mozilla==0.3.8.7
-raven==0.7.0
+raven==4.0.3
 django-bootstrap-form==2.0.3
 template_utils==0.4p2
 django-debug-toolbar==0.9.4
