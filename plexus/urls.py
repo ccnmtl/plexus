@@ -21,7 +21,7 @@ redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
 auth_urls = (r'^accounts/', include('django.contrib.auth.urls'))
 logout_page = (r'^accounts/logout/$', 'django.contrib.auth.views.logout',
                {'next_page': redirect_after_logout})
-if hasattr(settings, 'WIND_BASE'):
+if hasattr(settings, 'CAS_BASE') or hasattr(settings, 'WIND_BASE'):
     auth_urls = (r'^accounts/', include('djangowind.urls'))
     logout_page = (r'^accounts/logout/$',
                    'djangowind.views.logout',
