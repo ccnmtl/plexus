@@ -38,7 +38,7 @@ urllib3==1.7.1
 httpretty==0.7.0
 sqlparse==0.1.11
 
-djangowind==0.13.0
+djangowind==0.13.1
 django-indexer==0.2.1
 django-templatetag-sugar==0.1
 django-paging==0.2.2
