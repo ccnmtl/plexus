@@ -37,6 +37,7 @@ python-ldap==2.4.13
 urllib3==1.7.1
 httpretty==0.7.0
 sqlparse==0.1.11
+gunicorn==0.17.4
 
 djangowind==0.13.1
 django-indexer==0.2.1
