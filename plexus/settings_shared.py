@@ -121,6 +121,7 @@ INSTALLED_APPS = [
     'impersonate',
     'django_markwhat',
     'gunicorn',
+    'storages',
 ]
 
 INTERNAL_IPS = ('127.0.0.1', )
@@ -150,8 +151,8 @@ EMAIL_HOST = 'localhost'
 SERVER_EMAIL = "plexus@ccnmtl.columbia.edu"
 DEFAULT_FROM_EMAIL = SERVER_EMAIL
 
-STATIC_ROOT = os.path.join(os.path.dirname(__file__), "../media")
-STATICFILES_DIRS = ()
+STATIC_ROOT = "/tmp/plexus/static"
+STATICFILES_DIRS = ("media/",)
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -159,7 +160,7 @@ STATICFILES_FINDERS = (
 )
 
 COMPRESS_URL = "/media/"
-COMPRESS_ROOT = "media/"
+COMPRESS_ROOT = STATIC_ROOT
 
 # WIND settings
 
