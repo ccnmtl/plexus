@@ -188,6 +188,7 @@ GRAPHITE_BASE = "http://nanny.cul.columbia.edu/"
 LOGIN_REDIRECT_URL = "/"
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTOCOL', 'https')
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
+AWS_QUERYSTRING_AUTH = False
 
 LOGGING = {
     'version': 1,
