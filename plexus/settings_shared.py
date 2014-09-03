@@ -49,9 +49,6 @@ JENKINS_TASKS = (
 PROJECT_APPS = ['plexus.main', ]
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
-SOUTH_TESTS_MIGRATE = False
-
-
 USE_TZ = True
 TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'en-us'
@@ -106,7 +103,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'south',
     'django_nose',
     'compressor',
     'django_statsd',

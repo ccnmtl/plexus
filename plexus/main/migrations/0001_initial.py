@@ -1,195 +1,232 @@
 # flake8: noqa
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'Location'
-        db.create_table('main_location', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('details', self.gf('django.db.models.fields.TextField')(default=u'', blank=True)),
-        ))
-        db.send_create_signal('main', ['Location'])
+    dependencies = [
+    ]
 
-        # Adding model 'OSFamily'
-        db.create_table('main_osfamily', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=256)),
-        ))
-        db.send_create_signal('main', ['OSFamily'])
-
-        # Adding model 'OperatingSystem'
-        db.create_table('main_operatingsystem', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('family', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['main.OSFamily'])),
-            ('version', self.gf('django.db.models.fields.CharField')(max_length=256)),
-        ))
-        db.send_create_signal('main', ['OperatingSystem'])
-
-        # Adding model 'Server'
-        db.create_table('main_server', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('primary_function', self.gf('django.db.models.fields.TextField')(default=u'', blank=True)),
-            ('virtual', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('location', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['main.Location'])),
-            ('operating_system', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['main.OperatingSystem'])),
-            ('memory', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('disk', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('swap', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('notes', self.gf('django.db.models.fields.TextField')(default=u'', blank=True)),
-            ('deprecated', self.gf('django.db.models.fields.BooleanField')(default=False)),
-        ))
-        db.send_create_signal('main', ['Server'])
-
-        # Adding model 'IPAddress'
-        db.create_table('main_ipaddress', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('ipv4', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('mac_addr', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('server', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['main.Server'])),
-        ))
-        db.send_create_signal('main', ['IPAddress'])
-
-        # Adding model 'VMLocation'
-        db.create_table('main_vmlocation', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('dom_u', self.gf('django.db.models.fields.related.ForeignKey')(related_name='dom_u', to=orm['main.Server'])),
-            ('dom_0', self.gf('django.db.models.fields.related.ForeignKey')(related_name='dom_0', to=orm['main.Server'])),
-        ))
-        db.send_create_signal('main', ['VMLocation'])
-
-        # Adding model 'Contact'
-        db.create_table('main_contact', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('email', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('phone', self.gf('django.db.models.fields.CharField')(max_length=256)),
-        ))
-        db.send_create_signal('main', ['Contact'])
-
-        # Adding model 'Alias'
-        db.create_table('main_alias', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('hostname', self.gf('django.db.models.fields.CharField')(max_length=256)),
-            ('ip_address', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['main.IPAddress'], null=True)),
-            ('status', self.gf('django.db.models.fields.CharField')(default=u'active', max_length=256)),
-            ('description', self.gf('django.db.models.fields.TextField')(default=u'', blank=True)),
-        ))
-        db.send_create_signal('main', ['Alias'])
-
-        # Adding model 'AliasContact'
-        db.create_table('main_aliascontact', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('alias', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['main.Alias'])),
-            ('contact', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['main.Contact'])),
-            ('_order', self.gf('django.db.models.fields.IntegerField')(default=0)),
-        ))
-        db.send_create_signal('main', ['AliasContact'])
-
-
-    def backwards(self, orm):
-        # Deleting model 'Location'
-        db.delete_table('main_location')
-
-        # Deleting model 'OSFamily'
-        db.delete_table('main_osfamily')
-
-        # Deleting model 'OperatingSystem'
-        db.delete_table('main_operatingsystem')
-
-        # Deleting model 'Server'
-        db.delete_table('main_server')
-
-        # Deleting model 'IPAddress'
-        db.delete_table('main_ipaddress')
-
-        # Deleting model 'VMLocation'
-        db.delete_table('main_vmlocation')
-
-        # Deleting model 'Contact'
-        db.delete_table('main_contact')
-
-        # Deleting model 'Alias'
-        db.delete_table('main_alias')
-
-        # Deleting model 'AliasContact'
-        db.delete_table('main_aliascontact')
-
-
-    models = {
-        'main.alias': {
-            'Meta': {'object_name': 'Alias'},
-            'description': ('django.db.models.fields.TextField', [], {'default': "u''", 'blank': 'True'}),
-            'hostname': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'ip_address': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['main.IPAddress']", 'null': 'True'}),
-            'status': ('django.db.models.fields.CharField', [], {'default': "u'active'", 'max_length': '256'})
-        },
-        'main.aliascontact': {
-            'Meta': {'ordering': "('_order',)", 'object_name': 'AliasContact'},
-            '_order': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'alias': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['main.Alias']"}),
-            'contact': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['main.Contact']"}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
-        },
-        'main.contact': {
-            'Meta': {'object_name': 'Contact'},
-            'email': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'phone': ('django.db.models.fields.CharField', [], {'max_length': '256'})
-        },
-        'main.ipaddress': {
-            'Meta': {'object_name': 'IPAddress'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'ipv4': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'mac_addr': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'server': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['main.Server']"})
-        },
-        'main.location': {
-            'Meta': {'object_name': 'Location'},
-            'details': ('django.db.models.fields.TextField', [], {'default': "u''", 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '256'})
-        },
-        'main.operatingsystem': {
-            'Meta': {'object_name': 'OperatingSystem'},
-            'family': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['main.OSFamily']"}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'version': ('django.db.models.fields.CharField', [], {'max_length': '256'})
-        },
-        'main.osfamily': {
-            'Meta': {'object_name': 'OSFamily'},
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '256'})
-        },
-        'main.server': {
-            'Meta': {'object_name': 'Server'},
-            'deprecated': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'disk': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'location': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['main.Location']"}),
-            'memory': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'notes': ('django.db.models.fields.TextField', [], {'default': "u''", 'blank': 'True'}),
-            'operating_system': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['main.OperatingSystem']"}),
-            'primary_function': ('django.db.models.fields.TextField', [], {'default': "u''", 'blank': 'True'}),
-            'swap': ('django.db.models.fields.CharField', [], {'max_length': '256'}),
-            'virtual': ('django.db.models.fields.BooleanField', [], {'default': 'False'})
-        },
-        'main.vmlocation': {
-            'Meta': {'object_name': 'VMLocation'},
-            'dom_0': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'dom_0'", 'to': "orm['main.Server']"}),
-            'dom_u': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'dom_u'", 'to': "orm['main.Server']"}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'})
-        }
-    }
-
-    complete_apps = ['main']
+    operations = [
+        migrations.CreateModel(
+            name='Alias',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('hostname', models.CharField(max_length=256)),
+                ('status', models.CharField(default='active', max_length=256)),
+                ('description', models.TextField(default='', blank=True)),
+                ('administrative_info', models.TextField(default='', help_text=b"Required if not a .ccnmtl.columbia.edu hostname.Please use this field for information about where the domain is registered, what account it's set up with (don't enter passwords here though) and who handles payments, DNS changes, etc.", blank=True)),
+            ],
+            options={
+                'ordering': ['hostname'],
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='AliasContact',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('alias', models.ForeignKey(to='main.Alias')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Application',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=256)),
+                ('description', models.TextField(default='', blank=True)),
+                ('graphite_name', models.CharField(default='', max_length=256, blank=True)),
+                ('sentry_name', models.CharField(default='', max_length=256, blank=True)),
+                ('pmt_id', models.IntegerField(default=0)),
+            ],
+            options={
+                'ordering': ['name'],
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='ApplicationAlias',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('alias', models.ForeignKey(to='main.Alias')),
+                ('application', models.ForeignKey(to='main.Application')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='ApplicationContact',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('application', models.ForeignKey(to='main.Application')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Contact',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=256)),
+                ('email', models.CharField(default=b'', max_length=256)),
+                ('phone', models.CharField(default=b'', max_length=256)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='IPAddress',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('ipv4', models.CharField(max_length=256)),
+                ('mac_addr', models.CharField(max_length=256)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Location',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=256)),
+                ('details', models.TextField(default='', blank=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='OperatingSystem',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('version', models.CharField(max_length=256)),
+            ],
+            options={
+                'ordering': ['version'],
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='OSFamily',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=256)),
+            ],
+            options={
+                'ordering': ['name'],
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Server',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=256)),
+                ('primary_function', models.TextField(default='', blank=True)),
+                ('virtual', models.BooleanField(default=False)),
+                ('memory', models.CharField(max_length=256, blank=True)),
+                ('disk', models.CharField(max_length=256, blank=True)),
+                ('swap', models.CharField(max_length=256, blank=True)),
+                ('notes', models.TextField(default='', blank=True)),
+                ('deprecated', models.BooleanField(default=False)),
+                ('graphite_name', models.CharField(default='', max_length=256, blank=True)),
+                ('sentry_name', models.CharField(default='', max_length=256, blank=True)),
+                ('location', models.ForeignKey(default=b'', to='main.Location', null=True)),
+                ('operating_system', models.ForeignKey(to='main.OperatingSystem')),
+            ],
+            options={
+                'ordering': ['name'],
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='ServerContact',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('contact', models.ForeignKey(to='main.Contact')),
+                ('server', models.ForeignKey(to='main.Server')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Technology',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=256)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='VMLocation',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('dom_0', models.ForeignKey(related_name=b'dom_0', to='main.Server')),
+                ('dom_u', models.ForeignKey(related_name=b'dom_u', to='main.Server')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AlterOrderWithRespectTo(
+            name='servercontact',
+            order_with_respect_to='server',
+        ),
+        migrations.AddField(
+            model_name='operatingsystem',
+            name='family',
+            field=models.ForeignKey(to='main.OSFamily'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='ipaddress',
+            name='server',
+            field=models.ForeignKey(to='main.Server'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='applicationcontact',
+            name='contact',
+            field=models.ForeignKey(to='main.Contact'),
+            preserve_default=True,
+        ),
+        migrations.AlterOrderWithRespectTo(
+            name='applicationcontact',
+            order_with_respect_to='application',
+        ),
+        migrations.AddField(
+            model_name='application',
+            name='technology',
+            field=models.ForeignKey(to='main.Technology', null=True),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='aliascontact',
+            name='contact',
+            field=models.ForeignKey(to='main.Contact'),
+            preserve_default=True,
+        ),
+        migrations.AlterOrderWithRespectTo(
+            name='aliascontact',
+            order_with_respect_to='alias',
+        ),
+        migrations.AddField(
+            model_name='alias',
+            name='ip_address',
+            field=models.ForeignKey(to='main.IPAddress', null=True),
+            preserve_default=True,
+        ),
+    ]

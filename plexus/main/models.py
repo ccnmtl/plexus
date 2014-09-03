@@ -42,7 +42,7 @@ class OperatingSystem(models.Model):
 class Server(models.Model):
     name = models.CharField(max_length=256)
     primary_function = models.TextField(blank=True, default=u"")
-    virtual = models.BooleanField()
+    virtual = models.BooleanField(default=False)
     location = models.ForeignKey(Location, null=True, default="")
     operating_system = models.ForeignKey(OperatingSystem)
     memory = models.CharField(max_length=256, blank=True)
