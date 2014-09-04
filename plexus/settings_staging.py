@@ -1,9 +1,10 @@
 # flake8: noqa
 from settings_shared import *
 import sys
+import os
 
 TEMPLATE_DIRS = (
-    "/var/www/plexus/plexus/plexus/templates",
+    os.path.join(os.path.dirname(__file__), "templates"),
 )
 
 MEDIA_ROOT = '/var/www/plexus/uploads/'
