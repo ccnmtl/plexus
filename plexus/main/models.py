@@ -229,7 +229,7 @@ class Application(models.Model):
         return self.name
 
     def pmt_feed_url(self):
-        return ("http://pmt.ccnmtl.columbia.edu/project_feed.pl?pid=%d"
+        return ("https://pmt.ccnmtl.columbia.edu/feeds/project/%d/"
                 % self.pmt_id)
 
     def add_contacts(self, contacts):

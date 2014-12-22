@@ -132,7 +132,7 @@ class ApplicationTest(TestCase):
         a = ApplicationFactory()
         self.assertEqual(
             a.pmt_feed_url(),
-            "http://pmt.ccnmtl.columbia.edu/project_feed.pl?pid=123")
+            "https://pmt.ccnmtl.columbia.edu/feeds/project/123/")
 
     def test_add_contacts(self):
         a = ApplicationFactory()
