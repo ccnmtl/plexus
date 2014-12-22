@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Location(models.Model):
@@ -273,3 +274,19 @@ class ServerContact(models.Model):
 
     def __unicode__(self):
         return unicode(self.server) + ": " + unicode(self.contact)
+
+
+class Note(models.Model):
+    user = models.ForeignKey(User)
+    created = models.DateTimeField(auto_now_add=True)
+    body = models.TextField(blank=True, default=u"")
+
+
+class ServerNote(models.Model):
+    server = models.ForeignKey(Server)
+    note = models.ForeignKey(Note)
+
+
+class ApplicationNote(models.Model):
+    application = models.ForeignKey(Application)
+    note = models.ForeignKey(Note)
