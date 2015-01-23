@@ -149,7 +149,7 @@ class Alias(models.Model):
     def dns_request_email_subject(self):
         return "DNS Alias Request: " + self.hostname
 
-    def dns_request_email_body(self, requester):
+    def dns_request_email_body(self, r):
         return """
 Please add the following alias:
 
@@ -159,11 +159,12 @@ It should resolve to %s (%s)
 
 Thanks,
 %s
-""" % (self.hostname, self.ip_address.server.name,
-       self.ip_address.ipv4, requester)
+""" % (self.hostname, self.ip_address.server.name, self.ip_address.ipv4, r)
 
-    def dns_change_request_email_body(self, current_server, current_ip_address,
-                                      requester):
+    def dns_change_request_email_body(self, c_server, c_ip_address, r):
+        h = self.hostname
+        name = c_server.name
+        ipv4 = c_ip_address.ipv4
         return """
 Please change the following alias:
 
@@ -175,9 +176,7 @@ It should be changed to instead point to %s (%s).
 
 Thanks,
 %s
-""" % (self.hostname, current_server.name, current_ip_address.ipv4,
-       self.ip_address.server.name, self.ip_address.ipv4,
-       requester)
+""" % (h, name, ipv4, self.ip_address.server.name, self.ip_address.ipv4, r)
 
     def add_contacts(self, contacts):
         for c in contacts:
