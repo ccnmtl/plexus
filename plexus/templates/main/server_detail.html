@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load markup %}
 
 {% block content %}
 
@@ -111,7 +112,7 @@
 		<label>Description
 		<textarea name="description"
 		class="input-xxlarge"></textarea></label>
-		<p><b>Required if a non-CU hostname:<b> 
+		<p><b>Required if a non-CU hostname:</b> 
 					Please use Administrative Info field for information about 
           where the domain is registered, what account 
           it's set up with (don't enter passwords here though) 
@@ -205,6 +206,44 @@
 {% endfor %}
 </tbody>
 </table>
+{% endif %}
+
+{% if request.user.is_staff %}
+<h2>Notes</h2>
+
+
+
+<a href="#add-note" role="button" class="btn" data-toggle="modal">Add Note</a>
+
+<form action="{% url 'add-server-note' object.id %}" method="post">
+	<div class="modal hide" id="add-note" tabindex="-1" role="dialog" aria-labelledby="add-note-label" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="add-note-label">Add Note</h3>
+		</div>
+		<div class="modal-body">
+			<div class="form-group">
+				<textarea name="body" class="form-control" rows="10"></textarea>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+			<button class="btn btn-primary">Add Note</button>
+		</div>
+	</div>
+</form>
+
+{% if object.servernote_set.exists %}
+{% for note in object.server_notes %}
+<div>
+{{note.body|markdown}}
+</div>
+<p class="text-right text-muted">
+- {{note.user.get_full_name}} @ {{note.created}}
+</p>
+{% endfor %}
+
+{% endif %}
 {% endif %}
 
 {% if object.graphite_name %}
