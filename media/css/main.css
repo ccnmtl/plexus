@@ -157,3 +157,9 @@ body > .container {
     -webkit-border-radius: 3px;
     line-height: 140%;
 }
+
+footer.page-footer {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    text-align: center;
+}
