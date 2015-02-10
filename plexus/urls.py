@@ -7,14 +7,14 @@ from plexus.main.models import OSFamily, Application, Contact
 from plexus.main.models import Alias
 from plexus.main.forms import AliasForm, ContactForm, ServerForm
 from plexus.main.forms import ApplicationForm
-from plexus.main.views import IndexView
-from plexus.main.views import AliasDeleteView, AddServerView
-from plexus.main.views import AssociateDom0View, AddAliasView
-from plexus.main.views import RequestAliasView, AddApplicationView
-from plexus.main.views import AliasView, RequestAliasChangeView
-from plexus.main.views import AliasConfirmView
-from plexus.main.views import AliasAssociateWithApplicationView
-from plexus.main.views import GraphiteProxyView
+from plexus.main.views import (
+    IndexView, AliasDeleteView, AddServerView, AssociateDom0View,
+    AddAliasView, RequestAliasView, AddApplicationView, AliasView,
+    RequestAliasChangeView, AliasConfirmView,
+    AliasAssociateWithApplicationView, GraphiteProxyView,
+    AddServerNoteView,
+)
+
 admin.autodiscover()
 
 redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
@@ -39,6 +39,8 @@ urlpatterns = patterns(
      UpdateView.as_view(model=Server,
                         form_class=ServerForm)),
     (r'^server/(?P<id>\d+)/add_alias/$', AddAliasView.as_view()),
+    url(r'^server/(?P<pk>\d+)/add_note/$', AddServerNoteView.as_view(),
+        name="add-server-note"),
     (r'^server/(?P<id>\d+)/request_alias/$', RequestAliasView.as_view()),
     (r'^server/(?P<id>\d+)/associate_dom0/$', AssociateDom0View.as_view()),
 

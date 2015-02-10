@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from .factories import ServerFactory, IPAddressFactory, ContactFactory
 from .factories import ApplicationFactory, AliasFactory
 import httpretty
@@ -11,6 +12,7 @@ from plexus.main.models import OSFamily, Alias
 from plexus.main.models import OperatingSystem
 from plexus.main.models import Location
 from plexus.main.models import VMLocation
+from plexus.main.models import ServerNote, Note
 
 
 class SimpleTest(TestCase):
@@ -248,6 +250,16 @@ class LoggedInTest(TestCase):
         self.assertEquals(response.status_code, 302)
         response = self.c.get("/alias/%d/" % alias.id)
         assert "pending" in response.content
+
+    def test_add_server_note(self):
+        server = ServerFactory()
+        response = self.c.post(
+            reverse("add-server-note", args=(server.id,)),
+            {"body": "this is a note"}
+        )
+        self.assertEquals(response.status_code, 302)
+        self.assertEqual(ServerNote.objects.count(), 1)
+        self.assertEqual(Note.objects.count(), 1)
 
 
 class ProxyTests(TestCase):

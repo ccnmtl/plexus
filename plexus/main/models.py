@@ -81,6 +81,11 @@ class Server(models.Model):
     def potential_dom0s(self):
         return Server.objects.filter(virtual=False).exclude(id=self.id)
 
+    def server_notes(self):
+        return [
+            sn.note
+            for sn in self.servernote_set.all().order_by("-note__created")]
+
 
 class IPAddress(models.Model):
     ipv4 = models.CharField(max_length=256)
