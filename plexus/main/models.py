@@ -249,6 +249,12 @@ class Application(models.Model):
     def get_absolute_url(self):
         return "/application/%d/" % self.id
 
+    def application_notes(self):
+        return [
+            sn.note
+            for sn in self.applicationnote_set.all().order_by(
+                "-note__created")]
+
 
 class ApplicationAlias(models.Model):
     application = models.ForeignKey(Application)

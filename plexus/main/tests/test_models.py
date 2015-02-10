@@ -154,6 +154,10 @@ class ApplicationTest(TestCase):
         a.set_contacts(['Three', 'Four'])
         self.assertEqual(a.applicationcontact_set.count(), 2)
 
+    def test_application_notes_empty(self):
+        a = ApplicationFactory()
+        self.assertEqual(len(a.application_notes()), 0)
+
 
 class ApplicationAliasTest(TestCase):
     def test_unicode(self):
@@ -204,3 +208,7 @@ class ServerTest(TestCase):
     def test_potential_dom0s(self):
         s = ServerFactory()
         self.assertEqual(s.potential_dom0s().count(), 0)
+
+    def test_server_notes_empty(self):
+        s = ServerFactory()
+        self.assertEqual(len(s.server_notes()), 0)

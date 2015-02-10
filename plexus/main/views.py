@@ -4,10 +4,14 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.generic.base import View
 from django.views.generic import TemplateView, DetailView, DeleteView
-from plexus.main.models import Server, Alias, Location, IPAddress, OSFamily
-from plexus.main.models import OperatingSystem, ServerNote, Note
-from plexus.main.models import Application, Technology
-from plexus.main.models import ApplicationAlias, VMLocation
+from plexus.main.models import (
+    Server, Alias, Location, IPAddress, OSFamily,
+    OperatingSystem, ServerNote, Note,
+    Application, Technology,
+    ApplicationAlias, VMLocation,
+    ApplicationNote,
+)
+
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
@@ -235,3 +239,13 @@ class AddServerNoteView(LoggedInMixin, View):
         ServerNote.objects.create(
             server=server, note=n)
         return HttpResponseRedirect(server.get_absolute_url())
+
+
+class AddApplicationNoteView(LoggedInMixin, View):
+    def post(self, request, pk):
+        application = get_object_or_404(Application, pk=pk)
+        n = Note.objects.create(
+            user=request.user, body=request.POST.get('body', ''))
+        ApplicationNote.objects.create(
+            application=application, note=n)
+        return HttpResponseRedirect(application.get_absolute_url())

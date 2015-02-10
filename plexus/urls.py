@@ -12,7 +12,7 @@ from plexus.main.views import (
     AddAliasView, RequestAliasView, AddApplicationView, AliasView,
     RequestAliasChangeView, AliasConfirmView,
     AliasAssociateWithApplicationView, GraphiteProxyView,
-    AddServerNoteView,
+    AddServerNoteView, AddApplicationNoteView,
 )
 
 admin.autodiscover()
@@ -67,6 +67,9 @@ urlpatterns = patterns(
     (r'^application/(?P<pk>\d+)/$', DetailView.as_view(model=Application)),
     (r'^application/(?P<pk>\d+)/edit/$',
      UpdateView.as_view(model=Application, form_class=ApplicationForm)),
+    url(r'^application/(?P<pk>\d+)/add_note/$',
+        AddApplicationNoteView.as_view(),
+        name="add-application-note"),
 
     (r'^os/(?P<pk>\d+)/$', DetailView.as_view(model=OSFamily)),
     (r'^os/(?P<family_id>\d+)/(?P<pk>\d+)/$',

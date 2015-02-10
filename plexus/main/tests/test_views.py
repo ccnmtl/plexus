@@ -12,7 +12,7 @@ from plexus.main.models import OSFamily, Alias
 from plexus.main.models import OperatingSystem
 from plexus.main.models import Location
 from plexus.main.models import VMLocation
-from plexus.main.models import ServerNote, Note
+from plexus.main.models import ServerNote, Note, ApplicationNote
 
 
 class SimpleTest(TestCase):
@@ -259,6 +259,16 @@ class LoggedInTest(TestCase):
         )
         self.assertEquals(response.status_code, 302)
         self.assertEqual(ServerNote.objects.count(), 1)
+        self.assertEqual(Note.objects.count(), 1)
+
+    def test_add_application_note(self):
+        a = ApplicationFactory()
+        response = self.c.post(
+            reverse("add-application-note", args=(a.id,)),
+            {"body": "this is a note"}
+        )
+        self.assertEquals(response.status_code, 302)
+        self.assertEqual(ApplicationNote.objects.count(), 1)
         self.assertEqual(Note.objects.count(), 1)
 
 
