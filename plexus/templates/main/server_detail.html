@@ -88,15 +88,17 @@
 {% if request.user.is_staff %}
 {% if object.ipaddress_set.count %}
 
-<a href="#addAlias" role="button" class="btn" data-toggle="modal">Add Alias for {{object.name}}</a>
+<a href="#addAlias" role="button" class="btn" data-toggle="modal" data-target="#addAlias">Add Alias for {{object.name}}</a>
  
 	<form action="add_alias/" method="post">
-		<div class="modal hide" id="addAlias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">Add Alias for {{object.name}}</h3>
-  </div>
-  <div class="modal-body">
+		<div class="modal fade" id="addAlias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h3 id="myModalLabel">Add Alias for {{object.name}}</h3>
+					</div>
+					<div class="modal-body">
 		<label>Hostname
 		<input type="text" name="hostname" placeholder="hostname" /></label>
 		{% ifequal object.ipaddress_set.count 1 %}
@@ -124,21 +126,25 @@
 						 value="{{request.user.first_name}}" />
 		</label>
   </div>
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary">Add Alias</button>
-  </div>
-</div>
+					<div class="modal-footer">
+						<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+						<button class="btn btn-primary">Add Alias</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</form>
 
-<a href="#requestAlias" role="button" class="btn" data-toggle="modal">Request new Alias for {{object.name}}</a>
+<a href="#requestAlias" role="button" class="btn" data-toggle="modal" data-target="#requestAlias">Request new Alias for {{object.name}}</a>
 
 	<form action="request_alias/" method="post">
-		<div class="modal hide" id="requestAlias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel1">Request New Alias for {{object.name}}</h3>
-  </div>
+		<div class="modal fade" id="requestAlias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						<h3 id="myModalLabel1">Request New Alias for {{object.name}}</h3>
+					</div>
   <div class="modal-body">
 		<p class="info">This will send an email to hostmaster with the
 		request. It may take a couple business days for the request to go
@@ -168,6 +174,8 @@
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     <button class="btn btn-primary">Request Alias</button>
   </div>
+</div>
+</div>
 </div>
 	</form>
 
