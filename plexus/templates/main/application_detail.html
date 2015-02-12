@@ -52,20 +52,17 @@
 </ul>
 {% endif %}
 
-
-{% if object.graphite_name %}
-<h2>Smoketests</h2>
-<div id="smoketests">passed/run</div>
-
 {% if request.user.is_staff %}
 <h2>Notes</h2>
 
 
 
-<a href="#add-note" role="button" class="btn" data-toggle="modal">Add Note</a>
+<a href="#add-note" role="button" class="btn" data-toggle="modal" data-toggle="#add-note">Add Note</a>
 
 <form action="{% url 'add-application-note' object.id %}" method="post">
-	<div class="modal hide" id="add-note" tabindex="-1" role="dialog" aria-labelledby="add-note-label" aria-hidden="true">
+	<div class="modal fade" id="add-note" tabindex="-1" role="dialog" aria-labelledby="add-note-label" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 			<h3 id="add-note-label">Add Note</h3>
@@ -80,6 +77,8 @@
 			<button class="btn btn-primary">Add Note</button>
 		</div>
 	</div>
+</div>
+</div>
 </form>
 
 {% if object.applicationnote_set.exists %}
@@ -93,6 +92,12 @@
 {% endfor %}
 
 {% endif %}
+
+
+{% if object.graphite_name %}
+<h2>Smoketests</h2>
+<div id="smoketests">passed/run</div>
+
 {% endif %}
 
 
