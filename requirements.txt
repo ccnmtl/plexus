@@ -40,6 +40,7 @@ sqlparse==0.1.13
 gunicorn==19.1.1
 boto==2.34.0
 six==1.8.0
+python-dateutil==2.4.0
 
 djangowind==0.13.2
 django-indexer==0.3.0
