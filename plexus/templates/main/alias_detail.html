@@ -45,12 +45,16 @@
 
 {% if object.can_request_dns_change %}
 {% if request.user.is_staff %}
-<a href="#requestAlias" role="button" class="btn" data-toggle="modal">Request Alias Change</a>
+<a href="#requestAlias" role="button" class="btn" data-toggle="modal" data-target="#requestAlias">Request Alias Change</a>
 
 	<form action="request_alias_change/" method="post">
-		<div class="modal hide" id="requestAlias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		<div class="modal fade" id="requestAlias" tabindex="-1"
+				 role="dialog" aria-labelledby="myModalLabel"
+				 aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel1">Request Alias Change for {{object.hostname}}</h3>
   </div>
   <div class="modal-body">
@@ -79,6 +83,8 @@
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     <button class="btn btn-primary">Request Alias Change</button>
   </div>
+</div>
+</div>
 </div>
 	</form>
 
