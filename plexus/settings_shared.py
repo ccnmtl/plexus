@@ -34,18 +34,13 @@ if 'test' in sys.argv or 'jenkins' in sys.argv:
         }
     }
 
-NOSE_ARGS = [
-    '--with-coverage',
-    '--cover-package=plexus',
-]
-
 JENKINS_TASKS = (
     'django_jenkins.tasks.run_pep8',
     'django_jenkins.tasks.run_pyflakes',
 )
 
 PROJECT_APPS = ['plexus.main', ]
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
 USE_TZ = True
 TIME_ZONE = 'America/New_York'
@@ -62,28 +57,26 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.template.context_processors.debug',
+    'django.template.context_processors.request',
     'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
     'djangowind.context.context_processor',
     'stagingcontext.staging_processor',
-    'django.core.context_processors.request',
-    'django.core.context_processors.static',
+    'django.template.context_processors.static',
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django_statsd.middleware.GraphiteRequestTimingMiddleware',
     'django_statsd.middleware.GraphiteMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
-    'django.middleware.transaction.TransactionMiddleware',
     'impersonate.middleware.ImpersonateMiddleware',
     'waffle.middleware.WaffleMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'plexus.urls'
@@ -102,7 +95,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-    'django_nose',
     'compressor',
     'django_statsd',
     'bootstrapform',
