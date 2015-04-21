@@ -16,32 +16,24 @@ from plexus.main.models import ServerContact
 
 
 class LocationFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = Location
-
+    FACTORY_FOR = Location
     name = "test"
     details = "test location"
 
 
 class OSFamilyFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = OSFamily
-
+    FACTORY_FOR = OSFamily
     name = "test os family"
 
 
 class OperatingSystemFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = OperatingSystem
-
+    FACTORY_FOR = OperatingSystem
     family = factory.SubFactory(OSFamilyFactory)
     version = "1.0"
 
 
 class ServerFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = Server
-
+    FACTORY_FOR = Server
     name = "test server"
     virtual = False
     location = factory.SubFactory(LocationFactory)
@@ -49,59 +41,45 @@ class ServerFactory(factory.DjangoModelFactory):
 
 
 class IPAddressFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = IPAddress
-
+    FACTORY_FOR = IPAddress
     ipv4 = "127.0.0.1"
     mac_addr = "00:16:3e:e3:61:53"
     server = factory.SubFactory(ServerFactory)
 
 
 class AliasFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = Alias
-
+    FACTORY_FOR = Alias
     hostname = "foo.example.com"
     ip_address = factory.SubFactory(IPAddressFactory)
     status = "active"
 
 
 class VMLocationFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = VMLocation
-
+    FACTORY_FOR = VMLocation
     dom_u = factory.SubFactory(ServerFactory)
     dom_0 = factory.SubFactory(ServerFactory)
 
 
 class ContactFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = Contact
-
+    FACTORY_FOR = Contact
     name = "anders"
     email = "anders@columbia.edu"
     phone = "4-1813"
 
 
 class AliasContactFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = AliasContact
-
+    FACTORY_FOR = AliasContact
     alias = factory.SubFactory(AliasFactory)
     contact = factory.SubFactory(ContactFactory)
 
 
 class TechnologyFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = Technology
-
+    FACTORY_FOR = Technology
     name = "Django"
 
 
 class ApplicationFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = Application
-
+    FACTORY_FOR = Application
     name = "Test Application"
     description = "A Description"
     technology = factory.SubFactory(TechnologyFactory)
@@ -111,24 +89,18 @@ class ApplicationFactory(factory.DjangoModelFactory):
 
 
 class ApplicationAliasFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = ApplicationAlias
-
+    FACTORY_FOR = ApplicationAlias
     application = factory.SubFactory(ApplicationFactory)
     alias = factory.SubFactory(AliasFactory)
 
 
 class ApplicationContactFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = ApplicationContact
-
+    FACTORY_FOR = ApplicationContact
     application = factory.SubFactory(ApplicationFactory)
     contact = factory.SubFactory(ContactFactory)
 
 
 class ServerContactFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = ServerContact
-
+    FACTORY_FOR = ServerContact
     server = factory.SubFactory(ServerFactory)
     contact = factory.SubFactory(ContactFactory)

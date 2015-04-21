@@ -11,16 +11,13 @@ class AliasForm(ModelForm):
 class ContactForm(ModelForm):
     class Meta:
         model = Contact
-        fields = '__all__'
 
 
 class ServerForm(ModelForm):
     class Meta:
         model = Server
-        fields = '__all__'
 
 
 class ApplicationForm(ModelForm):
     class Meta:
         model = Application
-        fields = '__all__'
