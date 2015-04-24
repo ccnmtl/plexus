@@ -31,6 +31,13 @@ DATABASES = {
         }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    }
+}
+
 AWS_S3_CUSTOM_DOMAIN = "d35pxobnzf6ttf.cloudfront.net"
 AWS_STORAGE_BUCKET_NAME = "ccnmtl-plexus-static-prod"
 AWS_PRELOAD_METADATA = True

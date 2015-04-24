@@ -22,6 +22,13 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'plexus',
+    }
+}
+
 if 'test' in sys.argv or 'jenkins' in sys.argv:
     DATABASES = {
         'default': {
@@ -67,6 +74,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -77,6 +85,7 @@ MIDDLEWARE_CLASSES = (
     'impersonate.middleware.ImpersonateMiddleware',
     'waffle.middleware.WaffleMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 ROOT_URLCONF = 'plexus.urls'
