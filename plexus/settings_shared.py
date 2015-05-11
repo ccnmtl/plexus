@@ -99,7 +99,6 @@ INSTALLED_APPS = [
     'django_statsd',
     'bootstrapform',
     'bootstrap3',
-    'lettuce.django',
     'template_utils',
     'plexus.main',
     'debug_toolbar',
@@ -121,10 +120,6 @@ DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.template.TemplateDebugPanel',
     'debug_toolbar.panels.sql.SQLDebugPanel',
     'debug_toolbar.panels.signals.SignalDebugPanel',
-)
-
-LETTUCE_APPS = (
-    'plexus.main',
 )
 
 
