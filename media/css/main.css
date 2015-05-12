@@ -10,7 +10,7 @@ body {
 body > .container {
   background-color: #fff;
   min-height: 100%;
-  padding-top: 75px;
+  padding-top: 20px;
 }
 
 #content {
@@ -31,13 +31,8 @@ body > .container {
 
 .loginbox-container {
     float: right;
-    height: 265px;
-    margin-top: 10px;
 }
 
-.loginbox-container.columbia {
-    height: 300px;
-}
 .loginbox
 {
     display: block;
