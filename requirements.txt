@@ -35,7 +35,7 @@ urllib3==1.7.1
 httpretty==0.8.0
 sqlparse==0.1.14
 gunicorn==19.3.0
-boto==2.36.0
+boto==2.38.0
 six==1.9.0
 python-dateutil==2.4.0
 
