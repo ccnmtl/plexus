@@ -6,7 +6,7 @@ Markdown==2.6.1
 uuid==1.30
 psycopg2==2.5.4
 versiontools==1.9.1
-statsd==3.0.1
+statsd==3.1
 BeautifulSoup==3.2.1
 cssselect==0.9.1
 lxml==3.2.3
