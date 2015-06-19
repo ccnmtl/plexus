@@ -10,12 +10,12 @@
 {% endwith %}
 
 <h3>Eth0 in + Eth0 out</h3>
-{% with metric="nonNegativeDerivative("|add:metric_base|add:".network.eth0.receive.byte_count)&target=nonNegativeDerivative("|add:metric_base|add:".network.eth0.transmit.byte_count)" %}
+{% with metric="scale(nonNegativeDerivative("|add:metric_base|add:".network.eth0.receive.byte_count),-1)&target=nonNegativeDerivative("|add:metric_base|add:".network.eth0.transmit.byte_count)" %}
 {% include "main/graphite_graph.html" %}
 {% endwith %}
 
 <h3>Swap in + out</h3>
-{% with metric="nonNegativeDerivative("|add:metric_base|add:".vmstat.swap.in)&target=nonNegativeDerivative("|add:metric_base|add:".vmstat.swap.out)" %}
+{% with metric="scale(nonNegativeDerivative("|add:metric_base|add:".vmstat.swap.in),-1)&target=nonNegativeDerivative("|add:metric_base|add:".vmstat.swap.out)" %}
 {% include "main/graphite_graph.html" %}
 {% endwith %}
 
