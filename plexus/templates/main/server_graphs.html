@@ -4,13 +4,14 @@
 {% with metric=metric_base|add:".cpu.load_average.1_minute" %}
 {% include "main/graphite_graph.html" %}
 {% endwith %}
-<h3>Free Mem</h3>
-{% with metric=metric_base|add:".memory.MemFree.percent" %}
-{% include "main/graphite_graph.html" %}
-{% endwith %}
 
 <h3>Eth0 in + Eth0 out</h3>
 {% with metric="scale(nonNegativeDerivative("|add:metric_base|add:".network.eth0.receive.byte_count),-1)&target=nonNegativeDerivative("|add:metric_base|add:".network.eth0.transmit.byte_count)" %}
+{% include "main/graphite_graph.html" %}
+{% endwith %}
+
+<h3>Free Mem</h3>
+{% with metric=metric_base|add:".memory.MemFree.percent" %}
 {% include "main/graphite_graph.html" %}
 {% endwith %}
 
