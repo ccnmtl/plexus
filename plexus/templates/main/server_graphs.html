@@ -1,0 +1,31 @@
+{% with metric_base="ccnmtl.server."|add:graphite_name %}
+
+<h3>Load Avg</h3>
+{% with metric=metric_base|add:".cpu.load_average.1_minute" %}
+{% include "main/graphite_graph.html" %}
+{% endwith %}
+
+<h3>Eth0 in + Eth0 out</h3>
+{% with metric="scale(nonNegativeDerivative("|add:metric_base|add:".network.eth0.receive.byte_count),-1)&target=nonNegativeDerivative("|add:metric_base|add:".network.eth0.transmit.byte_count)" %}
+{% include "main/graphite_graph.html" %}
+{% endwith %}
+
+<h3>Free Mem</h3>
+{% with metric=metric_base|add:".memory.MemFree.percent" %}
+{% include "main/graphite_graph.html" %}
+{% endwith %}
+
+<h3>Swap in + out</h3>
+{% with metric="scale(nonNegativeDerivative("|add:metric_base|add:".vmstat.swap.in),-1)&target=nonNegativeDerivative("|add:metric_base|add:".vmstat.swap.out)" %}
+{% include "main/graphite_graph.html" %}
+{% endwith %}
+
+<h3>Disk Available (%)</h3>
+{% with ymax="&yMax=100.0" ymin="&yMin=0.0" %}
+{% with metric="asPercent("|add:metric_base|add:".disk.usage.available,"|add:metric_base|add:".disk.usage.total)&target=scale(offset(asPercent("|add:metric_base|add:".disk.inode.used,"|add:metric_base|add:".disk.inode.total),-100),-1)" %}
+{% include "main/graphite_graph.html" %}
+{% endwith %}
+{% endwith %}
+
+{% endwith %}
+

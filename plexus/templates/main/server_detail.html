@@ -260,7 +260,9 @@
 
 {% if object.graphite_name %}
 <h2>Graphs</h2>
-
+{% with graphite_base="https://nanny-render.cul.columbia.edu/render/" %}
+{% with graphite_name=object.graphite_name %}
+{% with width=900 height=200 %}
 <ul class="nav nav-tabs">
   <li><a href="#daily" data-toggle="tab">Daily</a></li>
   <li><a href="#weekly" data-toggle="tab">Weekly</a></li>
@@ -270,106 +272,31 @@
 
 <div class="tab-content">
   <div class="tab-pane active" id="daily">
-    <div id="graphs-daily"></div>
+{% with from="-24hours" %}
+    {% include "main/server_graphs.html" %}
+{% endwith %}
   </div>
   <div class="tab-pane" id="weekly">
-    <div id="graphs-weekly"></div>
+{% with from="-7days" %}
+    {% include "main/server_graphs.html" %}
+{% endwith %}
   </div>
   <div class="tab-pane" id="monthly">
-    <div id="graphs-monthly"></div>
+{% with from="-4weeks" %}
+    {% include "main/server_graphs.html" %}
+{% endwith %}
   </div>
   <div class="tab-pane" id="yearly">
-   <div id="graphs-yearly"></div>
+{% with from="-1years" %}
+    {% include "main/server_graphs.html" %}
+{% endwith %}
   </div>
 </div>
+{% endwith %}
+{% endwith %}
+{% endwith %}
 {% endif %}
 
 
-{% endblock %}
-
-{% block js %}
-{% if object.graphite_name %}
-<script src="{{STATIC_URL}}js/d3.v2.min.js"></script>
-<script src="{{STATIC_URL}}js/cubism.v1.min.js"></script>
-<script>
-
-var makegraphs = function (el, size, step) {
-var context = cubism.context(), // a default context
-      graphite = context.graphite("");
-  
-  context.size(size).step(step);
-  
-  var metric_base = "ccnmtl.server.{{object.graphite_name}}";
-  
-  var metric_defs = [
-    {
-      metric: metric_base + ".cpu.load_average.1_minute",
-      alias: "Load Avg"
-    },
-    {
-      metric: metric_base + ".memory.MemFree.percent",
-      alias: "Free Mem"
-    },
-    {
-      metric: "nonNegativeDerivative(" + metric_base + ".network.eth0.receive.byte_count)",
-      alias: "Eth0 in"
-    },
-    {
-      metric: "nonNegativeDerivative(" + metric_base + ".network.eth0.transmit.byte_count)",
-      alias: "Eth0 out"
-    },
-    {
-      metric: "nonNegativeDerivative(" + metric_base + ".vmstat.swap.in)",
-      alias: "Swap in"
-    },
-    {
-      metric: "nonNegativeDerivative(" + metric_base + ".vmstat.swap.out)",
-      alias: "Swap out"
-    },
-    {
-      metric: "asPercent(" + metric_base + ".disk.usage.available," + metric_base + ".disk.usage.total)",
-      alias: "Disk Available (%)"
-    },
-    {
-      metric: "asPercent(" + metric_base + ".disk.inode.used," + metric_base + ".disk.inode.total)",
-      alias: "Inodes Used (%)"
-    }
-
-  ];
-  
-  var gmetric = function(metric_def) {
-     return graphite.metric(metric_def.metric).alias(metric_def.alias);
-  };
-  
-  var metrics = metric_defs.map(gmetric);
-  
-  d3.select(el).call(function(div) {
-    div.append("div")
-        .attr("class", "axis")
-        .call(context.axis().orient("top"));
-  
-    div.selectAll(".horizon")
-      .data([metrics[0], metrics[1],
-             metrics[2].add(metrics[3]),
-             metrics[4].add(metrics[5]),
-             metrics[6], metrics[7]])
-      .enter().append("div")
-        .attr("class", "horizon")
-        
-        .call(context.horizon()
-          .colors(["#08519c", "#*82bd", "#6baed6", "#fee6ce", "#fdae6b", "#e6550d" ])
-          .height(120));
-  });
-};
-
-(function () {
-  var width = $("#graphs-daily").width();
-  window.makegraphs("#graphs-daily", width, 1e5);
-  window.makegraphs("#graphs-weekly", width, 7e5);
-  window.makegraphs("#graphs-monthly", width, 30e5);
-  window.makegraphs("#graphs-yearly", width, 365e5);
-}());
-</script>
-{% endif %}
 {% endblock %}
 
