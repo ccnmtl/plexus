@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1>Servers</h1>
+<a id="servers"></a><h1>Servers</h1>
 <table class="table table-striped table-condensed table-bordered">
 	<thead>
 		<tr>
@@ -44,7 +44,7 @@
 <p><a href="/add_server/" class="btn">Add Server</a></p>
 {% endif %}
 
-<h1>Aliases</h1>
+<a id="aliases"></a><h1>Aliases</h1>
 <table class="table table-striped table-condensed table-bordered">
 	<thead>
 		<tr>
@@ -71,7 +71,7 @@
 	</tbody>
 </table>
 
-<h1>Applications</h1>
+<a id="applications"></a><h1>Applications</h1>
 {% if request.user.is_staff %}
 <p><a href="/add_application/" class="btn">Add Application</a></p>
 {% endif %}
