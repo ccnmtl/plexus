@@ -67,6 +67,7 @@
 {% if object.virtual %}
 {% if object.dom_u.count %}
 {% else %}
+{% if request.user.is_staff %}
 <form action="associate_dom0/" method="post" class="form form-inline">
 <label>associate with a dom0:
 	<select name="dom0">
@@ -76,6 +77,7 @@
 	</select>
 	<input type="submit" value="associate" class="btn btn-primary" />
 </form>
+{% endif %}
 {% endif %}
 {% endif %}
 {% endif %}
