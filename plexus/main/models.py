@@ -119,7 +119,11 @@ class Contact(models.Model):
 class Alias(models.Model):
     hostname = models.CharField(max_length=256)
     ip_address = models.ForeignKey(IPAddress, null=True)
-    status = models.CharField(max_length=256, default=u"active")
+    status = models.CharField(
+        max_length=256, default=u"active",
+        choices=[("active", "active"), ("pending", "pending"),
+                 ("deprecated", "deprecated")]
+    )
     description = models.TextField(blank=True, default=u"")
     administrative_info = models.TextField(
         blank=True,
