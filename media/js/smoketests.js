@@ -4,7 +4,10 @@
         "use strict";
         r = r.replace(/\s+/g, '');
         var parts = r.split("|");
-        var results = parts[1].split(",");
+        var results = [];
+        if (parts.length > 1) {
+            results = parts[1].split(",");
+        }
         var found = 0.0;
         for (var i = 0; i < results.length; i++) {
             if (results[i].replace(/ /g, '') !== "None") {
