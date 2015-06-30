@@ -219,6 +219,15 @@ class DashboardTest(TestCase):
         response = self.c.get("/dashboard/500s/")
         self.assertEquals(response.status_code, 200)
 
+    def test_empty_traffic(self):
+        response = self.c.get("/dashboard/traffic/")
+        self.assertEquals(response.status_code, 200)
+
+    def test_traffic(self):
+        ApplicationFactory(graphite_name='foo')
+        response = self.c.get("/dashboard/traffic/")
+        self.assertEquals(response.status_code, 200)
+
 
 class LoggedInTest(TestCase):
     def setUp(self):

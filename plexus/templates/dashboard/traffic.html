@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% with graphite_base="https://nanny-render.cul.columbia.edu/render/" %}
+{% with width=900 height=200 %}
+{% with from="-24hours" %}
+
+{% for application in object_list %}
+{% if application.graphite_name %}
+<h3>{{application.name}}</h3>
+
+{% with metric_base="ccnmtl.app.counters.nginx."|add:application.graphite_name %}
+{% with metric="sumSeries("|add:metric_base|add:".status.*.count)" %}
+{% include "main/graphite_graph.html" %}
+{% endwith %}
+{% endwith %}
+{% endif %}
+{% endfor %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+{% endblock %}

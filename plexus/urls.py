@@ -83,6 +83,11 @@ urlpatterns = patterns(
         template_name='dashboard/500s.html'),
         name='500s-dashboard'),
 
+    url(r'^dashboard/traffic/$', ListView.as_view(
+        model=Application,
+        template_name='dashboard/traffic.html'),
+        name='traffic-dashboard'),
+
     (r'^render', GraphiteProxyView.as_view()),
     (r'^metrics', GraphiteProxyView.as_view()),
 
