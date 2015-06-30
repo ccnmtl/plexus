@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Network Traffic. Eth0 In/Out</h2>
+{% with graphite_base="https://nanny-render.cul.columbia.edu/render/" %}
+{% with width=900 height=200 %}
+{% with from="-24hours" %}
+
+{% for server in object_list %}
+{% if server.graphite_name %}
+<h3>{{server.name}}</h3>
+
+{% with metric_base="ccnmtl.server."|add:server.graphite_name %}
+{% with metric="scale(nonNegativeDerivative("|add:metric_base|add:".network.eth0.receive.byte_count),-1)&target=nonNegativeDerivative("|add:metric_base|add:".network.eth0.transmit.byte_count)" %}
+
+{% include "main/graphite_graph.html" %}
+{% endwith %}
+{% endwith %}
+{% endif %}
+{% endfor %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+{% endblock %}

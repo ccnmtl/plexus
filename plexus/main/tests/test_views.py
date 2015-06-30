@@ -255,6 +255,15 @@ class DashboardTest(TestCase):
         response = self.c.get("/dashboard/response_times/")
         self.assertEquals(response.status_code, 200)
 
+    def test_network_empty(self):
+        response = self.c.get("/dashboard/network/")
+        self.assertEquals(response.status_code, 200)
+
+    def test_network(self):
+        ServerFactory(graphite_name='foo')
+        response = self.c.get("/dashboard/network/")
+        self.assertEquals(response.status_code, 200)
+
 
 class LoggedInTest(TestCase):
     def setUp(self):
