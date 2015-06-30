@@ -206,6 +206,20 @@ class SimpleTest(TestCase):
         self.assertEqual(response.status_code, 302)
 
 
+class DashboardTest(TestCase):
+    def setUp(self):
+        self.c = Client()
+
+    def test_empty_500s(self):
+        response = self.c.get("/dashboard/500s/")
+        self.assertEquals(response.status_code, 200)
+
+    def test_500s(self):
+        ApplicationFactory(graphite_name='foo')
+        response = self.c.get("/dashboard/500s/")
+        self.assertEquals(response.status_code, 200)
+
+
 class LoggedInTest(TestCase):
     def setUp(self):
         self.c = Client()

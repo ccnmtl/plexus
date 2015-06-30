@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
-from django.views.generic import TemplateView, DetailView, UpdateView
+from django.views.generic import (
+    TemplateView, DetailView, UpdateView, ListView)
 from plexus.main.models import Location, OperatingSystem, Server
 from plexus.main.models import OSFamily, Application, Contact
 from plexus.main.models import Alias
@@ -76,6 +77,11 @@ urlpatterns = patterns(
      DetailView.as_view(model=OperatingSystem)),
 
     (r'^location/(?P<pk>\d+)/$', DetailView.as_view(model=Location)),
+
+    url(r'^dashboard/500s/$', ListView.as_view(
+        model=Application,
+        template_name='dashboard/500s.html'),
+        name='500s-dashboard'),
 
     (r'^render', GraphiteProxyView.as_view()),
     (r'^metrics', GraphiteProxyView.as_view()),
