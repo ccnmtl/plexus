@@ -82,7 +82,10 @@ urlpatterns = patterns(
         model=Application,
         template_name='dashboard/500s.html'),
         name='500s-dashboard'),
-
+    url(r'^dashboard/404s/$', ListView.as_view(
+        model=Application,
+        template_name='dashboard/404s.html'),
+        name='404s-dashboard'),
     url(r'^dashboard/traffic/$', ListView.as_view(
         model=Application,
         template_name='dashboard/traffic.html'),
