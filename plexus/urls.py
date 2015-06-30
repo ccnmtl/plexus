@@ -101,6 +101,10 @@ urlpatterns = patterns(
         model=Server,
         template_name='dashboard/load.html'),
         name='load-dashboard'),
+    url(r'^dashboard/disk/$', ListView.as_view(
+        model=Server,
+        template_name='dashboard/disk.html'),
+        name='disk-dashboard'),
 
     (r'^render', GraphiteProxyView.as_view()),
     (r'^metrics', GraphiteProxyView.as_view()),
