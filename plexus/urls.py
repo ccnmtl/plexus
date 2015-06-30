@@ -100,15 +100,15 @@ urlpatterns = patterns(
         template_name='dashboard/response_time.html'),
         name='response-time-dashboard'),
     url(r'^dashboard/load/$', ListView.as_view(
-        model=Server,
+        queryset=Server.objects.filter(deprecated=False),
         template_name='dashboard/load.html'),
         name='load-dashboard'),
     url(r'^dashboard/disk/$', ListView.as_view(
-        model=Server,
+        queryset=Server.objects.filter(deprecated=False),
         template_name='dashboard/disk.html'),
         name='disk-dashboard'),
     url(r'^dashboard/network/$', ListView.as_view(
-        model=Server,
+        queryset=Server.objects.filter(deprecated=False),
         template_name='dashboard/network.html'),
         name='network-dashboard'),
 
