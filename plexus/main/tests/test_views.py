@@ -211,57 +211,57 @@ class DashboardTest(TestCase):
         self.c = Client()
 
     def test_empty_500s(self):
-        response = self.c.get("/dashboard/500s/")
+        response = self.c.get(reverse('500s-dashboard'))
         self.assertEquals(response.status_code, 200)
 
     def test_500s(self):
         ApplicationFactory(graphite_name='foo')
-        response = self.c.get("/dashboard/500s/")
+        response = self.c.get(reverse('500s-dashboard'))
         self.assertEquals(response.status_code, 200)
 
     def test_empty_404s(self):
-        response = self.c.get("/dashboard/404s/")
+        response = self.c.get(reverse('404s-dashboard'))
         self.assertEquals(response.status_code, 200)
 
     def test_404s(self):
         ApplicationFactory(graphite_name='foo')
-        response = self.c.get("/dashboard/404s/")
+        response = self.c.get(reverse('404s-dashboard'))
         self.assertEquals(response.status_code, 200)
 
     def test_empty_traffic(self):
-        response = self.c.get("/dashboard/traffic/")
+        response = self.c.get(reverse('traffic-dashboard'))
         self.assertEquals(response.status_code, 200)
 
     def test_traffic(self):
         ApplicationFactory(graphite_name='foo')
-        response = self.c.get("/dashboard/traffic/")
+        response = self.c.get(reverse('traffic-dashboard'))
         self.assertEquals(response.status_code, 200)
 
     def test_empty_response_times(self):
-        response = self.c.get("/dashboard/response_times/")
+        response = self.c.get(reverse('response-time-dashboard'))
         self.assertEquals(response.status_code, 200)
 
     def test_response_times(self):
         ApplicationFactory(graphite_name='foo')
-        response = self.c.get("/dashboard/response_times/")
+        response = self.c.get(reverse('response-time-dashboard'))
         self.assertEquals(response.status_code, 200)
 
     def test_load_average_empty(self):
-        response = self.c.get("/dashboard/load/")
+        response = self.c.get(reverse('load-dashboard'))
         self.assertEquals(response.status_code, 200)
 
     def test_load_average(self):
         ServerFactory(graphite_name='foo')
-        response = self.c.get("/dashboard/response_times/")
+        response = self.c.get(reverse('load-dashboard'))
         self.assertEquals(response.status_code, 200)
 
     def test_network_empty(self):
-        response = self.c.get("/dashboard/network/")
+        response = self.c.get(reverse('network-dashboard'))
         self.assertEquals(response.status_code, 200)
 
     def test_network(self):
         ServerFactory(graphite_name='foo')
-        response = self.c.get("/dashboard/network/")
+        response = self.c.get(reverse('network-dashboard'))
         self.assertEquals(response.status_code, 200)
 
 
