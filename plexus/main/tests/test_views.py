@@ -246,6 +246,15 @@ class DashboardTest(TestCase):
         response = self.c.get("/dashboard/response_times/")
         self.assertEquals(response.status_code, 200)
 
+    def test_load_average_empty(self):
+        response = self.c.get("/dashboard/load/")
+        self.assertEquals(response.status_code, 200)
+
+    def test_load_average(self):
+        ServerFactory(graphite_name='foo')
+        response = self.c.get("/dashboard/response_times/")
+        self.assertEquals(response.status_code, 200)
+
 
 class LoggedInTest(TestCase):
     def setUp(self):
