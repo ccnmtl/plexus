@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Dashboards</h2>
+
+<h3>Application Dashboards</h3>
+
+<ul>
+<li><a href="{% url '500s-dashboard' %}">500 Errors</a></li>
+<li><a href="{% url '404s-dashboard' %}">404 Errors</a></li>
+<li><a href="{% url 'traffic-dashboard' %}">Total Traffic</a></li>
+<li><a href="{% url 'response-time-dashboard' %}">Response Times</a></li>
+</ul>
+
+<h3>Server Dashboards</h3>
+<ul>
+<li><a href="{% url 'load-dashboard' %}">Load Average</a></li>
+<li><a href="{% url 'disk-dashboard' %}">Disk Available</a></li>
+<li><a href="{% url 'network-dashboard' %}">Network Traffic</a></li>
+</ul>
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Load Average</h2>
+{% with graphite_base="https://nanny-render.cul.columbia.edu/render/" %}
+{% with width=900 height=200 %}
+{% with from="-24hours" %}
+
+{% for server in object_list %}
+{% if server.graphite_name %}
+<h3><a href="{% url 'server-detail' server.id %}">{{server.name}}</a></h3>
+
+{% with metric_base="ccnmtl.server."|add:server.graphite_name %}
+{% with metric=metric_base|add:".cpu.load_average.1_minute" %}
+{% include "main/graphite_graph.html" %}
+{% endwith %}
+{% endwith %}
+{% endif %}
+{% endfor %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+{% endblock %}

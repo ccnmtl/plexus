@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.conf import settings
-from django.views.generic import TemplateView, DetailView, UpdateView
+from django.views.generic import (
+    TemplateView, DetailView, UpdateView, ListView)
 from plexus.main.models import Location, OperatingSystem, Server
 from plexus.main.models import OSFamily, Application, Contact
 from plexus.main.models import Alias
@@ -34,7 +35,8 @@ urlpatterns = patterns(
     logout_page,
     (r'^$', IndexView.as_view()),
     (r'^add_server/$', AddServerView.as_view()),
-    (r'^server/(?P<pk>\d+)/$', DetailView.as_view(model=Server)),
+    url(r'^server/(?P<pk>\d+)/$', DetailView.as_view(model=Server),
+        name="server-detail"),
     (r'^server/(?P<pk>\d+)/edit/$',
      UpdateView.as_view(model=Server,
                         form_class=ServerForm)),
@@ -64,7 +66,8 @@ urlpatterns = patterns(
                         form_class=ContactForm)),
 
     (r'^add_application/$', AddApplicationView.as_view()),
-    (r'^application/(?P<pk>\d+)/$', DetailView.as_view(model=Application)),
+    url(r'^application/(?P<pk>\d+)/$', DetailView.as_view(model=Application),
+        name="application-detail"),
     (r'^application/(?P<pk>\d+)/edit/$',
      UpdateView.as_view(model=Application, form_class=ApplicationForm)),
     url(r'^application/(?P<pk>\d+)/add_note/$',
@@ -76,6 +79,38 @@ urlpatterns = patterns(
      DetailView.as_view(model=OperatingSystem)),
 
     (r'^location/(?P<pk>\d+)/$', DetailView.as_view(model=Location)),
+
+    url(r'^dashboard/$', TemplateView.as_view(
+        template_name="dashboard/index.html"),
+        name="dashboard-index"),
+    url(r'^dashboard/500s/$', ListView.as_view(
+        model=Application,
+        template_name='dashboard/500s.html'),
+        name='500s-dashboard'),
+    url(r'^dashboard/404s/$', ListView.as_view(
+        model=Application,
+        template_name='dashboard/404s.html'),
+        name='404s-dashboard'),
+    url(r'^dashboard/traffic/$', ListView.as_view(
+        model=Application,
+        template_name='dashboard/traffic.html'),
+        name='traffic-dashboard'),
+    url(r'^dashboard/response_times/$', ListView.as_view(
+        model=Application,
+        template_name='dashboard/response_time.html'),
+        name='response-time-dashboard'),
+    url(r'^dashboard/load/$', ListView.as_view(
+        model=Server,
+        template_name='dashboard/load.html'),
+        name='load-dashboard'),
+    url(r'^dashboard/disk/$', ListView.as_view(
+        model=Server,
+        template_name='dashboard/disk.html'),
+        name='disk-dashboard'),
+    url(r'^dashboard/network/$', ListView.as_view(
+        model=Server,
+        template_name='dashboard/network.html'),
+        name='network-dashboard'),
 
     (r'^render', GraphiteProxyView.as_view()),
     (r'^metrics', GraphiteProxyView.as_view()),
