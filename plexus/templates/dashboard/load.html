@@ -9,7 +9,7 @@
 
 {% for server in object_list %}
 {% if server.graphite_name %}
-<h3>{{server.name}}</h3>
+<h3><a href="{% url 'server-detail' server.id %}">{{server.name}}</a></h3>
 
 {% with metric_base="ccnmtl.server."|add:server.graphite_name %}
 {% with metric=metric_base|add:".cpu.load_average.1_minute" %}

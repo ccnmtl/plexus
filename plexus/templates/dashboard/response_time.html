@@ -8,7 +8,7 @@
 
 {% for application in object_list %}
 {% if application.graphite_name %}
-<h3>{{application.name}}</h3>
+<h3><a href="{% url 'application-detail' application.id %}">{{application.name}}</a></h3>
 
 {% with metric_base="ccnmtl.app.timers.nginx."|add:application.graphite_name %}
 {% with metric=metric_base|add:".request_time.upper_90" %}

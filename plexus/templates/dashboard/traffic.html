@@ -9,7 +9,7 @@
 
 {% for application in object_list %}
 {% if application.graphite_name %}
-<h3>{{application.name}}</h3>
+<h3><a href="{% url 'application-detail' application.id %}">{{application.name}}</a></h3>
 
 {% with metric_base="ccnmtl.app.counters.nginx."|add:application.graphite_name %}
 {% with metric="sumSeries("|add:metric_base|add:".status.*.count)" %}
