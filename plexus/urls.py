@@ -78,6 +78,9 @@ urlpatterns = patterns(
 
     (r'^location/(?P<pk>\d+)/$', DetailView.as_view(model=Location)),
 
+    url(r'^dashboard/$', TemplateView.as_view(
+        template_name="dashboard/index.html"),
+        name="dashboard-index"),
     url(r'^dashboard/500s/$', ListView.as_view(
         model=Application,
         template_name='dashboard/500s.html'),
