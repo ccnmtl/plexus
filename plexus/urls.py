@@ -90,6 +90,10 @@ urlpatterns = patterns(
         model=Application,
         template_name='dashboard/traffic.html'),
         name='traffic-dashboard'),
+    url(r'^dashboard/response_times/$', ListView.as_view(
+        model=Application,
+        template_name='dashboard/response_time.html'),
+        name='response-time-dashboard'),
 
     (r'^render', GraphiteProxyView.as_view()),
     (r'^metrics', GraphiteProxyView.as_view()),
