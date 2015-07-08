@@ -31,7 +31,7 @@ logilab-astng==0.24.3
 pylint==1.4.1
 factory_boy==2.5.1
 python-ldap==2.4.19
-urllib3==1.7.1
+urllib3==1.10.4
 httpretty==0.8.10
 sqlparse==0.1.14
 gunicorn==19.3.0
