@@ -61,5 +61,6 @@ django-markwhat==1.4
 django-impersonate==0.9.1
 django-storages==1.1.8
 django-ga-context==0.1.0
+django-cacheds3storage==0.1.1
 
 ccnmtlsettings==0.1.0
