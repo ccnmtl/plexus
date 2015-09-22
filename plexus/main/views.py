@@ -226,8 +226,8 @@ class GraphiteProxyView(View):
     point cubism.js at the graphite server, so we implement a very rudimentary
     HTTP proxy here """
     def get(self, request):
-        graphite_url = (settings.GRAPHITE_BASE + request.META['PATH_INFO']
-                        + "?" + request.META['QUERY_STRING'])
+        graphite_url = (settings.GRAPHITE_BASE + request.META['PATH_INFO'] +
+                        "?" + request.META['QUERY_STRING'])
         return HttpResponse(GET(graphite_url), content_type="text/plain")
 
 
