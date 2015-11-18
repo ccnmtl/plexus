@@ -33,7 +33,7 @@ pyflakes==0.9.2
 mccabe==0.3.1
 flake8==2.5.0
 unittest2==0.5.1
-logilab-common==1.0.2
+logilab-common==1.1.0
 logilab-astng==0.24.3
 pylint==1.4.4
 fake-factory==0.5.3
