@@ -1,0 +1,22 @@
+{
+    "indent": 4,
+    "white": true,
+    "trailing": true,
+    "undef": true,
+		"eqeqeq": true,
+    "browser": true,
+    "predef": [
+        "$",
+				"cubism",
+				"d3",
+        "define",
+        "jQuery",
+	"Backbone",
+	"alert",
+	"_",
+	"google",
+	"YT",
+	"onPlayerReady",
+	"onPlayerStateChange"
+    ]
+}
