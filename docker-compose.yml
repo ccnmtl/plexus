@@ -1,0 +1,13 @@
+db:
+  image: postgres
+web:
+  image: ccnmtl/plexus
+  environment:
+    - SETTINGS=settings_compose
+  command: run
+  volumes:
+    - .:/app/
+  ports:
+    - "8000:8000"
+  links:
+    - db
