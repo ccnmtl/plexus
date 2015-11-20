@@ -38,7 +38,8 @@ EMAIL_PORT = os.environ.get(
     'EMAIL_PORT',
     os.environ.get('POSTFIX_PORT_25_TCP_PORT', 25))
 
-SERVER_EMAIL = os.environ.get('SERVER_EMAIL', app + "@thraxil.org")
+SERVER_EMAIL = os.environ.get('SERVER_EMAIL',
+                              app + "@" + app + ".ccnmtl.columbia.edu")
 
 # -------------------------------------------
 
