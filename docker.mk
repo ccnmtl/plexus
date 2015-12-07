@@ -7,6 +7,7 @@
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 WHEELHOUSE ?= wheelhouse
 ORG ?= ccnmtl
+BUILDER_IMAGE ?= ccnmtl/django.build
 
 # make it easy to override the docker image created. eg:
 #     REGISTRY=localhost:5000/ TAG=release-5 make build
@@ -24,9 +25,11 @@ $(WHEELHOUSE)/requirements.txt: $(REQUIREMENTS)
 	docker run --rm \
 	-v $(ROOT_DIR):/app \
 	-v $(ROOT_DIR)/$(WHEELHOUSE):/wheelhouse \
-	ccnmtl/django.build
-	cp $(REQUIREMENTS) $(WHEELHOUSE)/requirements.txt
-	touch $(WHEELHOUSE)/requirements.txt
+	$(BUILDER_IMAGE)
+	cp $(REQUIREMENTS) $@
+	touch $@
 
 build: $(WHEELHOUSE)/requirements.txt
 	docker build -t $(IMAGE) .
+
+.PHONY: build
