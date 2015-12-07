@@ -3,7 +3,7 @@ MANAGE ?= ./manage.py
 FLAKE8 ?= $(VE)/bin/flake8
 REQUIREMENTS ?= requirements.txt
 
-jenkins: $(VE)/bin/python check test flake8 jshint jscs
+jenkins: check test flake8 jshint jscs
 
 $(VE)/bin/python: $(REQUIREMENTS) bootstrap.py virtualenv.py
 	./bootstrap.py
