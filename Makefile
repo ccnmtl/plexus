@@ -2,31 +2,32 @@ APP=plexus
 
 JS_FILES=media/js/makegraphs.js media/js/smoketests.js
 
+VE=./ve
 MANAGE=./manage.py
-FLAKE8=./ve/bin/flake8
+FLAKE8=$(VE)/bin/flake8
 
 
-jenkins: ./ve/bin/python check test flake8 jshint jscs
+jenkins: $(VE)/bin/python check test flake8 jshint jscs
 
-./ve/bin/python: requirements.txt bootstrap.py virtualenv.py
+$(VE)/bin/python: requirements.txt bootstrap.py virtualenv.py
 	./bootstrap.py
 
-test: ./ve/bin/python
+test: $(VE)/bin/python
 	$(MANAGE) jenkins --pep8-exclude=migrations --enable-coverage --coverage-rcfile=.coveragerc
 
-flake8: ./ve/bin/python
+flake8: $(VE)/bin/python
 	$(FLAKE8) $(APP) --max-complexity=8
 
-runserver: ./ve/bin/python check
+runserver: $(VE)/bin/python check
 	$(MANAGE) runserver
 
-migrate: ./ve/bin/python check jenkins
+migrate: $(VE)/bin/python check jenkins
 	$(MANAGE) migrate
 
-check: ./ve/bin/python
+check: $(VE)/bin/python
 	$(MANAGE) check
 
-shell: ./ve/bin/python
+shell: $(VE)/bin/python
 	$(MANAGE) shell_plus
 
 jshint: node_modules/jshint/bin/jshint
@@ -67,7 +68,7 @@ rebase:
 # this out on a new machine to set up dev
 # database, etc. You probably *DON'T* want
 # to run it after that, though.
-install: ./ve/bin/python check jenkins
+install: $(VE)/bin/python check jenkins
 	createdb $(APP)
 	$(MANAGE) syncdb --noinput
 	make migrate
