@@ -2,32 +2,47 @@ VE ?= ./ve
 MANAGE ?= ./manage.py
 FLAKE8 ?= $(VE)/bin/flake8
 REQUIREMENTS ?= requirements.txt
+SYS_PYTHON ?= python
+PIP ?= $(VE)/bin/pip
+PY_SENTINAL ?= $(VE)/sentinal
+PYPI_URL ?= https://pypi.ccnmtl.columbia.edu/
+WHEEL_VERSION ?= 0.24.0
+VIRTUALENV ?= virtualenv.py
+SUPPORT_DIR ?= requirements/virtualenv_support/
+MAX_COMPLEXITY ?= 10
+INTERFACE ?= localhost
+RUNSERVER_PORT ?= 8000
 
 jenkins: check test flake8 jshint jscs
 
-$(VE)/bin/python: $(REQUIREMENTS) bootstrap.py virtualenv.py
-	./bootstrap.py
+$(PY_SENTINAL): $(REQUIREMENTS) $(VIRTUALENV) $(SUPPORT_DIR)*
+	rm -rf $(VE)
+	$(SYS_PYTHON) $(VIRTUALENV) --extra-search-dir=$(SUPPORT_DIR) --never-download $(VE)
+	$(PIP) install --index-url=$(PYPI_URL) wheel==$(WHEEL_VERSION)
+	$(PIP) install --use-wheel --no-deps --index-url=$(PYPI_URL) --requirement $(REQUIREMENTS)
+	$(SYS_PYTHON) $(VIRTUALENV) --relocatable $(VE)
+	touch $(PY_SENTINAL)
 
-test: $(VE)/bin/python
+test: $(PY_SENTINAL)
 	$(MANAGE) jenkins --pep8-exclude=migrations --enable-coverage --coverage-rcfile=.coveragerc
 
-flake8: $(VE)/bin/python
+flake8: $(PY_SENTINAL)
 	$(FLAKE8) $(APP) --max-complexity=8
 
-runserver: $(VE)/bin/python check
-	$(MANAGE) runserver
+runserver: check
+	$(MANAGE) runserver $(INTERFACE):$(RUNSERVER_PORT)
 
-migrate: $(VE)/bin/python check jenkins
+migrate: check jenkins
 	$(MANAGE) migrate
 
-check: $(VE)/bin/python
+check: $(PY_SENTINAL)
 	$(MANAGE) check
 
-shell: $(VE)/bin/python
+shell: $(PY_SENTINAL)
 	$(MANAGE) shell_plus
 
 clean:
-	rm -rf ve
+	rm -rf $(VE)
 	rm -rf media/CACHE
 	rm -rf reports
 	rm celerybeat-schedule
@@ -52,7 +67,7 @@ rebase:
 # this out on a new machine to set up dev
 # database, etc. You probably *DON'T* want
 # to run it after that, though.
-install: $(VE)/bin/python check jenkins
+install: jenkins
 	createdb $(APP)
 	$(MANAGE) syncdb --noinput
 	make migrate
