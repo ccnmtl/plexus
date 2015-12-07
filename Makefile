@@ -3,6 +3,8 @@ MANAGE=./manage.py
 APP=plexus
 FLAKE8=./ve/bin/flake8
 
+JS_FILES=media/js/makegraphs.js media/js/smoketests.js
+
 jenkins: ./ve/bin/python check test flake8 jshint jscs
 
 ./ve/bin/python: requirements.txt bootstrap.py virtualenv.py
@@ -27,10 +29,10 @@ shell: ./ve/bin/python
 	$(MANAGE) shell_plus
 
 jshint: node_modules/jshint/bin/jshint
-	./node_modules/jshint/bin/jshint --config=.jshintrc media/js/makegraphs.js media/js/smoketests.js
+	./node_modules/jshint/bin/jshint $(JS_FILES)
 
 jscs: node_modules/jscs/bin/jscs
-	./node_modules/jscs/bin/jscs media/js/makegraphs.js media/js/smoketests.js
+	./node_modules/jscs/bin/jscs $(JS_FILES)
 
 node_modules/jshint/bin/jshint:
 	npm install jshint --prefix .
