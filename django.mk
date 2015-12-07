@@ -21,13 +21,13 @@ $(PY_SENTINAL): $(REQUIREMENTS) $(VIRTUALENV) $(SUPPORT_DIR)*
 	$(PIP) install --index-url=$(PYPI_URL) wheel==$(WHEEL_VERSION)
 	$(PIP) install --use-wheel --no-deps --index-url=$(PYPI_URL) --requirement $(REQUIREMENTS)
 	$(SYS_PYTHON) $(VIRTUALENV) --relocatable $(VE)
-	touch $(PY_SENTINAL)
+	touch $@
 
 test: $(PY_SENTINAL)
 	$(MANAGE) jenkins --pep8-exclude=migrations --enable-coverage --coverage-rcfile=.coveragerc
 
 flake8: $(PY_SENTINAL)
-	$(FLAKE8) $(APP) --max-complexity=8
+	$(FLAKE8) $(APP) --max-complexity=$(MAX_COMPLEXITY)
 
 runserver: check
 	$(MANAGE) runserver $(INTERFACE):$(RUNSERVER_PORT)
@@ -47,6 +47,7 @@ clean:
 	rm -rf reports
 	rm celerybeat-schedule
 	rm .coverage
+	rm -rf node_modules
 	find . -name '*.pyc' -exec rm {} \;
 
 pull:
@@ -71,3 +72,5 @@ install: jenkins
 	createdb $(APP)
 	$(MANAGE) syncdb --noinput
 	make migrate
+
+.PHONY: jenkins test flake8 runserver migrate check shell clean pull rebase install
