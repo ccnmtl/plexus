@@ -1,9 +1,10 @@
-ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-MANAGE=./manage.py
 APP=plexus
-FLAKE8=./ve/bin/flake8
 
 JS_FILES=media/js/makegraphs.js media/js/smoketests.js
+
+MANAGE=./manage.py
+FLAKE8=./ve/bin/flake8
+
 
 jenkins: ./ve/bin/python check test flake8 jshint jscs
 
@@ -76,6 +77,8 @@ install: ./ve/bin/python check jenkins
 # knows whether it needs to rebuild the wheel directory or not
 # has the added advantage that it can just pip install
 # from that later on as well
+
+ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 wheelhouse/requirements.txt: requirements.txt
 	mkdir -p wheelhouse
