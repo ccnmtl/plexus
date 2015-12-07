@@ -5,11 +5,11 @@ JS_FILES=media/js/makegraphs.js media/js/smoketests.js
 VE=./ve
 MANAGE=./manage.py
 FLAKE8=$(VE)/bin/flake8
-
+REQUIREMENTS=requirements.txt
 
 jenkins: $(VE)/bin/python check test flake8 jshint jscs
 
-$(VE)/bin/python: requirements.txt bootstrap.py virtualenv.py
+$(VE)/bin/python: $(REQUIREMENTS) bootstrap.py virtualenv.py
 	./bootstrap.py
 
 test: $(VE)/bin/python
@@ -80,15 +80,17 @@ install: $(VE)/bin/python check jenkins
 # from that later on as well
 
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+WHEELHOUSE=wheelhouse
+ORG=ccnmtl
 
-wheelhouse/requirements.txt: requirements.txt
-	mkdir -p wheelhouse
+$(WHEELHOUSE)/requirements.txt: $(REQUIREMENTS)
+	mkdir -p $(WHEELHOUSE)
 	docker run --rm \
 	-v $(ROOT_DIR):/app \
-	-v $(ROOT_DIR)/wheelhouse:/wheelhouse \
+	-v $(ROOT_DIR)/$(WHEELHOUSE):/wheelhouse \
 	ccnmtl/django.build
-	cp requirements.txt wheelhouse/requirements.txt
-	touch wheelhouse/requirements.txt
+	cp $(REQUIREMENTS) $(WHEELHOUSE)/requirements.txt
+	touch $(WHEELHOUSE)/requirements.txt
 
-build: wheelhouse/requirements.txt
-	docker build -t ccnmtl/$(APP) .
+build: $(WHEELHOUSE)/requirements.txt
+	docker build -t $(ORG)/$(APP) .
