@@ -1,13 +1,21 @@
+# expect JS_FILES to be set from the main Makefile, but default
+# to everything in media/js otherwise.
 JS_FILES ?= media/js
 
-jshint: node_modules/jshint/bin/jshint
-	./node_modules/jshint/bin/jshint $(JS_FILES)
+NODE_MODULES ?= ./node_modules
+JS_SENTINAL ?= $(NODE_MODULES)/sentinal
+JSHINT ?= $(NODE_MODULES)/jshint/bin/jshint
+JSCS ?= $(NODE_MODULES)/jscs/bin/jscs
 
-jscs: node_modules/jscs/bin/jscs
-	./node_modules/jscs/bin/jscs $(JS_FILES)
+$(JS_SENTINAL): package.json
+	rm -rf $(NODE_MODULES)
+	npm install
+	touch $(JS_SENTINAL)
 
-node_modules/jshint/bin/jshint:
-	npm install jshint --prefix .
+jshint: $(JS_SENTINAL)
+	$(JSHINT) $(JS_FILES)
 
-node_modules/jscs/bin/jscs:
-	npm install jscs --prefix .
+jscs: $(JS_SENTINAL)
+	$(JSCS) $(JS_FILES)
+
+.PHONY: jshint jscs
