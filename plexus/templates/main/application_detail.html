@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load feeds %}
+{% load feedparser_tags %}
 {% load markup %}
 
 {% block content %}
@@ -141,12 +141,7 @@
 
 {% if object.pmt_id %}
 <h2>Recent PMT Activity</h2>
-{% parse_feed object.pmt_feed_url as pmt_feed %}
-{% for item in pmt_feed.entries %}
-<h4><a href="{{item.link}}">{{item.title}}</a></h4>
-{{item.description|safe}}
-{% endfor %}
-
+{% feedparser_render object.pmt_feed_url template='main/feed_view.html' %}
 
 {% endif %}
 

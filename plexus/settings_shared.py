@@ -1,6 +1,7 @@
 # Django settings for plexus project.
 import os.path
 from ccnmtlsettings.shared import common
+from django_feedparser.settings import *  # noqa
 
 project = 'plexus'
 base = os.path.dirname(__file__)
@@ -18,7 +19,7 @@ INSTALLED_APPS += [  # noqa
     'django.contrib.messages',
     'bootstrapform',
     'bootstrap3',
-    'template_utils',
+    'django_feedparser',
     'plexus.main',
 ]
 

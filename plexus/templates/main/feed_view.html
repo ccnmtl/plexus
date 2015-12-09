@@ -1,0 +1,6 @@
+{% for entry in feed_content.entries %}<hr>
+<div class="columns small-12 medium-centered">
+    <h4><a href="{{ entry.link }}">{{ entry.title }}</a></h4>
+    <p>{{ entry.summary|safe }}</p>
+</div>
+{% endfor %}
