@@ -12,6 +12,7 @@ SUPPORT_DIR ?= requirements/virtualenv_support/
 MAX_COMPLEXITY ?= 10
 INTERFACE ?= localhost
 RUNSERVER_PORT ?= 8000
+PY_DIRS ?= $(APP)
 
 jenkins: check test flake8 jshint jscs
 
@@ -27,7 +28,7 @@ test: $(PY_SENTINAL)
 	$(MANAGE) jenkins --pep8-exclude=migrations --enable-coverage --coverage-rcfile=.coveragerc
 
 flake8: $(PY_SENTINAL)
-	$(FLAKE8) $(APP) --max-complexity=$(MAX_COMPLEXITY)
+	$(FLAKE8) $(PY_DIRS) --max-complexity=$(MAX_COMPLEXITY)
 
 runserver: check
 	$(MANAGE) runserver $(INTERFACE):$(RUNSERVER_PORT)
