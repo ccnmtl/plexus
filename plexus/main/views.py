@@ -84,7 +84,7 @@ class AddServerView(View):
                 mac_addr=mac,
                 server=server,
             )
-            server.set_contacts(request.POST.get('contact', '').split(','))
+        server.set_contacts(request.POST.get('contact', '').split(','))
         return HttpResponseRedirect("/")
 
     def get(self, request):
