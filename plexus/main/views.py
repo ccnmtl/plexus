@@ -143,9 +143,8 @@ class RequestAliasChangeView(View):
         current_server = alias.ip_address.server
         current_ip_address = alias.ip_address
 
-        new_server_id = request.POST.get('new_server', None)
-        new_server = get_object_or_404(Server, id=new_server_id)
-        new_ip_address = new_server.ipaddress_set.all()[0]
+        new_ipaddress_id = request.POST.get('new_ipaddress', None)
+        new_ip_address = get_object_or_404(IPAddress, id=new_ipaddress_id)
 
         alias.ip_address = new_ip_address
         alias.status = "pending"
