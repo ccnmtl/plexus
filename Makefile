@@ -1,6 +1,6 @@
 APP=plexus
 
-JS_FILES=media/js/makegraphs.js media/js/smoketests.js
+JS_FILES=media/js/makegraphs.js
 MAX_COMPLEXITY=8
 
 all: jenkins

@@ -1,7 +1,6 @@
 --index-url https://pypi.ccnmtl.columbia.edu/
 Django==1.9.1
 httplib2==0.9.2
-restclient==0.11.0
 feedparser==5.2.1
 requests==2.8.1
 django-feedparser==0.1.2.ccnmtl
@@ -45,7 +44,6 @@ fake-factory==0.5.3
 factory_boy==2.6.0
 python-ldap==2.4.22
 urllib3==1.10.4
-httpretty==0.8.10
 sqlparse==0.1.18
 gunicorn==19.3.0
 boto==2.38.0

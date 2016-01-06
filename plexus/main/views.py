@@ -12,10 +12,9 @@ from plexus.main.models import (
     ApplicationNote,
 )
 
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.core.mail import send_mail
 from django.conf import settings
-from restclient import GET
 
 
 class LoggedInMixin(object):
@@ -219,16 +218,6 @@ class AddApplicationView(View):
             request,
             self.template_name,
             dict(all_technologies=Technology.objects.all()))
-
-
-class GraphiteProxyView(View):
-    """ cross-domain javascript security prevents us from being able to just
-    point cubism.js at the graphite server, so we implement a very rudimentary
-    HTTP proxy here """
-    def get(self, request):
-        graphite_url = (settings.GRAPHITE_BASE + request.META['PATH_INFO'] +
-                        "?" + request.META['QUERY_STRING'])
-        return HttpResponse(GET(graphite_url), content_type="text/plain")
 
 
 class AddServerNoteView(LoggedInMixin, View):
