@@ -12,7 +12,7 @@ from plexus.main.views import (
     IndexView, AliasDeleteView, AddServerView, AssociateDom0View,
     AddAliasView, RequestAliasView, AddApplicationView, AliasView,
     RequestAliasChangeView, AliasConfirmView,
-    AliasAssociateWithApplicationView, GraphiteProxyView,
+    AliasAssociateWithApplicationView,
     AddServerNoteView, AddApplicationNoteView,
 )
 
@@ -111,9 +111,6 @@ urlpatterns = patterns(
         queryset=Server.objects.filter(deprecated=False),
         template_name='dashboard/network.html'),
         name='network-dashboard'),
-
-    (r'^render', GraphiteProxyView.as_view()),
-    (r'^metrics', GraphiteProxyView.as_view()),
 
     (r'^admin/', include(admin.site.urls)),
     url(r'^impersonate/', include('impersonate.urls')),
