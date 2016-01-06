@@ -68,21 +68,21 @@
 		<label>New Server
 			<select name="new_ipaddress">
 				{% for server in all_servers %}
-				  {% ifequal server.ipaddress_set.count 1 %}
-            {% ifequal ipaddress.id server.ipaddress_set.0.id %}
+				  {% if server.ipaddress_set.count == 1 %}
+            {% if ipaddress.id == server.ipaddress_set.0.id %}
               {# skip current value #}
               {% else %}
 				      <option value="{{server.ipaddress_set.all.0.id}}">{{server.name}}</option>            
-            {% endifequal %}
+            {% endif %}
           {% else %}
             {% for ipaddress in server.ipaddress_set.all %}
-				      {% ifequal ipaddress.id object.ip_address.id %}
+				      {% if ipaddress.id == object.ip_address.id %}
                 {# skip current value #}
 				      {% else %}
 				        <option value="{{ipaddress.id}}">{{server.name}} [{{ipaddress.ipv4}}]</option>
-				      {% endifequal %}
+				      {% endif %}
             {% endfor %}
-          {% endifequal %}
+          {% endif %}
 				{% endfor %}
 			</select>
 		</label>
