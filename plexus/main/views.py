@@ -166,7 +166,7 @@ class AliasView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(AliasView, self).get_context_data(**kwargs)
         context['all_applications'] = Application.objects.all()
-        context['all_servers'] = Server.objects.all()
+        context['all_servers'] = Server.objects.filter(deprecated=False)
         return context
 
 
