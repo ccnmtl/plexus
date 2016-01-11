@@ -18,40 +18,40 @@
 {% endif %}
 
 <table class="table table-striped table-condensed table-bordered">
-	<tr>
-		<td>primary function</td>
-		<td>{{ object.primary_function }}</td>
-	</tr>
-	<tr><td>ip addresses</td>
-		<td>
-			{% for ip in object.ipaddress_set.all %}
-			<code>{{ ip.ipv4 }}</code>{% if ip.mac_addr %} [<code>{{ ip.mac_addr }}</code>]{% endif %}
-			{% endfor %}
+    <tr>
+        <td>primary function</td>
+        <td>{{ object.primary_function }}</td>
+    </tr>
+    <tr><td>ip addresses</td>
+        <td>
+            {% for ip in object.ipaddress_set.all %}
+            <code>{{ ip.ipv4 }}</code>{% if ip.mac_addr %} [<code>{{ ip.mac_addr }}</code>]{% endif %}
+            {% endfor %}
 </td></tr>
-	<tr><td>location</td><td>{% if object.virtual %}
-				[Virtual: {% for vm in object.dom_u.all %}<a href="/server/{{vm.dom_0.id}}">{{vm.dom_0.name}}</a>{% endfor %}]
-				{% else %}
-				{{ object.location.name }}
-				{% endif %}</td></tr>
-	<tr><td>OS</td><td><a href="/os/{{object.operating_system.family.id}}/{{object.operating_system.id}}/">{{ object.operating_system }}</a></td></tr>
-	<tr><td>mem</td><td>{{ object.memory }}{% if object.swap %} [{{ object.swap }}]{% endif %}</td></tr>
-	<tr><td>disk</td><td>{{ object.disk }}</td></tr>
-	<tr><td>notes</td><td>{{ object.notes }}</td></tr>
-	{% if object.sentry_name %}
-	<tr>
-		<td>Sentry</td>
-		<td><a href="http://sentry.ccnmtl.columbia.edu/sentry/?server_name={{object.sentry_name}}&amp;site=">View Errors</a></td>
-	</tr>
-	{% endif %}
+    <tr><td>location</td><td>{% if object.virtual %}
+                [Virtual: {% for vm in object.dom_u.all %}<a href="/server/{{vm.dom_0.id}}">{{vm.dom_0.name}}</a>{% endfor %}]
+                {% else %}
+                {{ object.location.name }}
+                {% endif %}</td></tr>
+    <tr><td>OS</td><td><a href="/os/{{object.operating_system.family.id}}/{{object.operating_system.id}}/">{{ object.operating_system }}</a></td></tr>
+    <tr><td>mem</td><td>{{ object.memory }}{% if object.swap %} [{{ object.swap }}]{% endif %}</td></tr>
+    <tr><td>disk</td><td>{{ object.disk }}</td></tr>
+    <tr><td>notes</td><td>{{ object.notes }}</td></tr>
+    {% if object.sentry_name %}
+    <tr>
+        <td>Sentry</td>
+        <td><a href="http://sentry.ccnmtl.columbia.edu/sentry/?server_name={{object.sentry_name}}&amp;site=">View Errors</a></td>
+    </tr>
+    {% endif %}
 
-	<tr>
-		<td>Contacts</td>
-		<td>
-			{% for ac in object.servercontact_set.all %}
-			<a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
-			{% endfor %}
-		</td>
-	</tr>
+    <tr>
+        <td>Contacts</td>
+        <td>
+            {% for ac in object.servercontact_set.all %}
+            <a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
+            {% endfor %}
+        </td>
+    </tr>
 
 
 </table>
@@ -70,12 +70,12 @@
 {% if request.user.is_staff %}
 <form action="associate_dom0/" method="post" class="form form-inline">
 <label>associate with a dom0:
-	<select name="dom0">
-		{% for server in object.potential_dom0s %}
-		<option value="{{server.id}}">{{server.name}}</option>
-		{% endfor %}
-	</select>
-	<input type="submit" value="associate" class="btn btn-primary" />
+    <select name="dom0">
+        {% for server in object.potential_dom0s %}
+        <option value="{{server.id}}">{{server.name}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="associate" class="btn btn-primary" />
 </form>
 {% endif %}
 {% endif %}
@@ -91,87 +91,111 @@
 {% if object.ipaddress_set.count %}
 
 <a href="#addAlias" role="button" class="btn" data-toggle="modal" data-target="#addAlias">Add Alias for {{object.name}}</a>
- 
-	<form action="add_alias/" method="post">
-		<div class="modal fade" id="addAlias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h3 id="myModalLabel">Add Alias for {{object.name}}</h3>
-					</div>
-					<div class="modal-body">
-		<label>Hostname
-		<input type="text" name="hostname" placeholder="hostname" /></label>
-		{% ifequal object.ipaddress_set.count 1 %}
-		{% else %}
-		<label>IP Address
-			<select name="ipaddress">
-				{% for ipaddress in object.ipaddress_set.all %}
-				<option value="{{ipaddress.id}}">{{ipaddress.ipv4}}</option>
-				{% endfor %}
-			</select>
-		</label>
-		{% endifequal %}
-		<label>Description
-		<textarea name="description"
-		class="input-xxlarge"></textarea></label>
-		<p><b>Required if a non-CU hostname:</b> 
-					Please use Administrative Info field for information about 
-          where the domain is registered, what account 
-          it's set up with (don't enter passwords here though) 
-          and who handles payments, DNS changes, etc.</p>
-		<label>Administrative Info
-		<textarea name="Administrative Info" class="input-xxlarge"></textarea></label>
-		<label>Primary Contact
-			<input type="text" name="contact"
-						 value="{{request.user.first_name}}" />
-		</label>
-  </div>
-					<div class="modal-footer">
-						<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-						<button class="btn btn-primary">Add Alias</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
+
+    <form action="add_alias/" method="post">
+        <div class="modal fade" id="addAlias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3 id="myModalLabel">Add Alias for {{object.name}}</h3>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label>Hostname
+                                <input type="text" name="hostname"
+                                       placeholder="hostname" class="form-control" /></label>
+                        </div>
+                        {% ifequal object.ipaddress_set.count 1 %}
+                        {% else %}
+                        <div class="form-group">
+                            <label>IP Address
+                                <select name="ipaddress">
+                                    {% for ipaddress in object.ipaddress_set.all %}
+                                    <option value="{{ipaddress.id}}">{{ipaddress.ipv4}}</option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+                        </div>
+                        {% endifequal %}
+
+                        <div class="form-group">
+                            <label>Description
+                                <textarea name="description"
+                                          class="form-control"></textarea></label>
+                        </div>
+                        <div class="form-group">
+                            <p><b>Required if a non-CU hostname:</b>
+                                Please use Administrative Info field for information about
+                                where the domain is registered, what account
+                                it's set up with (don't enter passwords here though)
+                                and who handles payments, DNS changes, etc.</p>
+                            <label>Administrative Info
+                                <textarea name="Administrative Info" class="form-control"></textarea></label>
+                        </div>
+                        <div class="form-group">
+                            <label>Primary Contact
+                                <input type="text" name="contact"
+                                       value="{{request.user.first_name}}"
+                                       class="form-control" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button class="btn btn-primary">Add Alias</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 
 <a href="#requestAlias" role="button" class="btn" data-toggle="modal" data-target="#requestAlias">Request new Alias for {{object.name}}</a>
 
-	<form action="request_alias/" method="post">
-		<div class="modal fade" id="requestAlias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-						<h3 id="myModalLabel1">Request New Alias for {{object.name}}</h3>
-					</div>
-  <div class="modal-body">
-		<p class="info">This will send an email to hostmaster with the
-		request. It may take a couple business days for the request to go
-		through. Once it does, please come back and update the status of
-		this alias from 'pending' to 'active'. </p>
-			
-		<label>Hostname
-		<input type="text" name="hostname" placeholder="hostname" /></label>
-		{% ifequal object.ipaddress_set.count 1 %}
-		{% else %}
-		<label>IP Address
-			<select name="ipaddress">
-				{% for ipaddress in object.ipaddress_set.all %}
-				<option value="{{ipaddress.id}}">{{ipaddress.ipv4}}</option>
-				{% endfor %}
-			</select>
-		</label>
-		{% endifequal %}
-		<label>Description
-		<textarea name="description" class="input-xxlarge"></textarea></label>
-		<label>Primary Contact
-			<input type="text" name="contact"
-						 value="{{request.user.first_name}}" />
-		</label>
-  </div>
+    <form action="request_alias/" method="post">
+        <div class="modal fade" id="requestAlias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3 id="myModalLabel1">Request New Alias for {{object.name}}</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p class="info">This will send an email to hostmaster with the
+                            request. It may take a couple business days for the request to go
+                            through. Once it does, please come back and update the status of
+                            this alias from 'pending' to 'active'. </p>
+
+                        <div class="form-group">
+                            <label>Hostname
+                                <input type="text" name="hostname"
+                                       placeholder="hostname" class="form-control" /></label>
+                        </div>
+                        {% ifequal object.ipaddress_set.count 1 %}
+                        {% else %}
+                        <div class="form-group">
+                            <label>IP Address
+                                <select name="ipaddress">
+                                    {% for ipaddress in object.ipaddress_set.all %}
+                                    <option value="{{ipaddress.id}}">{{ipaddress.ipv4}}</option>
+                                    {% endfor %}
+                                </select>
+                            </label>
+                        </div>
+                        {% endifequal %}
+                        <div class="form-group">
+                            <label>Description
+                                <textarea name="description" class="form-control"></textarea></label>
+                        </div>
+                        <div class="form-group">
+                            <label>Primary Contact
+                                <input type="text" name="contact"
+                                       value="{{request.user.first_name}}"
+                                       class="form-control" />
+                            </label>
+                        </div>
+                    </div>
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     <button class="btn btn-primary">Request Alias</button>
@@ -179,7 +203,7 @@
 </div>
 </div>
 </div>
-	</form>
+    </form>
 
 
 {% else %}
@@ -189,27 +213,27 @@
 {% endif %}
 
 <table class="table table-striped table-condensed table-bordered">
-	<thead>
-		<tr>
-			<th>alias</th>
-			<th>description</th>
-			<th>contacts</th>
-		</tr>
-	</thead>
-		
-	<tbody>
+    <thead>
+        <tr>
+            <th>alias</th>
+            <th>description</th>
+            <th>contacts</th>
+        </tr>
+    </thead>
+
+    <tbody>
 
 {% for ipaddress in object.ipaddress_set.all %}
 {% for alias in ipaddress.alias_set.all %}
-		<tr class="{{alias.status_css_class}}">
-			<td><a href="/alias/{{alias.id}}/">{{alias.hostname}}</a></td>
-			<td>{{alias.description}}</td>
-			<td>
-				{% for ac in alias.aliascontact_set.all %}
-				<a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
-				{% endfor %}
-			</td>
-		</tr>
+        <tr class="{{alias.status_css_class}}">
+            <td><a href="/alias/{{alias.id}}/">{{alias.hostname}}</a></td>
+            <td>{{alias.description}}</td>
+            <td>
+                {% for ac in alias.aliascontact_set.all %}
+                <a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
+                {% endfor %}
+            </td>
+        </tr>
 
 
 {% endfor %}
@@ -226,23 +250,23 @@
 <a href="#add-note" role="button" class="btn" data-toggle="modal" data-target="#add-note">Add Note</a>
 
 <form action="{% url 'add-server-note' object.id %}" method="post">
-	<div class="modal fade" id="add-note" tabindex="-1" role="dialog" aria-labelledby="add-note-label" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			<h3 id="add-note-label">Add Note</h3>
-		</div>
-		<div class="modal-body">
-			<div class="form-group">
-				<textarea name="body" class="form-control" rows="10"></textarea>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-			<button class="btn btn-primary">Add Note</button>
-		</div>
-	</div>
+    <div class="modal fade" id="add-note" tabindex="-1" role="dialog" aria-labelledby="add-note-label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="add-note-label">Add Note</h3>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <textarea name="body" class="form-control" rows="10"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <button class="btn btn-primary">Add Note</button>
+        </div>
+    </div>
 </div>
 </div>
 </form>
@@ -301,4 +325,3 @@
 
 
 {% endblock %}
-
