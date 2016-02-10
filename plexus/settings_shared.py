@@ -21,6 +21,7 @@ INSTALLED_APPS += [  # noqa
     'bootstrap3',
     'django_feedparser',
     'plexus.main',
+    'plexus.grainlog',
 ]
 
 HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
