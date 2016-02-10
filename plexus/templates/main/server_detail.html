@@ -215,6 +215,7 @@
 <table class="table table-striped table-condensed table-bordered">
     <thead>
         <tr>
+            <th>status</th>
             <th>alias</th>
             <th>description</th>
             <th>contacts</th>
@@ -226,6 +227,11 @@
 {% for ipaddress in object.ipaddress_set.all %}
 {% for alias in ipaddress.alias_set.all %}
         <tr class="{{alias.status_css_class}}">
+            <td>
+                {% if alias.is_deprecated %}
+                    DEPRECATED
+                {% endif %}
+            </td>
             <td><a href="/alias/{{alias.id}}/">{{alias.hostname}}</a></td>
             <td>{{alias.description}}</td>
             <td>

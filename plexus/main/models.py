@@ -147,6 +147,9 @@ class Alias(models.Model):
             return "error"
         return ""
 
+    def is_deprecated(self):
+        return self.status == 'deprecated'
+
     def can_request_dns_change(self):
         """ it's not safe for Plexus to try to request DNS changes
         outside our subdomain"""
