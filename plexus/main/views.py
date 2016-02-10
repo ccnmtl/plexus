@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
+from django.core.urlresolvers import reverse
 from django.views.generic.base import View
 from django.views.generic import TemplateView, DetailView, DeleteView
 from plexus.main.models import (
@@ -9,7 +10,7 @@ from plexus.main.models import (
     OperatingSystem, ServerNote, Note,
     Application, Technology,
     ApplicationAlias, VMLocation,
-    ApplicationNote,
+    ApplicationNote, ServerContact,
 )
 
 from django.http import HttpResponseRedirect
@@ -92,6 +93,13 @@ class AddServerView(View):
             self.template_name,
             dict(all_locations=Location.objects.all(),
                  all_operating_systems=OperatingSystem.objects.all()))
+
+
+class DeleteServerContactView(DeleteView):
+    model = ServerContact
+
+    def get_success_url(self):
+        return reverse('server-detail', args=[self.object.id])
 
 
 class AssociateDom0View(View):

@@ -2,9 +2,9 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from .factories import ServerFactory, IPAddressFactory, ContactFactory
-from .factories import ApplicationFactory, AliasFactory
+from .factories import ApplicationFactory, AliasFactory, ServerContactFactory
 from django.test.client import Client
-from plexus.main.models import Server
+from plexus.main.models import Server, ServerContact
 from plexus.main.models import Contact
 from plexus.main.models import OSFamily, Alias
 from plexus.main.models import OperatingSystem
@@ -151,6 +151,14 @@ class SimpleTest(TestCase):
         response = self.c.get("/application/%d/" % application.id)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['application'], application)
+
+    def test_delete_servercontact(self):
+        sc = ServerContactFactory()
+        response = self.c.get(reverse('delete-servercontact', args=[sc.id]))
+        self.assertEqual(response.status_code, 200)
+        response = self.c.post(reverse('delete-servercontact', args=[sc.id]))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(ServerContact.objects.count(), 0)
 
     def test_delete_alias(self):
         alias = AliasFactory()
