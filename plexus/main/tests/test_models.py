@@ -30,6 +30,12 @@ class AliasTest(TestCase):
         alias.status = "deprecated"
         self.assertEquals(alias.status_css_class(), "error")
 
+    def test_is_deprecated(self):
+        alias = AliasFactory(status='deprecated')
+        self.assertTrue(alias.is_deprecated())
+        alias = AliasFactory(status='pending')
+        self.assertFalse(alias.is_deprecated())
+
     def test_can_request(self):
         self.assertFalse(AliasFactory().can_request_dns_change())
 
