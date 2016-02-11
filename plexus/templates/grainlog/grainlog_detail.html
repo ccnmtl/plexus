@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
-{% block content %}
-
+{% block pagetitle %}
     <h2>{{object.created|date}} - {{object.sha1}}</h2>
+{% endblock %}
+
+{% block content %}
 
     <pre>
 {{object.payload}}
