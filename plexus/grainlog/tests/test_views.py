@@ -20,7 +20,8 @@ class GrainLogListViewTest(ViewTest):
         response = GrainLogListView.as_view()(request)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(gl in response.context_data['object_list'])
-        self.assertTrue(gl.sha1 in response.rendered_content)
+        self.assertTrue(reverse('grainlog-detail', args=[gl.id])
+                        in response.rendered_content)
 
     def test_post(self):
         request = self.factory.post(reverse('grainlog-list'))
