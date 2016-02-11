@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <h2>{{object.created|date}} - {{object.sha1}}</h2>
+
+    <pre>
+{{object.payload}}
+    </pre>
+    
+{% endblock %}

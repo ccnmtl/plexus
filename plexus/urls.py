@@ -117,6 +117,7 @@ urlpatterns = patterns(
     (r'^stats/$', TemplateView.as_view(template_name="stats.html")),
     (r'^stats/auth/$', TemplateView.as_view(template_name="auth_stats.html")),
     (r'smoketest/', include('smoketest.urls')),
+    (r'grainlogs/', include('plexus.grainlog.urls')),
     (r'^uploads/(?P<path>.*)$',
      'django.views.static.serve',
      {'document_root': settings.MEDIA_ROOT}),
