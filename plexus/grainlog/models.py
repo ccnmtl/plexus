@@ -1,7 +1,5 @@
 from django.db import models
-
-
-MAX_LOGS = 10  # convert this to a django setting later
+from django.conf import settings
 
 
 class GrainLogManager(models.Manager):
@@ -21,7 +19,7 @@ class GrainLogManager(models.Manager):
         return gl
 
     def limit_entries(self):
-        for gl in self.all()[MAX_LOGS:]:
+        for gl in self.all()[settings.MAX_GRAINLOGS:]:
             gl.delete()
 
 
