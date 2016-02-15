@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Grain Logs</h1>
+<ul>
+{% for grainlog in object_list %}
+    <li><a href="{% url 'grainlog-detail' grainlog.id %}">{{ grainlog.created }}</li>
+{% empty %}
+    <li>No grainlogs yet.</li>
+{% endfor %}
+</ul>
+{% endblock %}

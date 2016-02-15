@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block pagetitle %}
+    <h2>{{object.created}}</h2>
+{% endblock %}
+
+{% block content %}
+    <p>SHA1: {{object.sha1}}</p>
+    <pre>
+{{object.payload}}
+    </pre>
+    
+{% endblock %}

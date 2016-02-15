@@ -8,7 +8,7 @@ base = os.path.dirname(__file__)
 
 locals().update(common(project=project, base=base))
 
-PROJECT_APPS = ['plexus.main', ]
+PROJECT_APPS = ['plexus.main', 'plexus.grainlog']
 USE_TZ = True
 
 TEMPLATE_CONTEXT_PROCESSORS += [  # noqa
@@ -26,3 +26,5 @@ INSTALLED_APPS += [  # noqa
 
 HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
 SYSADMIN_LIST_EMAIL = "ccnmtl-sysadmin@columbia.edu"
+
+MAX_GRAINLOGS = 10
