@@ -1,5 +1,9 @@
+import json
+
 from django.db import models
 from django.conf import settings
+
+from .grain import Grain
 
 
 class GrainLogManager(models.Manager):
@@ -32,3 +36,10 @@ class GrainLog(models.Model):
 
     class Meta:
         ordering = ['-created']
+        get_latest_by = 'created'
+
+    def data(self):
+        return json.loads(self.payload)
+
+    def grain(self):
+        return Grain(d=self.data())
