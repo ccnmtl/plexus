@@ -1,7 +1,7 @@
 APP=plexus
 
 JS_FILES=media/js/makegraphs.js
-MAX_COMPLEXITY=7
+MAX_COMPLEXITY=5
 
 all: jenkins
 
