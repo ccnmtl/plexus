@@ -26,6 +26,18 @@ class GrainTest(unittest.TestCase):
         s = g.server('foo')
         self.assertEqual(s.name, 'foo')
 
+    def test_server_string(self):
+        d = {
+            'servers': [
+                {'foo': {}},
+                {'bar': "not a dict"},
+            ]
+        }
+        g = Grain(d)
+        s = g.server('foo')
+        self.assertEqual(s.name, 'foo')
+        self.assertTrue("bar" not in g.servers())
+
     def test_app(self):
         d = {
             'servers': [
