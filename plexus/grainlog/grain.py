@@ -17,7 +17,14 @@ class Grain(object):
 
         for s in self.d.get('servers', []):
             server_name = s.keys()[0]
-            server = Server(server_name, s[server_name])
+            data = s[server_name]
+            if not isinstance(data, dict):
+                # sometimes we get a string like
+                # "Minion did not return. [Not connected]"
+                # if salt can't talk to the minion at the moment
+                # omit that one from the list
+                continue
+            server = Server(server_name, data)
             self._server_idx[server_name] = server
 
             for a in server.apps():
