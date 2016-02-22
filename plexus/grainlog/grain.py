@@ -27,14 +27,21 @@ class Grain(object):
             server = Server(server_name, data)
             self._server_idx[server_name] = server
 
-            for a in server.apps():
-                self._app_idx[a].append(server)
+            self._index_server_apps(server)
+            self._index_server_proxies(server)
+            self._index_server_roles(server)
 
-            for p in server.proxy():
-                self._proxy_idx[p].append(server)
+    def _index_server_apps(self, server):
+        for a in server.apps():
+            self._app_idx[a].append(server)
 
-            for r in server.roles():
-                self._roles_idx[r].append(server)
+    def _index_server_proxies(self, server):
+        for p in server.proxy():
+            self._proxy_idx[p].append(server)
+
+    def _index_server_roles(self, server):
+        for r in server.roles():
+            self._roles_idx[r].append(server)
 
     def servers(self):
         return sorted(self._server_idx.values(), key=lambda x: x.name)
