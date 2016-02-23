@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from plexus.grainlog.models import current_grainlog
 
 
 class Location(models.Model):
@@ -85,6 +86,17 @@ class Server(models.Model):
         return [
             sn.note
             for sn in self.servernote_set.all().order_by("-note__created")]
+
+    def grain_info(self):
+        cg = current_grainlog()
+        if cg is None:
+            return None
+        g = cg.grain()
+        s = g.server(self.name)
+        if s is None:
+            # try again with full hostname
+            s = g.server(self.name + ".ccnmtl.columbia.edu")
+        return s
 
 
 class IPAddress(models.Model):

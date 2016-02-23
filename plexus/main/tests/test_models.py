@@ -5,6 +5,8 @@ from .factories import ContactFactory, AliasContactFactory, VMLocationFactory
 from .factories import TechnologyFactory, ApplicationFactory
 from .factories import ApplicationAliasFactory, ApplicationContactFactory
 from .factories import ServerContactFactory
+from plexus.grainlog.tests.factories import GrainLogFactory
+import json
 
 
 class BasicTest(TestCase):
@@ -218,3 +220,22 @@ class ServerTest(TestCase):
     def test_server_notes_empty(self):
         s = ServerFactory()
         self.assertEqual(len(s.server_notes()), 0)
+
+    def test_grain_info_no_grains(self):
+        s = ServerFactory()
+        self.assertIsNone(s.grain_info())
+
+    def test_grain_info_no_server(self):
+        s = ServerFactory()
+        GrainLogFactory()
+        self.assertIsNone(s.grain_info())
+
+    def test_grain_info_with_server(self):
+        s = ServerFactory()
+        d = {
+            'servers': [
+                {s.name: {}},
+            ]
+        }
+        GrainLogFactory(payload=json.dumps(d))
+        self.assertIsNotNone(s.grain_info())

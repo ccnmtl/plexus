@@ -43,3 +43,10 @@ class GrainLog(models.Model):
 
     def grain(self):
         return Grain(d=self.data())
+
+
+def current_grainlog():
+    try:
+        return GrainLog.objects.latest()
+    except GrainLog.DoesNotExist:
+        return None

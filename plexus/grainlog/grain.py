@@ -2,6 +2,7 @@
 grain data as python objects instead of unwieldy json dicts """
 
 from collections import defaultdict
+import json
 
 
 class Grain(object):
@@ -47,7 +48,7 @@ class Grain(object):
         return sorted(self._server_idx.values(), key=lambda x: x.name)
 
     def server(self, server_name):
-        return self._server_idx[server_name]
+        return self._server_idx.get(server_name, None)
 
     def apps(self):
         return sorted(self._app_idx.keys())
@@ -102,3 +103,6 @@ class Server(object):
 
     def roles(self):
         return self.d.get('roles', [])
+
+    def json(self):
+        return json.dumps(self.d, sort_keys=True, indent=4)
