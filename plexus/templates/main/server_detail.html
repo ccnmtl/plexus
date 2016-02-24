@@ -72,7 +72,7 @@
 {% else %}
 {% if request.user.is_staff %}
 <form action="associate_dom0/" method="post" class="form form-inline">
-<label>associate with a dom0:
+    <label>associate with a dom0:</label>
     <select name="dom0">
         {% for server in object.potential_dom0s %}
         <option value="{{server.id}}">{{server.name}}</option>
@@ -332,5 +332,49 @@
 {% endwith %}
 {% endif %}
 
+
+{% with grain=object.grain_info %}
+    {% if grain %}
+        <h2>Current Grain Info</h2>
+
+        <h3>Summary</h3>
+        {% with apps=grain.apps %}
+            {% if apps %}
+                <h4>apps</h4>
+                <ul>
+                    {% for a in grain.apps %}
+                        <li>{{a}}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% with proxy=grain.proxy %}
+            {% if proxy %}
+                <h4>proxy</h4>
+                <ul>
+                    {% for a in grain.proxy %}
+                        <li>{{a}}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% with roles=grain.roles %}
+            {% if roles %}
+                <h4>roles</h4>
+                <ul>
+                    {% for a in grain.roles %}
+                        <li>{{a}}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <h3>Raw JSON</h3>
+        <pre>
+{{grain.json}}
+        </pre>
+    {% else %}
+        <p>No grain info for this server</p>
+    {% endif %}
+{% endwith %}
 
 {% endblock %}
