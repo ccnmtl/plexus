@@ -16,7 +16,6 @@ TEMPLATE_CONTEXT_PROCESSORS += [  # noqa
 ]
 
 INSTALLED_APPS += [  # noqa
-    'django.contrib.messages',
     'bootstrapform',
     'bootstrap3',
     'django_feedparser',
