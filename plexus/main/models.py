@@ -98,6 +98,10 @@ class Server(models.Model):
             s = g.server(self.name + ".ccnmtl.columbia.edu")
         return s
 
+    def contacts(self):
+        return [ac.contact for ac in self.servercontact_set.all(
+        ).select_related('contact')]
+
 
 class IPAddress(models.Model):
     ipv4 = models.CharField(max_length=256)
