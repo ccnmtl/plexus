@@ -30,7 +30,7 @@ class IndexView(TemplateView):
     def get_context_data(self):
         return dict(
             servers=Server.objects.filter(
-                deprecated=False).order_by('name'),
+                deprecated=False).order_by('name').select_related('location'),
             aliases=(Alias.objects.all().exclude(status='deprecated')
                      .order_by('hostname')),
             applications=Application.objects.all().order_by('name'),
