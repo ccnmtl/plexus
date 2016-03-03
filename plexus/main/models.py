@@ -218,6 +218,10 @@ Thanks,
     def get_absolute_url(self):
         return "/alias/%d/" % self.id
 
+    def contacts(self):
+        return [ac.contact for ac in self.aliascontact_set.all(
+        ).select_related('contact')]
+
 
 class AliasContact(models.Model):
     alias = models.ForeignKey(Alias)
