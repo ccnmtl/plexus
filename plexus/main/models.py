@@ -278,6 +278,10 @@ class Application(models.Model):
             for sn in self.applicationnote_set.all().order_by(
                 "-note__created")]
 
+    def contacts(self):
+        return [ac.contact for ac in self.applicationcontact_set.all(
+        ).select_related('contact')]
+
 
 class ApplicationAlias(models.Model):
     application = models.ForeignKey(Application)
