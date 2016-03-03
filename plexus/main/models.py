@@ -98,6 +98,10 @@ class Server(models.Model):
             s = g.server(self.name + ".ccnmtl.columbia.edu")
         return s
 
+    def contacts(self):
+        return [ac.contact for ac in self.servercontact_set.all(
+        ).select_related('contact')]
+
 
 class IPAddress(models.Model):
     ipv4 = models.CharField(max_length=256)
@@ -214,6 +218,10 @@ Thanks,
     def get_absolute_url(self):
         return "/alias/%d/" % self.id
 
+    def contacts(self):
+        return [ac.contact for ac in self.aliascontact_set.all(
+        ).select_related('contact')]
+
 
 class AliasContact(models.Model):
     alias = models.ForeignKey(Alias)
@@ -273,6 +281,10 @@ class Application(models.Model):
             sn.note
             for sn in self.applicationnote_set.all().order_by(
                 "-note__created")]
+
+    def contacts(self):
+        return [ac.contact for ac in self.applicationcontact_set.all(
+        ).select_related('contact')]
 
 
 class ApplicationAlias(models.Model):
