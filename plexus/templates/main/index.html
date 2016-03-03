@@ -19,15 +19,11 @@
 			<td><a href="/server/{{server.id}}/">{{ server.name }}</a></td>
 			<td>{{ server.primary_function }}</td>
 			<td>
-				{% if server.virtual %}
-				{% if server.dom_u.count %}
-				{% for vm in server.dom_u.all %}<a href="/server/{{vm.dom_0.id}}/">{{vm.dom_0.name}}</a>{% endfor %}
-				{% else %}
-				Virtual
-				{% endif %}
-				{% else %}
-				{{ server.location }}
-				{% endif %}
+				  {% if server.virtual %}
+              Virtual
+				  {% else %}
+				      {{ server.location }}
+				  {% endif %}
 			</td>
 			<td>
 				{% for contact in server.contacts %}
