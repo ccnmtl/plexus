@@ -14,7 +14,7 @@ from plexus.main.views import (
     RequestAliasChangeView, AliasConfirmView,
     AliasAssociateWithApplicationView,
     AddServerNoteView, AddApplicationNoteView,
-    DeleteServerContactView,
+    DeleteServerContactView, DeleteApplicationContactView,
 )
 
 admin.autodiscover()
@@ -78,6 +78,10 @@ urlpatterns = patterns(
     url(r'^application/(?P<pk>\d+)/add_note/$',
         AddApplicationNoteView.as_view(),
         name="add-application-note"),
+
+    url(r'^applicationcontact/(?P<pk>\d+)/delete/$',
+        DeleteApplicationContactView.as_view(),
+        name="delete-applicationcontact"),
 
     (r'^os/(?P<pk>\d+)/$', DetailView.as_view(model=OSFamily)),
     (r'^os/(?P<family_id>\d+)/(?P<pk>\d+)/$',

@@ -36,7 +36,10 @@
 		<td>Contacts</td>
 		<td>
 			{% for ac in object.applicationcontact_set.all %}
-			<a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
+			    <a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
+          {% if request.user.is_staff %}
+              [<a href="{% url 'delete-applicationcontact' ac.id %}">X</a>]
+          {% endif %}
 			{% endfor %}
 		</td>
 	</tr>
