@@ -1,16 +1,17 @@
-from django.test import TestCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from .factories import ServerFactory, IPAddressFactory, ContactFactory
-from .factories import ApplicationFactory, AliasFactory, ServerContactFactory
+from django.test import TestCase
 from django.test.client import Client
-from plexus.main.models import Server, ServerContact
-from plexus.main.models import Contact
-from plexus.main.models import OSFamily, Alias
-from plexus.main.models import OperatingSystem
-from plexus.main.models import Location
-from plexus.main.models import VMLocation
-from plexus.main.models import ServerNote, Note, ApplicationNote
+
+from .factories import (
+    ServerFactory, IPAddressFactory, ContactFactory,
+    ApplicationFactory, AliasFactory, ServerContactFactory,
+    ApplicationContactFactory)
+
+from plexus.main.models import (
+    Server, ServerContact, Contact, OSFamily, Alias,
+    OperatingSystem, Location, VMLocation, ServerNote, Note,
+    ApplicationNote, ApplicationContact)
 
 
 class SimpleTest(TestCase):
@@ -159,6 +160,16 @@ class SimpleTest(TestCase):
         response = self.c.post(reverse('delete-servercontact', args=[sc.id]))
         self.assertEqual(response.status_code, 302)
         self.assertEqual(ServerContact.objects.count(), 0)
+
+    def test_delete_applicationcontact(self):
+        ac = ApplicationContactFactory()
+        response = self.c.get(reverse('delete-applicationcontact',
+                                      args=[ac.id]))
+        self.assertEqual(response.status_code, 200)
+        response = self.c.post(reverse('delete-applicationcontact',
+                                       args=[ac.id]))
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(ApplicationContact.objects.count(), 0)
 
     def test_delete_alias(self):
         alias = AliasFactory()

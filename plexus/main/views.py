@@ -10,7 +10,7 @@ from plexus.main.models import (
     OperatingSystem, ServerNote, Note,
     Application, Technology,
     ApplicationAlias, VMLocation,
-    ApplicationNote, ServerContact,
+    ApplicationNote, ServerContact, ApplicationContact,
 )
 
 from django.http import HttpResponseRedirect
@@ -104,6 +104,13 @@ class DeleteServerContactView(DeleteView):
 
     def get_success_url(self):
         return reverse('server-detail', args=[self.object.id])
+
+
+class DeleteApplicationContactView(DeleteView):
+    model = ApplicationContact
+
+    def get_success_url(self):
+        return reverse('application-detail', args=[self.object.id])
 
 
 class AssociateDom0View(View):
