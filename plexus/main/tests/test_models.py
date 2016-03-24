@@ -1,7 +1,7 @@
 from django.test import TestCase
 from .factories import LocationFactory, OSFamilyFactory, AliasFactory
 from .factories import OperatingSystemFactory, ServerFactory, IPAddressFactory
-from .factories import ContactFactory, AliasContactFactory, VMLocationFactory
+from .factories import ContactFactory, AliasContactFactory
 from .factories import TechnologyFactory, ApplicationFactory
 from .factories import ApplicationAliasFactory, ApplicationContactFactory
 from .factories import ServerContactFactory
@@ -16,7 +16,6 @@ class BasicTest(TestCase):
         self.assertEquals(str(OperatingSystemFactory()), "test os family 1.0")
         self.assertEquals(str(ServerFactory()), "test server")
         self.assertEquals(str(IPAddressFactory()), "127.0.0.1")
-        self.assertEquals(str(VMLocationFactory()), "test server")
         self.assertEquals(str(ContactFactory()), "anders")
 
 
@@ -212,10 +211,6 @@ class ServerTest(TestCase):
         self.assertEqual(ipaddress, i)
         i2 = ipaddress.server.ipaddress_default(ipaddress.id)
         self.assertEqual(ipaddress, i2)
-
-    def test_potential_dom0s(self):
-        s = ServerFactory()
-        self.assertEqual(s.potential_dom0s().count(), 0)
 
     def test_server_notes_empty(self):
         s = ServerFactory()

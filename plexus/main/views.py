@@ -7,10 +7,8 @@ from django.views.generic.base import View
 from django.views.generic import TemplateView, DetailView, DeleteView
 from plexus.main.models import (
     Server, Alias, Location, IPAddress, OSFamily,
-    OperatingSystem, ServerNote, Note,
-    Application, Technology,
-    ApplicationAlias, VMLocation,
-    ApplicationNote, ServerContact, ApplicationContact,
+    OperatingSystem, ServerNote, Note, Application, Technology,
+    ApplicationAlias, ServerContact, ApplicationNote, ApplicationContact,
 )
 
 from django.http import HttpResponseRedirect
@@ -44,11 +42,8 @@ class AddServerView(View):
     template_name = 'main/add_server.html'
 
     def post(self, request):
-        virtual = request.POST.get('virtual', False) == '1'
-        location = None
-        if not virtual:
-            location, created = Location.objects.get_or_create(
-                name=request.POST.get("location", "unknown"))
+        location, created = Location.objects.get_or_create(
+            name=request.POST.get("location", "unknown"))
         os_string = request.POST.get("operating_system")
         if ":" not in os_string:
             os_string = "Unknown: " + os_string
@@ -62,7 +57,6 @@ class AddServerView(View):
         server = Server.objects.create(
             name=name,
             primary_function=request.POST.get('primary_function', ''),
-            virtual=virtual,
             location=location,
             operating_system=operating_system,
             memory=request.POST.get('memory', ''),
@@ -111,14 +105,6 @@ class DeleteApplicationContactView(DeleteView):
 
     def get_success_url(self):
         return reverse('application-detail', args=[self.object.id])
-
-
-class AssociateDom0View(View):
-    def post(self, request, id):
-        server = get_object_or_404(Server, id=id)
-        dom0 = get_object_or_404(Server, id=request.POST.get('dom0', '0'))
-        VMLocation.objects.create(dom_0=dom0, dom_u=server)
-        return HttpResponseRedirect("/server/%d/" % server.id)
 
 
 class AddAliasView(View):

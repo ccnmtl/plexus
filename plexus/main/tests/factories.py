@@ -5,7 +5,6 @@ from plexus.main.models import OperatingSystem
 from plexus.main.models import IPAddress
 from plexus.main.models import Server
 from plexus.main.models import Alias
-from plexus.main.models import VMLocation
 from plexus.main.models import Contact
 from plexus.main.models import AliasContact
 from plexus.main.models import Technology
@@ -43,7 +42,6 @@ class ServerFactory(factory.DjangoModelFactory):
         model = Server
 
     name = "test server"
-    virtual = False
     location = factory.SubFactory(LocationFactory)
     operating_system = factory.SubFactory(OperatingSystemFactory)
 
@@ -64,14 +62,6 @@ class AliasFactory(factory.DjangoModelFactory):
     hostname = "foo.example.com"
     ip_address = factory.SubFactory(IPAddressFactory)
     status = "active"
-
-
-class VMLocationFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = VMLocation
-
-    dom_u = factory.SubFactory(ServerFactory)
-    dom_0 = factory.SubFactory(ServerFactory)
 
 
 class ContactFactory(factory.DjangoModelFactory):

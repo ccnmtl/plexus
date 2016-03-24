@@ -44,7 +44,6 @@ class OperatingSystem(models.Model):
 class Server(models.Model):
     name = models.CharField(max_length=256)
     primary_function = models.TextField(blank=True, default=u"")
-    virtual = models.BooleanField(default=False)
     location = models.ForeignKey(Location, null=True, default="")
     operating_system = models.ForeignKey(OperatingSystem)
     memory = models.CharField(max_length=256, blank=True)
@@ -79,9 +78,6 @@ class Server(models.Model):
             return IPAddress.objects.get(id=ipaddress_id)
         return self.ipaddress_set.all()[0]
 
-    def potential_dom0s(self):
-        return Server.objects.filter(virtual=False).exclude(id=self.id)
-
     def server_notes(self):
         return [
             sn.note
@@ -110,14 +106,6 @@ class IPAddress(models.Model):
 
     def __unicode__(self):
         return self.ipv4
-
-
-class VMLocation(models.Model):
-    dom_u = models.ForeignKey(Server, related_name='dom_u')
-    dom_0 = models.ForeignKey(Server, related_name='dom_0')
-
-    def __unicode__(self):
-        return unicode(self.dom_u)
 
 
 class Contact(models.Model):
