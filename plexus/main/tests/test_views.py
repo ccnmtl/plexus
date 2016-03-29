@@ -10,7 +10,7 @@ from .factories import (
 
 from plexus.main.models import (
     Server, ServerContact, Contact, OSFamily, Alias,
-    OperatingSystem, Location, VMLocation, ServerNote, Note,
+    OperatingSystem, Location, ServerNote, Note,
     ApplicationNote, ApplicationContact)
 
 
@@ -56,7 +56,6 @@ class SimpleTest(TestCase):
         response = self.c.post(
             "/add_server/",
             {
-                'virtual': '0',
                 'location': 'test location',
                 'operating_system': 'Linux: Ubuntu 12.04',
                 'name': 'testserver',
@@ -104,7 +103,6 @@ class SimpleTest(TestCase):
         response = self.c.post(
             "/add_server/",
             {
-                'virtual': '1',
                 'location': 'test location',
                 'operating_system': 'Foobar',
                 'name': 'testserver',
@@ -180,15 +178,6 @@ class SimpleTest(TestCase):
         response = self.c.post("/alias/%d/delete/" % alias.id)
         self.assertEqual(response.status_code, 302)
         self.assertEqual(Alias.objects.count(), 0)
-
-    def test_associate_dom0(self):
-        s1 = ServerFactory()
-        s2 = ServerFactory()
-        response = self.c.post(
-            "/server/%d/associate_dom0/" % s1.id,
-            dict(dom0=s2.id))
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(VMLocation.objects.count(), 1)
 
     def test_alias_confirm(self):
         alias = AliasFactory(status="pending")
