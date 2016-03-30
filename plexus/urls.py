@@ -52,7 +52,8 @@ urlpatterns = patterns(
 
     (r'^alias/(?P<pk>\d+)/$', AliasView.as_view()),
     (r'^alias/(?P<id>\d+)/confirm/$', AliasConfirmView.as_view()),
-    (r'^alias/(?P<pk>\d+)/delete/$', AliasDeleteView.as_view()),
+    url(r'^alias/(?P<pk>\d+)/delete/$', AliasDeleteView.as_view(),
+        name='delete-alias'),
     (r'^alias/(?P<pk>\d+)/edit/$',
      UpdateView.as_view(model=Alias,
                         form_class=AliasForm)),
