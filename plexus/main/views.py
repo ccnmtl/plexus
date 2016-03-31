@@ -97,14 +97,14 @@ class DeleteServerContactView(DeleteView):
     model = ServerContact
 
     def get_success_url(self):
-        return reverse('server-detail', args=[self.object.id])
+        return reverse('server-detail', args=[self.object.server.id])
 
 
 class DeleteApplicationContactView(DeleteView):
     model = ApplicationContact
 
     def get_success_url(self):
-        return reverse('application-detail', args=[self.object.id])
+        return reverse('application-detail', args=[self.object.application.id])
 
 
 class AddAliasView(View):
