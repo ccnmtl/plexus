@@ -92,6 +92,47 @@
 {% endif %}
 {% endif %}
 
+{% if request.user.is_staff %}
+    <a href="#changeAlias" role="button" class="btn" data-toggle="modal" data-target="#changeAlias">Change Alias</a>
+
+	  <form action="{% url 'alias-change' object.id %}" method="post">
+		    <div class="modal fade" id="changeAlias" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			      <div class="modal-dialog">
+				        <div class="modal-content">
+					          <div class="modal-header">
+						            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3 id="myModalLabel1">Change Alias {{object.hostname}}</h3>
+                    </div>
+                    <div class="modal-body">
+		                    <p class="info">This will just change the entry for the alias here. It does not send a request to hostmaster. Only use this for Plexus internal housekeeping.</p>
+			                  
+		                    <label>New Server
+			                      <select name="new_ipaddress">
+				                        {% for server in all_servers %}
+                                    {% for ip in server.ipaddress_set.all %}
+				                                {% if ip.id == object.ip_address.id %}
+                                            {# skip current value #}
+                                        {% else %}
+                                            <option value="{{ip.id}}">{{server.name}} [{{ip.ipv4}}]</option>
+                                        {% endif %}
+                                    {% endfor %}
+				                        {% endfor %}
+			                      </select>
+		                    </label>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button class="btn btn-primary">Alias Change</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+	  </form>
+
+{% endif %}
+
+
 {% ifequal object.status "pending" %}
 <div class="alert">
 <form action="confirm/" method="post" class="form-inline">

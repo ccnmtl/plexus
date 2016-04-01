@@ -11,7 +11,7 @@ from plexus.main.forms import ApplicationForm
 from plexus.main.views import (
     IndexView, AliasDeleteView, AddServerView,
     AddAliasView, RequestAliasView, AddApplicationView, AliasView,
-    RequestAliasChangeView, AliasConfirmView,
+    RequestAliasChangeView, AliasChangeView, AliasConfirmView,
     AliasAssociateWithApplicationView,
     AddServerNoteView, AddApplicationNoteView,
     DeleteServerContactView, DeleteApplicationContactView,
@@ -64,6 +64,8 @@ urlpatterns = patterns(
      AliasAssociateWithApplicationView.as_view()),
     (r'^alias/(?P<id>\d+)/request_alias_change/$',
      RequestAliasChangeView.as_view()),
+    url(r'^alias/(?P<id>\d+)/change/$', AliasChangeView.as_view(),
+        name='alias-change'),
 
     (r'^contact/(?P<pk>\d+)/$', DetailView.as_view(model=Contact)),
     (r'^contact/(?P<pk>\d+)/dashboard/$',
