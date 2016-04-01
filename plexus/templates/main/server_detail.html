@@ -59,33 +59,6 @@
 
 </table>
 
-{% if object.dom_0.count %}
-<h2>DomU's</h2>
-<ul>
-{% for vm in object.dom_0.all %}
-<li><a href="/server/{{vm.dom_u.id}}/">{{vm.dom_u.name}}</a></li>
-{% endfor %}
-</ul>
-{% else %}
-{% if object.virtual %}
-{% if object.dom_u.count %}
-{% else %}
-{% if request.user.is_staff %}
-<form action="associate_dom0/" method="post" class="form form-inline">
-    <label>associate with a dom0:</label>
-    <select name="dom0">
-        {% for server in object.potential_dom0s %}
-        <option value="{{server.id}}">{{server.name}}</option>
-        {% endfor %}
-    </select>
-    <input type="submit" value="associate" class="btn btn-primary" />
-</form>
-{% endif %}
-{% endif %}
-{% endif %}
-{% endif %}
-
-
 {% if object.ipaddress_set.count %}
 <h2>Aliases</h2>
 
