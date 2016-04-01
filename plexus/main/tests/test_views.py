@@ -334,3 +334,12 @@ class LoggedInTest(TestCase):
         self.assertEquals(response.status_code, 302)
         self.assertEqual(ApplicationNote.objects.count(), 1)
         self.assertEqual(Note.objects.count(), 1)
+
+    def test_add_application_contact(self):
+        a = ApplicationFactory()
+        response = self.c.post(
+            reverse("add-application-contact", args=(a.id,)),
+            {"contact": "ContactBob"}
+        )
+        self.assertEquals(response.status_code, 302)
+        self.assertEqual(ApplicationContact.objects.count(), 1)

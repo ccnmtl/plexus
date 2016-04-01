@@ -224,6 +224,14 @@ class AddApplicationView(View):
             dict(all_technologies=Technology.objects.all()))
 
 
+class AddApplicationContactView(View):
+    def post(self, request, pk):
+        application = get_object_or_404(Application, pk=pk)
+        contact = request.POST.get('contact')
+        application.add_contacts([contact])
+        return HttpResponseRedirect(application.get_absolute_url())
+
+
 class AddServerNoteView(LoggedInMixin, View):
     def post(self, request, pk):
         server = get_object_or_404(Server, pk=pk)
