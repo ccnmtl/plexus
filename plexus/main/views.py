@@ -93,6 +93,14 @@ class AddServerView(View):
                  all_operating_systems=OperatingSystem.objects.all()))
 
 
+class AddServerContactView(View):
+    def post(self, request, pk):
+        server = get_object_or_404(Server, pk=pk)
+        contact = request.POST.get('contact')
+        server.add_contacts([contact])
+        return HttpResponseRedirect(server.get_absolute_url())
+
+
 class DeleteServerContactView(DeleteView):
     model = ServerContact
 

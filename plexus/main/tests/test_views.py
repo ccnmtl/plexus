@@ -325,6 +325,15 @@ class LoggedInTest(TestCase):
         self.assertEqual(ServerNote.objects.count(), 1)
         self.assertEqual(Note.objects.count(), 1)
 
+    def test_add_server_contact(self):
+        server = ServerFactory()
+        response = self.c.post(
+            reverse("add-server-contact", args=(server.id,)),
+            {"contact": "ContactBob"}
+        )
+        self.assertEquals(response.status_code, 302)
+        self.assertEqual(ServerContact.objects.count(), 1)
+
     def test_add_application_note(self):
         a = ApplicationFactory()
         response = self.c.post(
