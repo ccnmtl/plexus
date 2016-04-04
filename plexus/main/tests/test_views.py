@@ -333,6 +333,9 @@ class LoggedInTest(TestCase):
         )
         self.assertEquals(response.status_code, 302)
         self.assertEqual(ServerContact.objects.count(), 1)
+        contact = ServerContact.objects.first()
+        self.assertEqual(contact.contact.name, 'ContactBob')
+        self.assertEqual(contact.server, server)
 
     def test_add_application_note(self):
         a = ApplicationFactory()
