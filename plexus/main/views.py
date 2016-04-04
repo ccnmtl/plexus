@@ -173,6 +173,19 @@ class RequestAliasChangeView(View):
         return HttpResponseRedirect("/alias/%d/" % alias.id)
 
 
+class AliasChangeView(View):
+    def post(self, request, id):
+        alias = get_object_or_404(Alias, id=id)
+
+        new_ipaddress_id = request.POST.get('new_ipaddress', None)
+        new_ip_address = get_object_or_404(IPAddress, id=new_ipaddress_id)
+
+        alias.ip_address = new_ip_address
+        alias.save()
+
+        return HttpResponseRedirect("/alias/%d/" % alias.id)
+
+
 class AliasView(DetailView):
     model = Alias
 

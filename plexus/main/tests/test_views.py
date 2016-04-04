@@ -315,6 +315,21 @@ class LoggedInTest(TestCase):
         response = self.c.get("/alias/%d/" % alias.id)
         assert "pending" in response.content
 
+    def test_alias_change(self):
+        server = ServerFactory()
+        ipaddress = IPAddressFactory(server=server)
+        alias = AliasFactory(ip_address=ipaddress)
+        newipaddress = IPAddressFactory()
+
+        response = self.c.post(
+            reverse('alias-change', args=[alias.id]),
+            {
+                'new_ipaddress': newipaddress.id,
+            })
+        self.assertEquals(response.status_code, 302)
+        response = self.c.get("/alias/%d/" % alias.id)
+        assert str(newipaddress.server.name) in response.content
+
     def test_add_server_note(self):
         server = ServerFactory()
         response = self.c.post(
