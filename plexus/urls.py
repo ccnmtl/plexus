@@ -15,7 +15,7 @@ from plexus.main.views import (
     AliasAssociateWithApplicationView,
     AddServerNoteView, AddApplicationNoteView,
     DeleteServerContactView, DeleteApplicationContactView,
-    AddApplicationContactView,
+    AddApplicationContactView, AddServerContactView,
 )
 
 admin.autodiscover()
@@ -42,6 +42,8 @@ urlpatterns = patterns(
     (r'^server/(?P<pk>\d+)/edit/$',
      UpdateView.as_view(model=Server,
                         form_class=ServerForm)),
+    url(r'server/(?P<pk>\d+)/add_contact/$', AddServerContactView.as_view(),
+        name='add-server-contact'),
     (r'^server/(?P<id>\d+)/add_alias/$', AddAliasView.as_view()),
     url(r'^server/(?P<pk>\d+)/add_note/$', AddServerNoteView.as_view(),
         name="add-server-note"),

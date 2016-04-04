@@ -55,9 +55,38 @@
             {% endfor %}
         </td>
     </tr>
-
-
 </table>
+
+{% if not object.deprecated %}
+    {% if request.user.is_staff %}
+        <a href="#addContact" role="button" class="btn" data-toggle="modal" data-target="#addContact">Add Contact</a>
+        <form action="{% url 'add-server-contact' object.id %}" method="post">
+            <div class="modal fade" id="addContact" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 id="myModalLabel">Add Contact</h3>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label>Contact
+                                    <input type="text" name="contact" placeholder="contact" class="form-control" />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                            <button type="submit" class="btn btn-primary">Add Contact</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    {% endif %}
+{% endif %}
+
 
 {% if object.ipaddress_set.count %}
 <h2>Aliases</h2>
