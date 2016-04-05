@@ -4,6 +4,15 @@
 
 {% block content %}
 
+    {% if object.deprecated %}
+        <div class="alert alert-error">
+            <h2>Deprecated</h2>
+
+            <p>This application has been deprecated.</p>
+
+        </div>
+    {% endif %}
+
 <h1>Application: {{ object.name }}</h1>
 {% if request.user.is_staff %}
 <a href="/application/{{object.id}}/edit/">edit</a>
@@ -46,7 +55,7 @@
 
 </table>
 
-
+{% if not object.deprecated %}
     {% if request.user.is_staff %}
         <a href="#addContact" role="button" class="btn" data-toggle="modal" data-target="#addContact">Add Contact</a>
         <form action="{% url 'add-application-contact' object.id %}" method="post">
@@ -74,7 +83,7 @@
             </div>
         </form>
     {% endif %}
-
+{% endif %}
 
 {% if object.applicationalias_set.count %}
 <h2>Alias(es)</h2>
@@ -126,7 +135,7 @@
 
 {% endif %}
 
-
+{% if not object.deprecated %}
 {% if object.graphite_name %}
 <h2>Smoketests</h2>
 <div id="smoketests">passed/run</div>
@@ -172,12 +181,14 @@
 {% endwith %}
 {% endif %}
 
+{% if not object.deprecated %}
 {% if object.pmt_id %}
 <h2>Recent PMT Activity</h2>
 {% feedparser_render object.pmt_feed_url template='main/feed_view.html' %}
-
 {% endif %}
 
+{% endif %}
+{% endif %}
 
 {% endblock %}
 

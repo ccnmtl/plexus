@@ -8,7 +8,7 @@
 {% with from="-24hours" %}
 
 {% for application in object_list %}
-{% if application.graphite_name %}
+    {% if application.graphite_name and not application.deprecated  %}
 <h3><a href="{% url 'application-detail' application.id %}">{{application.name}}</a></h3>
 
 {% with metric_base="ccnmtl.app.counters.nginx."|add:application.graphite_name %}

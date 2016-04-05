@@ -151,6 +151,11 @@ class SimpleTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['application'], application)
 
+    def test_deprecated_application(self):
+        application = ApplicationFactory(deprecated=True)
+        response = self.c.get("/")
+        self.assertFalse(application.get_absolute_url() in response.content)
+
     def test_delete_servercontact(self):
         sc = ServerContactFactory()
         response = self.c.get(reverse('delete-servercontact', args=[sc.id]))
@@ -225,6 +230,12 @@ class DashboardTest(TestCase):
         response = self.c.get(reverse('500s-dashboard'))
         self.assertEquals(response.status_code, 200)
 
+    def test_500s_deprecated_app(self):
+        ApplicationFactory(graphite_name='foobar', deprecated=True)
+        response = self.c.get(reverse('500s-dashboard'))
+        self.assertEquals(response.status_code, 200)
+        self.assertFalse('foobar' in response.content)
+
     def test_empty_404s(self):
         response = self.c.get(reverse('404s-dashboard'))
         self.assertEquals(response.status_code, 200)
@@ -233,6 +244,12 @@ class DashboardTest(TestCase):
         ApplicationFactory(graphite_name='foo')
         response = self.c.get(reverse('404s-dashboard'))
         self.assertEquals(response.status_code, 200)
+
+    def test_404s_deprecated_app(self):
+        ApplicationFactory(graphite_name='foobar', deprecated=True)
+        response = self.c.get(reverse('404s-dashboard'))
+        self.assertEquals(response.status_code, 200)
+        self.assertFalse('foobar' in response.content)
 
     def test_empty_traffic(self):
         response = self.c.get(reverse('traffic-dashboard'))
@@ -243,6 +260,12 @@ class DashboardTest(TestCase):
         response = self.c.get(reverse('traffic-dashboard'))
         self.assertEquals(response.status_code, 200)
 
+    def test_traffic_deprecated_app(self):
+        ApplicationFactory(graphite_name='foobar', deprecated=True)
+        response = self.c.get(reverse('traffic-dashboard'))
+        self.assertEquals(response.status_code, 200)
+        self.assertFalse('foobar' in response.content)
+
     def test_empty_response_times(self):
         response = self.c.get(reverse('response-time-dashboard'))
         self.assertEquals(response.status_code, 200)
@@ -251,6 +274,12 @@ class DashboardTest(TestCase):
         ApplicationFactory(graphite_name='foo')
         response = self.c.get(reverse('response-time-dashboard'))
         self.assertEquals(response.status_code, 200)
+
+    def test_response_times_deprecated_app(self):
+        ApplicationFactory(graphite_name='foobar', deprecated=True)
+        response = self.c.get(reverse('response-time-dashboard'))
+        self.assertEquals(response.status_code, 200)
+        self.assertFalse('foobar' in response.content)
 
     def test_load_average_empty(self):
         response = self.c.get(reverse('load-dashboard'))
