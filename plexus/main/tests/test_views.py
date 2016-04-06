@@ -27,8 +27,7 @@ class SimpleTest(TestCase):
 
     def test_smoketest(self):
         """ just run the smoketests. we don't care if they pass/fail """
-        response = self.c.get("/smoketest/")
-        self.assertEquals(response.status_code, 200)
+        self.c.get("/smoketest/")
 
     def test_add_server_form(self):
         response = self.c.get("/add_server/")
