@@ -38,7 +38,7 @@ flake8==2.5.4
 unittest2==0.5.1
 logilab-common==1.1.0
 logilab-astng==0.24.3
-pylint==1.5.4
+pylint==1.5.5
 fake-factory==0.5.3
 factory_boy==2.6.1
 python-ldap==2.4.22
