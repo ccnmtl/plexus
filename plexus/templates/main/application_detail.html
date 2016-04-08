@@ -4,6 +4,15 @@
 
 {% block content %}
 
+    {% if object.deprecated %}
+        <div class="alert alert-error">
+            <h2>Deprecated</h2>
+
+            <p>This application has been deprecated.</p>
+
+        </div>
+    {% endif %}
+
 <h1>Application: {{ object.name }}</h1>
 {% if request.user.is_staff %}
 <a href="/application/{{object.id}}/edit/">edit</a>
@@ -37,16 +46,16 @@
 		<td>
 			{% for ac in object.applicationcontact_set.all %}
 			    <a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
-          {% if request.user.is_staff %}
-              [<a href="{% url 'delete-applicationcontact' ac.id %}">X</a>]
-          {% endif %}
+                {% if request.user.is_staff %}
+                    [<a href="{% url 'delete-applicationcontact' ac.id %}">X</a>]
+                {% endif %}
 			{% endfor %}
 		</td>
 	</tr>
 
 </table>
 
-
+{% if not object.deprecated %}
     {% if request.user.is_staff %}
         <a href="#addContact" role="button" class="btn" data-toggle="modal" data-target="#addContact">Add Contact</a>
         <form action="{% url 'add-application-contact' object.id %}" method="post">
@@ -74,110 +83,111 @@
             </div>
         </form>
     {% endif %}
-
+{% endif %}
 
 {% if object.applicationalias_set.count %}
-<h2>Alias(es)</h2>
-<ul>
-{% for aa in object.applicationalias_set.all %}
-<li><a href="/alias/{{aa.alias.id}}/">{{aa.alias.hostname}}</a></li>
-{% endfor %}
-</ul>
+    <h2>Alias(es)</h2>
+    <ul>
+        {% for aa in object.applicationalias_set.all %}
+            <li><a href="/alias/{{aa.alias.id}}/">{{aa.alias.hostname}}</a></li>
+        {% endfor %}
+    </ul>
 {% endif %}
 
 {% if request.user.is_staff %}
-<h2>Notes</h2>
+    <h2>Notes</h2>
 
 
 
-<a href="#add-note" role="button" class="btn" data-toggle="modal" data-toggle="#add-note">Add Note</a>
+    <a href="#add-note" role="button" class="btn" data-toggle="modal" data-toggle="#add-note">Add Note</a>
 
-<form action="{% url 'add-application-note' object.id %}" method="post">
-	<div class="modal fade" id="add-note" tabindex="-1" role="dialog" aria-labelledby="add-note-label" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-			<h3 id="add-note-label">Add Note</h3>
-		</div>
-		<div class="modal-body">
-			<div class="form-group">
-				<textarea name="body" class="form-control" rows="10"></textarea>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-			<button class="btn btn-primary">Add Note</button>
-		</div>
-	</div>
-</div>
-</div>
-</form>
+    <form action="{% url 'add-application-note' object.id %}" method="post">
+	    <div class="modal fade" id="add-note" tabindex="-1" role="dialog" aria-labelledby="add-note-label" aria-hidden="true">
+		    <div class="modal-dialog">
+			    <div class="modal-content">
+		            <div class="modal-header">
+			            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			            <h3 id="add-note-label">Add Note</h3>
+		            </div>
+		            <div class="modal-body">
+			            <div class="form-group">
+				            <textarea name="body" class="form-control" rows="10"></textarea>
+			            </div>
+		            </div>
+		            <div class="modal-footer">
+			            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+			            <button class="btn btn-primary">Add Note</button>
+		            </div>
+	            </div>
+            </div>
+        </div>
+    </form>
 
-{% if object.applicationnote_set.exists %}
-{% for note in object.application_notes %}
-<div>
-{{note.body|markdown}}
-</div>
-<p class="text-right text-muted">
-- {{note.user.get_full_name}} @ {{note.created}}
-</p>
-{% endfor %}
+    {% if object.applicationnote_set.exists %}
+        {% for note in object.application_notes %}
+            <div>
+                {{note.body|markdown}}
+            </div>
+            <p class="text-right text-muted">
+                - {{note.user.get_full_name}} @ {{note.created}}
+            </p>
+        {% endfor %}
+    {% endif %}
+
+    {% if not object.deprecated %}
+        {% if object.graphite_name %}
+            <h2>Smoketests</h2>
+            <div id="smoketests">passed/run</div>
+
+        {% endif %}
+
+
+        <h2>Graphs</h2>
+        {% with graphite_base="https://nanny-render.cul.columbia.edu/render/" %}
+            {% with graphite_name=object.graphite_name %}
+                {% with width=900 height=200 %}
+                    <ul class="nav nav-tabs">
+                        <li><a href="#daily" data-toggle="tab">Daily</a></li>
+                        <li><a href="#weekly" data-toggle="tab">Weekly</a></li>
+                        <li><a href="#monthly" data-toggle="tab">Monthly</a></li>
+                        <li><a href="#yearly" data-toggle="tab">Yearly</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="daily">
+                            {% with from="-24hours" %}
+                                {% include "main/application_graphs.html" %}
+                            {% endwith %}
+                        </div>
+                        <div class="tab-pane" id="weekly">
+                            {% with from="-7days" %}
+                                {% include "main/application_graphs.html" %}
+                            {% endwith %}
+                        </div>
+                        <div class="tab-pane" id="monthly">
+                            {% with from="-4weeks" %}
+                                {% include "main/application_graphs.html" %}
+                            {% endwith %}
+                        </div>
+                        <div class="tab-pane" id="yearly">
+                            {% with from="-1years" %}
+                                {% include "main/application_graphs.html" %}
+                            {% endwith %}
+                        </div>
+                    </div>
+                {% endwith %}
+            {% endwith %}
+        {% endwith %}
+    {% endif %}
+
+    {% if not object.deprecated %}
+        {% if object.pmt_id %}
+            <h2>Recent PMT Activity</h2>
+            {% feedparser_render object.pmt_feed_url template='main/feed_view.html' %}
+        {% endif %}
+    {% endif %}
 
 {% endif %}
-
-
-{% if object.graphite_name %}
-<h2>Smoketests</h2>
-<div id="smoketests">passed/run</div>
-
-{% endif %}
-
-
-<h2>Graphs</h2>
-{% with graphite_base="https://nanny-render.cul.columbia.edu/render/" %}
-{% with graphite_name=object.graphite_name %}
-{% with width=900 height=200 %}
-<ul class="nav nav-tabs">
-  <li><a href="#daily" data-toggle="tab">Daily</a></li>
-  <li><a href="#weekly" data-toggle="tab">Weekly</a></li>
-  <li><a href="#monthly" data-toggle="tab">Monthly</a></li>
-  <li><a href="#yearly" data-toggle="tab">Yearly</a></li>
-</ul>
-
-<div class="tab-content">
-  <div class="tab-pane active" id="daily">
-{% with from="-24hours" %}
-    {% include "main/application_graphs.html" %}
-{% endwith %}
-  </div>
-  <div class="tab-pane" id="weekly">
-{% with from="-7days" %}
-    {% include "main/application_graphs.html" %}
-{% endwith %}
-  </div>
-  <div class="tab-pane" id="monthly">
-{% with from="-4weeks" %}
-    {% include "main/application_graphs.html" %}
-{% endwith %}
-  </div>
-  <div class="tab-pane" id="yearly">
-{% with from="-1years" %}
-    {% include "main/application_graphs.html" %}
-{% endwith %}
-  </div>
-</div>
-{% endwith %}
-{% endwith %}
-{% endwith %}
-{% endif %}
-
-{% if object.pmt_id %}
-<h2>Recent PMT Activity</h2>
-{% feedparser_render object.pmt_feed_url template='main/feed_view.html' %}
-
-{% endif %}
-
 
 {% endblock %}
 

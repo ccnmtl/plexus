@@ -236,6 +236,7 @@ class Application(models.Model):
     graphite_name = models.CharField(max_length=256, default=u"", blank=True)
     sentry_name = models.CharField(max_length=256, default=u"", blank=True)
     pmt_id = models.IntegerField(default=0)
+    deprecated = models.BooleanField(default=False)
     # rolf
     # code repos
     # renewals

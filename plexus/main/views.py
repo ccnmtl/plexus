@@ -33,7 +33,7 @@ class IndexView(TemplateView):
                 Alias.objects.all().exclude(status='deprecated').order_by(
                     'hostname'
                 ).select_related('ip_address__server')),
-            applications=Application.objects.all().order_by(
+            applications=Application.objects.filter(deprecated=False).order_by(
                 'name').select_related('technology'),
         )
 
