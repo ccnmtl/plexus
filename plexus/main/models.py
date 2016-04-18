@@ -194,32 +194,8 @@ Thanks,
 %s
 """ % (h, name, ipv4, self.ip_address.server.name, self.ip_address.ipv4, r)
 
-    def add_contacts(self, contacts):
-        for c in contacts:
-            contact, created = Contact.objects.get_or_create(name=c)
-            AliasContact.objects.create(alias=self, contact=contact)
-
-    def set_contacts(self, contacts):
-        self.aliascontact_set.all().delete()
-        self.add_contacts(contacts)
-
     def get_absolute_url(self):
         return "/alias/%d/" % self.id
-
-    def contacts(self):
-        return [ac.contact for ac in self.aliascontact_set.all(
-        ).select_related('contact')]
-
-
-class AliasContact(models.Model):
-    alias = models.ForeignKey(Alias)
-    contact = models.ForeignKey(Contact)
-
-    class Meta:
-        order_with_respect_to = 'alias'
-
-    def __unicode__(self):
-        return unicode(self.alias) + ": " + unicode(self.contact)
 
 
 class Technology(models.Model):

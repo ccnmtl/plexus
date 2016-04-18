@@ -6,7 +6,6 @@ from plexus.main.models import IPAddress
 from plexus.main.models import Server
 from plexus.main.models import Alias
 from plexus.main.models import Contact
-from plexus.main.models import AliasContact
 from plexus.main.models import Technology
 from plexus.main.models import Application
 from plexus.main.models import ApplicationAlias
@@ -71,14 +70,6 @@ class ContactFactory(factory.DjangoModelFactory):
     name = "anders"
     email = "anders@columbia.edu"
     phone = "4-1813"
-
-
-class AliasContactFactory(factory.DjangoModelFactory):
-    class Meta:
-        model = AliasContact
-
-    alias = factory.SubFactory(AliasFactory)
-    contact = factory.SubFactory(ContactFactory)
 
 
 class TechnologyFactory(factory.DjangoModelFactory):
