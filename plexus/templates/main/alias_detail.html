@@ -32,15 +32,6 @@
 		<td><a href="/server/{{object.ip_address.server.id}}/">{{object.ip_address.server.name}}</a></td>
 	</tr>
 
-	<tr>
-		<td>Contacts</td>
-		<td>
-			{% for ac in object.aliascontact_set.all %}
-			<a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
-			{% endfor %}
-		</td>
-	</tr>
-
 </table>
 
 {% if object.can_request_dns_change %}
