@@ -198,17 +198,6 @@ Thanks,
         return "/alias/%d/" % self.id
 
 
-class AliasContact(models.Model):
-    alias = models.ForeignKey(Alias)
-    contact = models.ForeignKey(Contact)
-
-    class Meta:
-        order_with_respect_to = 'alias'
-
-    def __unicode__(self):
-        return unicode(self.alias) + ": " + unicode(self.contact)
-
-
 class Technology(models.Model):
     name = models.CharField(max_length=256)
 
