@@ -120,13 +120,12 @@ class AddAliasView(View):
         server = get_object_or_404(Server, id=id)
         ipaddress_id = request.POST.get('ipaddress', None)
         ipaddress = server.ipaddress_default(ipaddress_id)
-        alias = Alias.objects.create(
+        Alias.objects.create(
             hostname=request.POST.get('hostname', '[none]'),
             ip_address=ipaddress,
             description=request.POST.get('description', ''),
             administrative_info=request.POST.get('administrative_info', ''),
         )
-        alias.set_contacts(request.POST.get('contact', '').split(','))
         return HttpResponseRedirect("/server/%d/" % server.id)
 
 
@@ -141,7 +140,6 @@ class RequestAliasView(View):
             description=request.POST.get('description', ''),
             status='pending',
         )
-        alias.set_contacts(request.POST.get('contact', '').split(','))
         subject = alias.dns_request_email_subject()
         body = alias.dns_request_email_body(request.user.first_name)
         send_mail(subject, body, request.user.email,

@@ -1,7 +1,7 @@
 from django.test import TestCase
 from .factories import LocationFactory, OSFamilyFactory, AliasFactory
 from .factories import OperatingSystemFactory, ServerFactory, IPAddressFactory
-from .factories import ContactFactory, AliasContactFactory
+from .factories import ContactFactory
 from .factories import TechnologyFactory, ApplicationFactory
 from .factories import ApplicationAliasFactory, ApplicationContactFactory
 from .factories import ServerContactFactory
@@ -89,35 +89,9 @@ Thanks,
 Anders
 """)
 
-    def test_add_contacts(self):
-        a = AliasFactory()
-        self.assertEqual(a.aliascontact_set.count(), 0)
-        a.add_contacts(['One', 'Two', 'Three'])
-        self.assertEqual(a.aliascontact_set.count(), 3)
-
-    def test_set_contacts(self):
-        a = AliasFactory()
-        # start with none
-        self.assertEqual(a.aliascontact_set.count(), 0)
-        # set it to three
-        a.set_contacts(['One', 'Two', 'Three'])
-        self.assertEqual(a.aliascontact_set.count(), 3)
-        # repeating shouldn't change that
-        a.set_contacts(['One', 'Two', 'Three'])
-        self.assertEqual(a.aliascontact_set.count(), 3)
-        # but we should be able to add/remove
-        a.set_contacts(['Three', 'Four'])
-        self.assertEqual(a.aliascontact_set.count(), 2)
-
     def test_get_absolute_url(self):
         a = AliasFactory()
         self.assertEqual(a.get_absolute_url(), "/alias/%d/" % a.id)
-
-
-class AliasContactTest(TestCase):
-    def test_unicode(self):
-        ac = AliasContactFactory()
-        self.assertEqual(str(ac), "foo.example.com: anders")
 
 
 class TechnologyTest(TestCase):
