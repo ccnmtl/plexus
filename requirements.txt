@@ -34,7 +34,7 @@ python-subunit==1.2.0
 rdflib==4.2.1
 coverage==4.0.3
 pep8==1.7.0
-pyflakes==1.1.0
+pyflakes==1.2.2
 mccabe==0.4.0
 flake8==2.5.4
 unittest2==0.5.1
