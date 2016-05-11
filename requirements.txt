@@ -62,7 +62,7 @@ django-statsd-mozilla==0.3.16
 contextlib2==0.5.2
 raven==5.15.0
 django-bootstrap3==7.0.1
-django-bootstrap-form==3.2
+django-bootstrap-form==3.2.1
 django-debug-toolbar==1.4
 django-smoketest==1.0.0
 django-jenkins==0.18.1
