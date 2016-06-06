@@ -1,9 +1,12 @@
 import hashlib
 
 from django.core.urlresolvers import reverse
-from django.http.response import HttpResponseBadRequest, HttpResponseRedirect
-from django.views.generic import ListView, DetailView
-from plexus.grainlog.models import GrainLog
+from django.http.response import (
+    HttpResponseBadRequest, HttpResponseRedirect, JsonResponse,
+    HttpResponseNotFound,
+)
+from django.views.generic import ListView, DetailView, View
+from plexus.grainlog.models import GrainLog, current_grainlog
 
 
 class GrainLogListView(ListView):
@@ -26,3 +29,11 @@ class GrainLogListView(ListView):
 
 class GrainLogDetailView(DetailView):
     model = GrainLog
+
+
+class RawView(View):
+    def get(self, request):
+        g = current_grainlog()
+        if g is None:
+            return HttpResponseNotFound()
+        return JsonResponse(g.data())

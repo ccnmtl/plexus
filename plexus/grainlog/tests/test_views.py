@@ -1,8 +1,11 @@
+import json
+
 from django.contrib.auth.models import AnonymousUser
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.urlresolvers import reverse
 from django.test import TestCase, RequestFactory
-from plexus.grainlog.views import GrainLogListView, GrainLogDetailView
+from plexus.grainlog.views import (
+    GrainLogListView, GrainLogDetailView, RawView)
 from .factories import GrainLogFactory
 
 
@@ -42,3 +45,18 @@ class GrainLogDetailViewTest(ViewTest):
         self.assertEqual(response.status_code, 200)
         self.assertTrue(response.context_data['object'] == gl)
         self.assertTrue(gl.sha1 in response.rendered_content)
+
+
+class RawViewTest(ViewTest):
+    def test_get(self):
+        gl = GrainLogFactory()
+        request = self.factory.get(reverse('grainlog-raw'))
+        response = RawView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+        d = json.loads(response.content)
+        self.assertEqual(gl.data(), d)
+
+    def test_none(self):
+        request = self.factory.get(reverse('grainlog-raw'))
+        response = RawView.as_view()(request)
+        self.assertEqual(response.status_code, 404)
