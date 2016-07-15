@@ -31,6 +31,7 @@ class Entry(Page):
 
     content_panels = Page.content_panels + [
         FieldPanel('body', classname="full"),
+        FieldPanel('partner'),
         FieldPanel('group'),
         FieldPanel('site_url'),
         FieldPanel('thumb_url'),
