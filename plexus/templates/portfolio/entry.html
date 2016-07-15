@@ -1,3 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
 <h1>{{page.title}}</h1>
 
 {{page.body|safe}}
+
+<dl class="dl-horizontal">
+    <dt>Access:</dt>
+    <dd>{{page.access}}</dd>
+
+    <dt>Status:</dt>
+    <dd>{{page.status}}</dd>
+
+{% if page.group %}    
+    <dt>Group</dt>
+    <dd>{{page.group}}</dd>
+{% endif %}
+
+{% if page.site_url %}    
+    <dt>Site_Url</dt>
+    <dd>{{page.site_url}}</dd>
+{% endif %}
+
+{% if page.thumb_url %}    
+    <dt>Thumb_Url</dt>
+    <dd>{{page.thumb_url}}</dd>
+{% endif %}
+
+{% if page.orig_release %}    
+    <dt>Orig_Release</dt>
+    <dd>{{page.orig_release}}</dd>
+{% endif %}
+
+{% if page.info_url %}    
+    <dt>Info_Url</dt>
+    <dd>{{page.info_url}}</dd>
+{% endif %}
+
+{% if page.info_descriptor %}    
+    <dt>Info_Descriptor</dt>
+    <dd>{{page.info_descriptor}}</dd>
+{% endif %}
+
+</dl>
+
+{% endblock %}
