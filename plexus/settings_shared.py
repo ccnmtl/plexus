@@ -40,6 +40,8 @@ INSTALLED_APPS += [  # noqa
     'wagtail.wagtailcore',
     'modelcluster',
     'taggit',
+
+    'plexus.portfolio',
 ]
 
 HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
