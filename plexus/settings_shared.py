@@ -21,6 +21,20 @@ INSTALLED_APPS += [  # noqa
     'django_feedparser',
     'plexus.main',
     'plexus.grainlog',
+
+    'wagtail.wagtailforms',
+    'wagtail.wagtailredirects',
+    'wagtail.wagtailembeds',
+    'wagtail.wagtailsites',
+    'wagtail.wagtailusers',
+    'wagtail.wagtailsnippets',
+    'wagtail.wagtaildocs',
+    'wagtail.wagtailimages',
+    'wagtail.wagtailsearch',
+    'wagtail.wagtailadmin',
+    'wagtail.wagtailcore',
+    'modelcluster',
+    'taggit',
 ]
 
 HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
