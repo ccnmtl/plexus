@@ -15,6 +15,11 @@ TEMPLATE_CONTEXT_PROCESSORS += [  # noqa
     'django.contrib.messages.context_processors.messages',
 ]
 
+MIDDLEWARE_CLASSES += [  # noqa
+    'wagtail.wagtailcore.middleware.SiteMiddleware',
+    'wagtail.wagtailredirects.middleware.RedirectMiddleware',
+]
+
 INSTALLED_APPS += [  # noqa
     'bootstrapform',
     'bootstrap3',
@@ -41,3 +46,5 @@ HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
 SYSADMIN_LIST_EMAIL = "ccnmtl-sysadmin@columbia.edu"
 
 MAX_GRAINLOGS = 10
+
+WAGTAIL_SITE_NAME = 'Plexus'
