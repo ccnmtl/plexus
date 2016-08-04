@@ -13,8 +13,8 @@ class EntryIndex(Page):
 
 class Entry(Page):
 
-    partner = models.CharField(max_length=256)
-    group = models.CharField(max_length=256)
+    partner = models.CharField(max_length=256, blank=True)
+    group = models.CharField(max_length=256, blank=True)
     site_url = models.URLField()
     thumb_url = models.URLField()
     access = models.CharField(
@@ -27,9 +27,9 @@ class Entry(Page):
         choices=[("Development", "Development"),
                  ("Active", "Active"),
                  ("Archived", "Archived")])
-    orig_release = models.CharField(max_length=256)
-    info_url = models.URLField()
-    info_descriptor = models.CharField(max_length=256)
+    orig_release = models.CharField(max_length=256, blank=True)
+    info_url = models.URLField(blank=True)
+    info_descriptor = models.CharField(max_length=256, blank=True)
 
     body = RichTextField(blank=True)
 
