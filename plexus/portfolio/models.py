@@ -8,7 +8,11 @@ from wagtail.wagtailadmin.edit_handlers import FieldPanel
 
 
 class EntryIndex(Page):
-    pass
+    @property
+    def entries(self):
+        entries = Entry.objects.live().descendant_of(self)
+        # sort here if desired
+        return entries
 
 
 class Entry(Page):
