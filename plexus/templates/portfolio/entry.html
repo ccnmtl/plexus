@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
 {% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
 {% load wagtailuserbar %}
 
 {% block content %}
 {% wagtailuserbar %}
 
 <h1>{{page.title}}</h1>
+
+{% if page.thumb %}    
+    {% image page.thumb width-200 %}
+{% endif %}
+
+
 
 {{page.body|richtext}}
 
@@ -24,11 +31,6 @@
 {% if page.site_url %}    
     <dt>Site_Url</dt>
     <dd>{{page.site_url}}</dd>
-{% endif %}
-
-{% if page.thumb_url %}    
-    <dt>Thumb_Url</dt>
-    <dd>{{page.thumb_url}}</dd>
 {% endif %}
 
 {% if page.orig_release %}    

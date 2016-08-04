@@ -5,6 +5,7 @@ from django.db import models
 from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
+from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 
 class EntryIndex(Page):
@@ -20,7 +21,13 @@ class Entry(Page):
     partner = models.CharField(max_length=256, blank=True)
     group = models.CharField(max_length=256, blank=True)
     site_url = models.URLField()
-    thumb_url = models.URLField()
+    thumb = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+    )
     access = models.CharField(
         max_length=256,
         choices=[("Public", "Public"),
@@ -46,7 +53,7 @@ class Entry(Page):
         FieldPanel('partner'),
         FieldPanel('group'),
         FieldPanel('site_url'),
-        FieldPanel('thumb_url'),
+        ImageChooserPanel('thumb'),
         FieldPanel('access'),
         FieldPanel('status'),
         FieldPanel('orig_release'),
