@@ -142,8 +142,10 @@ class RequestAliasView(View):
         )
         subject = alias.dns_request_email_subject()
         body = alias.dns_request_email_body(request.user.first_name)
-        send_mail(subject, body, request.user.email,
-                  [settings.HOSTMASTER_EMAIL, settings.SYSADMIN_LIST_EMAIL])
+        send_mail(subject, body, settings.SERVER_EMAIL,
+                  [settings.HOSTMASTER_EMAIL,
+                   settings.SYSADMIN_LIST_EMAIL,
+                   request.user.email])
 
         return HttpResponseRedirect("/server/%d/" % server.id)
 
@@ -165,8 +167,10 @@ class RequestAliasChangeView(View):
         body = alias.dns_change_request_email_body(
             current_server, current_ip_address,
             request.user.first_name)
-        send_mail(subject, body, request.user.email,
-                  [settings.HOSTMASTER_EMAIL, settings.SYSADMIN_LIST_EMAIL])
+        send_mail(subject, body, settings.SERVER_EMAIL,
+                  [settings.HOSTMASTER_EMAIL,
+                   settings.SYSADMIN_LIST_EMAIL,
+                   request.user.email])
 
         return HttpResponseRedirect("/alias/%d/" % alias.id)
 
