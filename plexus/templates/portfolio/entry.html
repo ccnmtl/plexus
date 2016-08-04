@@ -8,46 +8,25 @@
 
 <h1>{{page.title}}</h1>
 
-{% if page.thumb %}    
-    {% image page.thumb width-200 %}
-{% endif %}
+<div class="row">
+    <div class="col-md-6">
+        {% if page.thumb %}    
+            {% image page.thumb width-190 %}
+        {% endif %}
+    </div>
 
+    <div class="col-md-6">
+        <strong>Partner(s): {{page.partner}}</strong><br />
+        <strong>Access:</strong> {{page.access}}<br />
+        <strong>Released:</strong> {{page.orig_release}}<br />
 
+        <a href="{{entry.site_url}}">
+            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+            VIEW PROJECT</a><br />
+        
+    </div>
+</div>
 
 {{page.body|richtext}}
-
-<dl class="dl-horizontal">
-    <dt>Access:</dt>
-    <dd>{{page.access}}</dd>
-
-    <dt>Status:</dt>
-    <dd>{{page.status}}</dd>
-
-{% if page.group %}    
-    <dt>Group</dt>
-    <dd>{{page.group}}</dd>
-{% endif %}
-
-{% if page.site_url %}    
-    <dt>Site_Url</dt>
-    <dd>{{page.site_url}}</dd>
-{% endif %}
-
-{% if page.orig_release %}    
-    <dt>Orig_Release</dt>
-    <dd>{{page.orig_release}}</dd>
-{% endif %}
-
-{% if page.info_url %}    
-    <dt>Info_Url</dt>
-    <dd>{{page.info_url}}</dd>
-{% endif %}
-
-{% if page.info_descriptor %}    
-    <dt>Info_Descriptor</dt>
-    <dd>{{page.info_descriptor}}</dd>
-{% endif %}
-
-</dl>
 
 {% endblock %}
