@@ -7,6 +7,10 @@ from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 
 
+class EntryIndex(Page):
+    pass
+
+
 class Entry(Page):
 
     partner = models.CharField(max_length=256)
@@ -28,6 +32,10 @@ class Entry(Page):
     info_descriptor = models.CharField(max_length=256)
 
     body = RichTextField(blank=True)
+
+    @property
+    def entry_index(self):
+        return self.get_ancestors().type(EntryIndex).last()
 
     content_panels = Page.content_panels + [
         FieldPanel('body', classname="full"),
