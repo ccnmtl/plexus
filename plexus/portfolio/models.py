@@ -9,6 +9,8 @@ from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 
 class EntryIndex(Page):
+    subpage_types = ['portfolio.Entry']
+
     @property
     def entries(self):
         entries = Entry.objects.live().descendant_of(self)
@@ -43,6 +45,9 @@ class Entry(Page):
     info_descriptor = models.CharField(max_length=256, blank=True)
 
     body = RichTextField(blank=True)
+
+    parent_page_types = ['portfolio.EntryIndex']
+    subpage_types = []
 
     @property
     def entry_index(self):
