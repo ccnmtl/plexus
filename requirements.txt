@@ -87,6 +87,6 @@ Unidecode==0.04.19
 django-treebeard==4.0
 Pillow==3.3.0
 beautifulsoup4==4.5.1
-html5lib==0.9999999
+html5lib==0.999999999
 
 ccnmtlsettings==0.3.0
