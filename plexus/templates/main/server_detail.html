@@ -209,7 +209,6 @@
             <th>status</th>
             <th>alias</th>
             <th>description</th>
-            <th>contacts</th>
         </tr>
     </thead>
 
@@ -225,11 +224,6 @@
             </td>
             <td><a href="/alias/{{alias.id}}/">{{alias.hostname}}</a></td>
             <td>{{alias.description}}</td>
-            <td>
-                {% for ac in alias.aliascontact_set.all %}
-                <a href="/contact/{{ac.contact.id}}/">{{ac.contact.name}}</a>
-                {% endfor %}
-            </td>
         </tr>
 
 
