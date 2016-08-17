@@ -1,24 +1,21 @@
 # flake8: noqa
 from settings_shared import *
+import os
 
 # required settings:
 SECRET_KEY = os.environ['SECRET_KEY']
-BROKER_URL = os.environ['BROKER_URL']
 
 # optional/defaulted settings
-DB_NAME = os.environ.get('DB_NAME', app)
+DB_NAME = os.environ.get('DB_NAME', 'plexus')
 DB_HOST = os.environ.get(
-    'DB_HOST',
-    os.environ.get('POSTGRESQL_PORT_5432_TCP_ADDR', ''))
-DB_PORT = int(
-    os.environ.get(
-        'DB_PORT',
-        os.environ.get('POSTGRESQL_PORT_54342_TCP_PORT', 5432)))
+    'DB_HOST', os.environ.get('POSTGRESQL_PORT_5432_TCP_ADDR', ''))
+DB_PORT = int(os.environ.get(
+    'DB_PORT', os.environ.get('POSTGRESQL_PORT_5432_TCP_PORT', 5432)))
 DB_USER = os.environ.get('DB_USER', '')
 DB_PASSWORD = os.environ.get('DB_PASSWORD', '')
 
-AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN', '')
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME', '')
+AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN', None)
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME', None)
 AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY', '')
 AWS_SECRET_KEY = os.environ.get('AWS_SECRET_KEY', '')
 AWS_ACCESS_KEY_ID = AWS_ACCESS_KEY
@@ -31,15 +28,8 @@ if 'ALLOWED_HOSTS' in os.environ:
 
 TIME_ZONE = os.environ.get('TIME_ZONE', 'America/New_York')
 
-EMAIL_HOST = os.environ.get(
-    'EMAIL_HOST',
-    os.environ.get('POSTFIX_PORT_25_TCP_ADDR', 'localhost'))
-EMAIL_PORT = os.environ.get(
-    'EMAIL_PORT',
-    os.environ.get('POSTFIX_PORT_25_TCP_PORT', 25))
-
-SERVER_EMAIL = os.environ.get('SERVER_EMAIL',
-                              app + "@" + app + ".ccnmtl.columbia.edu")
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'localhost')
+SERVER_EMAIL = os.environ.get('SERVER_EMAIL', "plexus@ccnmtl.columbia.edu")
 
 # -------------------------------------------
 
@@ -47,18 +37,17 @@ DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 TEMPLATE_DIRS = (
-    os.path.join(base, "templates"),
+    os.path.join(os.path.dirname(__file__), "templates"),
 )
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': DB_NAME,
-        'HOST': DB_HOST,
-        'PORT': DB_PORT,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'ATOMIC_REQUESTS': True,
+    'default' : {
+        'ENGINE' : 'django.db.backends.postgresql_psycopg2',
+        'NAME' : DB_NAME,
+        'HOST' : DB_HOST,
+        'PORT' : DB_PORT,
+        'USER' : DB_USER,
+        'PASSWORD' : DB_PASSWORD,
         }
 }
 
@@ -78,10 +67,5 @@ if AWS_S3_CUSTOM_DOMAIN:
 if RAVEN_DSN and 'migrate' not in sys.argv:
     INSTALLED_APPS.append('raven.contrib.django.raven_compat')
     RAVEN_CONFIG = {
-        'dsn': RAVEN_DSN,
+        'dsn': DSN,
     }
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-}
