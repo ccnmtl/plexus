@@ -1,8 +1,10 @@
 db:
   image: postgres
 web:
-  image: ccnmtl/plexus
+  build: .
   environment:
+    - APP=plexus
+    - SECRET_KEY=dummy-secret-key
     - SETTINGS=settings_compose
   command: manage runserver 0.0.0.0:8000
   volumes:
