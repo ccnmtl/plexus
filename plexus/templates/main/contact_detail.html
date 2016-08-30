@@ -33,12 +33,6 @@
 			<li><a href="/application/{{ac.application.id}}/">{{ac.application.name}}</a></li>
 			{% endfor %}
 			</ul>
-
-			<ul>Aliases
-			{% for ac in object.aliascontact_set.all %}
-			<li><a href="/alias/{{ac.alias.id}}/">{{ac.alias.hostname}}</a></li>
-			{% endfor %}
-			</ul>
 		</td>
 	</tr>
 
