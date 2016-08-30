@@ -29,8 +29,8 @@
 			</ul>
 
 			<ul>Applications
-			{% for ac in object.applicationcontact_set.all %}
-			<li><a href="/application/{{ac.application.id}}/">{{ac.application.name}}</a></li>
+			{% for application in object.active_applications %}
+			<li><a href="{% url 'application-detail' application.id %}">{{application.name}}</a></li>
 			{% endfor %}
 			</ul>
 		</td>

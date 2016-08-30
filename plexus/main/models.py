@@ -123,6 +123,10 @@ class Contact(models.Model):
         return [ac.server for ac in self.servercontact_set.filter(
             server__deprecated=False)]
 
+    def active_applications(self):
+        return [ac.application for ac in self.applicationcontact_set.filter(
+            application__deprecated=False)]
+
 
 class Alias(models.Model):
     hostname = models.CharField(max_length=256)
