@@ -23,20 +23,14 @@
 		<td>Responsible for:</td>
 		<td>
 			<ul>Servers
-			{% for ac in object.servercontact_set.all %}
-			<li><a href="/server/{{ac.server.id}}/">{{ac.server.name}}</a></li>
+			{% for server in object.active_servers %}
+			<li><a href="{% url 'server-detail' server.id %}">{{server.name}}</a></li>
 			{% endfor %}
 			</ul>
 
 			<ul>Applications
-			{% for ac in object.applicationcontact_set.all %}
-			<li><a href="/application/{{ac.application.id}}/">{{ac.application.name}}</a></li>
-			{% endfor %}
-			</ul>
-
-			<ul>Aliases
-			{% for ac in object.aliascontact_set.all %}
-			<li><a href="/alias/{{ac.alias.id}}/">{{ac.alias.hostname}}</a></li>
+			{% for application in object.active_applications %}
+			<li><a href="{% url 'application-detail' application.id %}">{{application.name}}</a></li>
 			{% endfor %}
 			</ul>
 		</td>
