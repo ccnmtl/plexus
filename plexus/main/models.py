@@ -165,7 +165,9 @@ class Alias(models.Model):
     def can_request_dns_change(self):
         """ it's not safe for Plexus to try to request DNS changes
         outside our subdomain"""
-        return str(self.hostname).endswith(".ccnmtl.columbia.edu")
+        return (
+            str(self.hostname).endswith(".ccnmtl.columbia.edu") or
+            str(self.hostname).endswith(".ctl.columbia.edu"))
 
     def dns_change_request_email_subject(self):
         return "DNS Alias Change Request: " + self.hostname

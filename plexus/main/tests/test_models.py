@@ -38,7 +38,12 @@ class AliasTest(TestCase):
         self.assertFalse(alias.is_deprecated())
 
     def test_can_request(self):
-        self.assertFalse(AliasFactory().can_request_dns_change())
+        a = AliasFactory(hostname="foo.example.com")
+        self.assertFalse(a.can_request_dns_change())
+        a = AliasFactory(hostname="foo.ccnmtl.columbia.edu")
+        self.assertTrue(a.can_request_dns_change())
+        a = AliasFactory(hostname="foo.ctl.columbia.edu")
+        self.assertTrue(a.can_request_dns_change())
 
     def test_dns_change_request_email_subject(self):
         a = AliasFactory()
