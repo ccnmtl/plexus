@@ -11,10 +11,6 @@ locals().update(common(project=project, base=base))
 PROJECT_APPS = ['plexus.main', 'plexus.grainlog']
 USE_TZ = True
 
-TEMPLATE_CONTEXT_PROCESSORS += [  # noqa
-    'django.contrib.messages.context_processors.messages',
-]
-
 MIDDLEWARE_CLASSES += [  # noqa
     'wagtail.wagtailcore.middleware.SiteMiddleware',
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',

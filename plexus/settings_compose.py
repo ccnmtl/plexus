@@ -1,19 +1,17 @@
 # flake8: noqa
 from settings_shared import *
+from ccnmtlsettings.compose import common
 
-DEBUG = True
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
-        'PORT': 5432,
-        'ATOMIC_REQUESTS': True,
-    }
-}
+project = 'plexus'
+base = os.path.dirname(__file__)
 
-EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+locals().update(
+    common(
+        project=project,
+        base=base,
+        STATIC_ROOT=STATIC_ROOT,
+        INSTALLED_APPS=INSTALLED_APPS,
+    ))
 
 try:
     from local_settings import *
