@@ -2,9 +2,6 @@
 from settings_shared import *
 from ccnmtlsettings.compose import common
 
-project = 'plexus'
-base = os.path.dirname(__file__)
-
 locals().update(
     common(
         project=project,

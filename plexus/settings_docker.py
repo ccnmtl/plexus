@@ -3,9 +3,6 @@ from settings_shared import *
 from ccnmtlsettings.docker import common
 import os
 
-project = 'plexus'
-base = os.path.dirname(__file__)
-
 locals().update(
     common(
         project=project,
