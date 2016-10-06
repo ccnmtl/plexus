@@ -37,13 +37,6 @@
     <tr><td>mem</td><td>{{ object.memory }}{% if object.swap %} [{{ object.swap }}]{% endif %}</td></tr>
     <tr><td>disk</td><td>{{ object.disk }}</td></tr>
     <tr><td>notes</td><td>{{ object.notes }}</td></tr>
-    {% if object.sentry_name %}
-    <tr>
-        <td>Sentry</td>
-        <td><a href="https://sentry.io/columbia-ctl/?server_name={{object.sentry_name}}">View Errors</a></td>
-    </tr>
-    {% endif %}
-
     <tr>
         <td>Contacts</td>
         <td>

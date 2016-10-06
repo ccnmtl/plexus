@@ -64,7 +64,6 @@ class AddServerView(View):
             disk=request.POST.get('disk', ''),
             notes=request.POST.get('notes', ''),
             graphite_name=graphite_name,
-            sentry_name=request.POST.get('sentry_name', ''),
         )
         if request.POST.get('ip0', False):
             ipv4 = request.POST.get('ip0', '')
