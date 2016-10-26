@@ -89,4 +89,4 @@ Pillow==3.4.2
 beautifulsoup4==4.5.1
 html5lib==0.999999999
 
-ccnmtlsettings==1.1.2
+ccnmtlsettings==1.2.0
