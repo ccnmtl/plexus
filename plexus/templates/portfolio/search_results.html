@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+    <form action="{% url 'portfolio-search' %}" method="get" class="form form-inline">
+        <input type="text" name="query" value="{{ search_query }}" class="form-control">
+        <input type="submit" value="Search Portfolio" class="btn btn-primary">
+    </form>
+
+    <hr />
+    {% if search_results %}
+        <ul>
+            {% for entry in search_results %}
+                <div class="entry">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <a href="{% pageurl entry %}"><strong>{{entry.title}}</strong></a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            {% if entry.thumb %}    
+                                {% image entry.thumb width-130 %}
+                                <br />
+                            {% endif %}
+                            <strong>Access:</strong> {{entry.access}}<br />
+                            <strong>Released:</strong> {{entry.orig_release}}<br />
+                        </div>
+
+                        <div class="col-md-5">
+                            <b>Partner: {{entry.partner}}</b><br />
+                            {{entry.body|richtext|truncatewords_html:50}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <a href="{{entry.site_url}}">
+                                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                                VIEW PROJECT</a>
+                        </div>
+                        <div class="col-md-5">
+                            <a href="{% pageurl entry %}">
+                                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                                MORE ABOUT THIS PROJECT</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </ul>
+    {% elif search_query %}
+        No results found
+    {% else %}
+        Please type something into the search box
+    {% endif %}
+{% endblock %}
