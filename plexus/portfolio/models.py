@@ -6,6 +6,7 @@ from wagtail.wagtailcore.models import Page
 from wagtail.wagtailcore.fields import RichTextField
 from wagtail.wagtailadmin.edit_handlers import FieldPanel
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from wagtail.wagtailsearch import index
 
 
 class EntryIndex(Page):
@@ -64,4 +65,13 @@ class Entry(Page):
         FieldPanel('orig_release'),
         FieldPanel('info_url'),
         FieldPanel('info_descriptor'),
+    ]
+
+    search_fields = Page.search_fields + [
+        index.SearchField('body'),
+
+        index.FilterField('partner'),
+        index.FilterField('group'),
+        index.FilterField('access'),
+        index.FilterField('status'),
     ]

@@ -1,7 +1,9 @@
 db:
   image: postgres
+elasticsearch:
+  image: elasticsearch:2
 web:
-  build: .
+  image: ccnmtl/plexus
   environment:
     - APP=plexus
     - SECRET_KEY=dummy-secret-key
@@ -13,3 +15,4 @@ web:
     - "8000:8000"
   links:
     - db
+    - elasticsearch
