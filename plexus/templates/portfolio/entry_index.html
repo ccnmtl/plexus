@@ -2,20 +2,17 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 {% load wagtailuserbar %}
+{% block css %}
+<link href="{{STATIC_URL}}css/portfolio.css" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
     {% wagtailuserbar %}
 
-    <h1>{{page.title}}</h1>
+    <h1 class="site-banner">{{page.title}}</h1>
+	
+	<p>{{page.search_description}}</p>
 
-    <p>The Project Portfolio demonstrates the range of projects that
-    CCNMTL has developed since its inception in early 1999. While each
-    of these projects pursues its own objectives, the unifying feature
-    across these efforts is the innovative use of learning
-    technologies and the high level of interaction among faculty and
-    technologists as they share ideas and collaboratively design
-    curricular resources and tools. Projects emphasize collaboration,
-    interaction, and student activity</p>
 
     {% if page.entries %}
         {% for entry in page.entries %}
