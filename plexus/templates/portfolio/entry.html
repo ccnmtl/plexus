@@ -2,6 +2,9 @@
 {% load wagtailcore_tags %}
 {% load wagtailimages_tags %}
 {% load wagtailuserbar %}
+{% block css %}
+<link href="{{STATIC_URL}}css/portfolio.css" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
 {% wagtailuserbar %}
