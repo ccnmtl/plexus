@@ -5,60 +5,47 @@
 {% block css %}
 <link href="{{STATIC_URL}}css/portfolio.css" rel="stylesheet">
 {% endblock %}
+{% block title %}Project Portfolio prototype{% endblock %}
 
 {% block content %}
     {% wagtailuserbar %}
 
+<header role="banner">
+    <nav class="navbar navbar-default navbar-portfolio">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand"><span class="glyphicon glyphicon-home"></span> Portfolio home</a>
+        </div>
+      </div>
+    </nav>
+    <h1 class="site-banner">{{page.title}}</h1>
+</header>
 
     <form action="{% url 'portfolio-search' %}" method="get" class="form form-inline">
         <input type="text" name="query" value="{{ search_query }}" class="form-control">
         <input type="submit" value="Search Portfolio" class="btn btn-primary">
     </form>
-
-    
-    <h1 class="site-banner">{{page.title}}</h1>
-	
+	<br />
 	<p>{{page.search_description}}</p>
 
 
     {% if page.entries %}
+<div class="row-portfolio">
         {% for entry in page.entries %}
-            <div class="entry">
-                <div class="row">
-                    <div class="col-md-8">
-                        <a href="{% pageurl entry %}"><strong>{{entry.title}}</strong></a>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-3">
-                        {% if entry.thumb %}    
-                            {% image entry.thumb width-130 %}
-                            <br />
-                        {% endif %}
-                        <strong>Access:</strong> {{entry.access}}<br />
-                        <strong>Released:</strong> {{entry.orig_release}}<br />
-                    </div>
-
-                    <div class="col-md-5">
-                        <b>Partner: {{entry.partner}}</b><br />
-                        {{entry.body|richtext|truncatewords_html:50}}
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-3">
-                        <a href="{{entry.site_url}}">
-                            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-                            VIEW PROJECT</a>
-                    </div>
-                    <div class="col-md-5">
-                        <a href="{% pageurl entry %}">
-                            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
-                            MORE ABOUT THIS PROJECT</a>
-                    </div>
-                </div>
-            </div>
+			<div class="col-one-third">
+            {% if entry.thumb %}    
+                <a href="{% pageurl entry %}">{% image entry.thumb original class="poster-thumbnail" %}</a>
+            {% endif %}
+            <h2><a href="{% pageurl entry %}">{{entry.title}}</a></h2>
+            <p>{{entry.partner}}</p>
+            <p class="entry-links">
+            <a href="{% pageurl entry %}" title="More about this project"><span class="glyphicon glyphicon-info-sign"></span></a>
+            &nbsp;
+			<a href="{{entry.site_url}}" title="Go to project"><span class="glyphicon glyphicon-link"></span></a>
+            <p>
+			</div>
         {% endfor %}
+</div>
     {% endif %}
     
 {% endblock %}

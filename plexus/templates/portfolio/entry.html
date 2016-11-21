@@ -5,9 +5,19 @@
 {% block css %}
 <link href="{{STATIC_URL}}css/portfolio.css" rel="stylesheet">
 {% endblock %}
+{% block title %}Project Portfolio prototype{% endblock %}
 
 {% block content %}
 {% wagtailuserbar %}
+<header role="banner">
+    <nav class="navbar navbar-default navbar-portfolio">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="../"><span class="glyphicon glyphicon-home"></span> Portfolio home</a>
+        </div>
+      </div>
+    </nav>
+</header>
 
 <h1>{{page.title}}</h1>
 

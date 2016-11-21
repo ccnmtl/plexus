@@ -1,6 +1,38 @@
+.navbar-portfolio {
+	margin-bottom: 0;
+}
+
 .site-banner {
-	background-color: #666;
+	margin-top: 0;
+	background-color: #999;
 	color: #fff;
 	text-align: center;
 	line-height: 100px;
+}
+
+.col-one-third {
+	background-color: #f3f3f3;
+	width: 33% !important;
+	display: inline-block;
+	margin: 0;
+	padding: 10px;
+}
+
+.poster-thumbnail {
+	width: 100%;
+	min-height: 230px;
+	display: block;
+	margin: auto;
+}
+
+.col-one-third h2 {
+	font-weight: normal;
+	font-size: 16px;
+	margin: 5px 0;
+	padding: 0;
+}
+
+.entry-links a {
+	font-size: 20px;
+	color: #999;
 }
