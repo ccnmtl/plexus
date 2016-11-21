@@ -9,6 +9,13 @@
 {% block content %}
     {% wagtailuserbar %}
 
+
+    <form action="{% url 'portfolio-search' %}" method="get" class="form form-inline">
+        <input type="text" name="query" value="{{ search_query }}" class="form-control">
+        <input type="submit" value="Search Portfolio" class="btn btn-primary">
+    </form>
+
+    
     <h1 class="site-banner">{{page.title}}</h1>
 	
 	<p>{{page.search_description}}</p>
