@@ -261,6 +261,14 @@ class Application(models.Model):
         ).select_related('contact')]
 
 
+class Lease(models.Model):
+    application = models.ForeignKey(Application)
+    start = models.DateField(auto_now_add=True)
+    end = models.DateField()
+    user = models.ForeignKey(User)
+    notes = models.TextField(blank=True, default=u"")
+
+
 class ApplicationAlias(models.Model):
     application = models.ForeignKey(Application)
     alias = models.ForeignKey(Alias)
