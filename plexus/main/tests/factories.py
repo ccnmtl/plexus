@@ -1,16 +1,16 @@
 import factory
-from plexus.main.models import Location
-from plexus.main.models import OSFamily
-from plexus.main.models import OperatingSystem
-from plexus.main.models import IPAddress
-from plexus.main.models import Server
-from plexus.main.models import Alias
-from plexus.main.models import Contact
-from plexus.main.models import Technology
-from plexus.main.models import Application
-from plexus.main.models import ApplicationAlias
-from plexus.main.models import ApplicationContact
-from plexus.main.models import ServerContact
+from datetime import datetime, timedelta
+from django.contrib.auth.models import User
+from plexus.main.models import (
+    Location, OSFamily, OperatingSystem, IPAddress,
+    Server, Alias, Contact, Technology, Application,
+    ApplicationAlias, ApplicationContact, ServerContact,
+    Lease)
+
+
+class UserFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = User
 
 
 class LocationFactory(factory.DjangoModelFactory):
@@ -113,3 +113,13 @@ class ServerContactFactory(factory.DjangoModelFactory):
 
     server = factory.SubFactory(ServerFactory)
     contact = factory.SubFactory(ContactFactory)
+
+
+class LeaseFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = Lease
+
+    application = factory.SubFactory(ApplicationFactory)
+    user = factory.SubFactory(UserFactory)
+    start = factory.LazyFunction(lambda: datetime.now() - timedelta(weeks=6))
+    end = factory.LazyFunction(lambda: datetime.now() + timedelta(weeks=6))

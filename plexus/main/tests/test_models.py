@@ -1,10 +1,10 @@
+from datetime import datetime, timedelta
 from django.test import TestCase
-from .factories import LocationFactory, OSFamilyFactory, AliasFactory
-from .factories import OperatingSystemFactory, ServerFactory, IPAddressFactory
-from .factories import ContactFactory
-from .factories import TechnologyFactory, ApplicationFactory
-from .factories import ApplicationAliasFactory, ApplicationContactFactory
-from .factories import ServerContactFactory
+from .factories import (
+    LocationFactory, OSFamilyFactory, AliasFactory,
+    OperatingSystemFactory, ServerFactory, IPAddressFactory, ContactFactory,
+    TechnologyFactory, ApplicationFactory, ApplicationAliasFactory,
+    ApplicationContactFactory, ServerContactFactory, LeaseFactory)
 from plexus.grainlog.tests.factories import GrainLogFactory
 import json
 
@@ -213,3 +213,29 @@ class ServerTest(TestCase):
         }
         GrainLogFactory(payload=json.dumps(d))
         self.assertIsNotNone(s.grain_info())
+
+
+class LeaseTest(TestCase):
+    def test_application_current_lease(self):
+        l = LeaseFactory()
+        self.assertEqual(l.application.current_lease(), l)
+
+    def test_application_valid_lease(self):
+        l = LeaseFactory()
+        self.assertTrue(l.application.valid_lease())
+
+    def test_application_current_lease_none(self):
+        a = ApplicationFactory()
+        self.assertIsNone(a.current_lease())
+
+    def test_application_valid_lease_none(self):
+        a = ApplicationFactory()
+        self.assertFalse(a.valid_lease())
+
+    def test_application_current_lease_expired(self):
+        l = LeaseFactory(end=datetime.now() - timedelta(weeks=1))
+        self.assertIsNone(l.application.current_lease())
+
+    def test_application_valid_lease_expired(self):
+        l = LeaseFactory(end=datetime.now() - timedelta(weeks=1))
+        self.assertFalse(l.application.valid_lease())
