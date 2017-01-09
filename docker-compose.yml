@@ -1,18 +1,23 @@
-db:
-  image: postgres
-elasticsearch:
-  image: elasticsearch:2
-web:
-  image: ccnmtl/plexus
-  environment:
-    - APP=plexus
-    - SECRET_KEY=dummy-secret-key
-    - SETTINGS=settings_compose
-  command: manage runserver 0.0.0.0:8000
-  volumes:
-    - .:/app/
-  ports:
-    - "8000:8000"
-  links:
-    - db
-    - elasticsearch
+version: '2'
+services:
+  db:
+    image: postgres
+  elasticsearch:
+    image: elasticsearch:2
+  web:
+    image: ccnmtl/plexus
+    environment:
+      - APP=plexus
+      - SECRET_KEY=dummy-secret-key
+      - SETTINGS=settings_compose
+    command: manage runserver 0.0.0.0:8000
+    volumes:
+      - .:/app/
+    ports:
+      - "8000:8000"
+    links:
+      - db
+      - elasticsearch
+    depends_on:
+      - db
+      - elasticsearch
