@@ -9,6 +9,7 @@ from plexus.main.models import (
     Server, Alias, Location, IPAddress, OSFamily,
     OperatingSystem, ServerNote, Note, Application, Technology,
     ApplicationAlias, ServerContact, ApplicationNote, ApplicationContact,
+    Lease,
 )
 
 from django.http import HttpResponseRedirect
@@ -274,3 +275,13 @@ class AddApplicationNoteView(LoggedInMixin, View):
         ApplicationNote.objects.create(
             application=application, note=n)
         return HttpResponseRedirect(application.get_absolute_url())
+
+
+class AddApplicationLease(LoggedInMixin, View):
+    def post(self, request, pk):
+        application = get_object_or_404(Application, pk=pk)
+        end = request.POST.get('end')
+        notes = request.POST.get('notes')
+        Lease.objects.create(application=application, end=end, notes=notes,
+                             user=request.user)
+        return HttpResponseRedirect(reverse('application-detail', args=[pk]))

@@ -11,7 +11,7 @@ from .factories import (
 from plexus.main.models import (
     Server, ServerContact, Contact, OSFamily, Alias,
     OperatingSystem, Location, ServerNote, Note,
-    ApplicationNote, ApplicationContact)
+    ApplicationNote, ApplicationContact, Lease)
 
 
 class SimpleTest(TestCase):
@@ -398,3 +398,16 @@ class LoggedInTest(TestCase):
         )
         self.assertEquals(response.status_code, 302)
         self.assertEqual(ApplicationContact.objects.count(), 1)
+
+    def test_add_application_lease(self):
+        a = ApplicationFactory()
+        response = self.c.post(
+            reverse("add-application-lease", args=(a.id,)),
+            {
+                "end": "2020-10-10",
+                "notes": "this is a new lease",
+            }
+        )
+        self.assertEquals(response.status_code, 302)
+        self.assertEqual(Lease.objects.count(), 1)
+        self.assertTrue(a.valid_lease())

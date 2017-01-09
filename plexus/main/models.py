@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from plexus.grainlog.models import current_grainlog
+from datetime import datetime
 
 
 class Location(models.Model):
@@ -260,6 +261,14 @@ class Application(models.Model):
     def contacts(self):
         return [ac.contact for ac in self.applicationcontact_set.all(
         ).select_related('contact')]
+
+    def valid_lease(self):
+        now = datetime.now()
+        return self.lease_set.filter(start__lte=now, end__gte=now).exists()
+
+    def current_lease(self):
+        now = datetime.now()
+        return self.lease_set.filter(start__lte=now, end__gte=now).first()
 
 
 class Lease(models.Model):
