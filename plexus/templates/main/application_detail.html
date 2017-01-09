@@ -41,6 +41,18 @@
 		<td><a href="https://sentry.io/columbia-ctl/{{object.sentry_name}}">View Errors</a></td>
 	</tr>
 	{% endif %}
+  {% if object.repo %}
+      <tr>
+          <td>Repo</td>
+          <td>{{object.repo}}</td>
+      </tr>
+  {% endif %}
+  {% if object.github_url %}
+      <tr>
+          <td>Github</td>
+          <td><a href="{{object.github_url}}">{{object.github_url}}</a></td>
+      </tr>
+  {% endif %}
 	<tr>
 		<td>Contacts</td>
 		<td>

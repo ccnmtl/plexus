@@ -54,6 +54,22 @@ data-source='[{% for technology in all_technologies %}"{{technology.name}}"{% if
 	</div>
 
 	<div class="control-group">
+		  <label class="control-label" for="repo">Repo URL</label>
+		  <div class="controls">
+			    <input type="text" name="repo" id="repo" />
+			    <span class="help-inline">git@github.com:... </span>
+		  </div>
+	</div>
+
+	<div class="control-group">
+		  <label class="control-label" for="github">Github Project URL</label>
+		  <div class="controls">
+			    <input type="text" name="github_url" id="github_url" />
+			    <span class="help-inline">https://github.com/...</span>
+		  </div>
+	</div>
+  
+	<div class="control-group">
 		<label class="control-label" for="contact">Primary Contact</label>
 		<div class="controls">
 			<input type="text" name="contact"

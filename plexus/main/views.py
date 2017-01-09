@@ -235,6 +235,8 @@ class AddApplicationView(View):
             pmt_id=request.POST.get('pmt_id', '') or '0',
             graphite_name=graphite_name,
             sentry_name=request.POST.get('sentry_name', ''),
+            repo=request.POST.get('repo', ''),
+            github_url=request.POST.get('github_url', ''),
         )
         application.set_contacts(request.POST.get('contact', '').split(','))
         return HttpResponseRedirect("/")
