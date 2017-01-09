@@ -147,12 +147,6 @@
     {% endif %}
 
     {% if not object.deprecated %}
-        {% if object.graphite_name %}
-            <h2>Smoketests</h2>
-            <div id="smoketests">passed/run</div>
-
-        {% endif %}
-
 
         <h2>Graphs</h2>
         {% with graphite_base="https://nanny-render.cul.columbia.edu/render/" %}
