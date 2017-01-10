@@ -155,16 +155,14 @@
         {% else %}
             <p>This application does not have a valid lease</p>
             <form action="{% url 'add-application-lease' object.pk %}" class="form" method="post">
-                <table>
-                    <tr>
-                        <th>End Date</th>
-                        <td><input type="text" name="end" placeholder="YYYY-MM-DD" class="form-control" /></td>
-                    </tr>
-                    <tr>
-                        <th>Notes</th>
-                        <td><textarea name="notes" class="form-control"></textarea></td>
-                    </tr>
-                </table>
+                <div class="form-group">
+                    <label class="control-label" for="id_end">End Date</label>
+                    <input type="text" name="end" placeholder="YYYY-MM-DD" class="form-control" id="id_end" />
+                </div>
+                <div class="form-group">
+                    <label class="control-label" for="id_notes">Notes</label>
+                    <textarea name="notes" class="form-control" id="id_end"></textarea>
+                </div>
 
                 <p>By creating a new lease, you are asserting that the
                     developer responsible for maintaining the
