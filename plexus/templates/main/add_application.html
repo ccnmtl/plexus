@@ -7,20 +7,21 @@
 	<div class="control-group">
 		<label class="control-label" for="name">Name</label>
 		<div class="controls">
-			<input type="text" name="name" id="name" />
+			<input type="text" name="name" id="name" class="form-control" />
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label" for="description">Description</label>
 		<div class="controls">
 			<textarea name="description" id="description" rows="3"
-			class="input-xxlarge"></textarea>
+			class="input-xxlarge form-control"></textarea>
 		</div>
 	</div>
 	<div class="control-group">
 		<label class="control-label">Technology</label>
 		<div class="controls">
-			<input type="text" name="technology" id="technology-input"
+			  <input type="text" name="technology" id="technology-input"
+               class="form-control"
 data-provide="typeahead"
 data-items="4"
 data-source='[{% for technology in all_technologies %}"{{technology.name}}"{% if not forloop.last %},{% endif %}{% endfor %}]'
@@ -31,7 +32,7 @@ data-source='[{% for technology in all_technologies %}"{{technology.name}}"{% if
 	<div class="control-group">
 		<label class="control-label" for="name">Graphite Name</label>
 		<div class="controls">
-			<input type="text" name="graphite_name" id="graphite_name" />
+			<input type="text" name="graphite_name" id="graphite_name" class="form-control"/>
 			<span class="help-inline">key for Graphite graphs.</span>
 		</div>
 	</div>
@@ -39,7 +40,7 @@ data-source='[{% for technology in all_technologies %}"{{technology.name}}"{% if
 	<div class="control-group">
 		<label class="control-label" for="name">Sentry Name</label>
 		<div class="controls">
-			<input type="text" name="sentry_name" id="sentry_name" />
+			<input type="text" name="sentry_name" id="sentry_name" class="form-control" />
 			<span class="help-inline">key for Sentry (usually a two part
 			slug. ie, 'mv-sim/mv-sim/').</span>
 		</div>
@@ -48,7 +49,7 @@ data-source='[{% for technology in all_technologies %}"{{technology.name}}"{% if
 	<div class="control-group">
 		<label class="control-label" for="pmt">PMT Id</label>
 		<div class="controls">
-			<input type="text" name="pmt_id" id="pmt-id" />
+			<input type="text" name="pmt_id" id="pmt-id" class="form-control" />
 			<span class="help-inline"></span>
 		</div>
 	</div>
@@ -56,7 +57,7 @@ data-source='[{% for technology in all_technologies %}"{{technology.name}}"{% if
 	<div class="control-group">
 		  <label class="control-label" for="repo">Repo URL</label>
 		  <div class="controls">
-			    <input type="text" name="repo" id="repo" />
+			    <input type="text" name="repo" id="repo" class="form-control" />
 			    <span class="help-inline">git@github.com:... </span>
 		  </div>
 	</div>
@@ -64,7 +65,7 @@ data-source='[{% for technology in all_technologies %}"{{technology.name}}"{% if
 	<div class="control-group">
 		  <label class="control-label" for="github">Github Project URL</label>
 		  <div class="controls">
-			    <input type="text" name="github_url" id="github_url" />
+			    <input type="text" name="github_url" id="github_url" class="form-control" />
 			    <span class="help-inline">https://github.com/...</span>
 		  </div>
 	</div>
@@ -72,7 +73,7 @@ data-source='[{% for technology in all_technologies %}"{{technology.name}}"{% if
 	<div class="control-group">
 		<label class="control-label" for="contact">Primary Contact</label>
 		<div class="controls">
-			<input type="text" name="contact"
+			<input type="text" name="contact" class="form-control"
 						 value="{{request.user.first_name}}" id="contact" />
 			<span class="help-inline">you can add more than one (comma separated)</span>
 		</div>
