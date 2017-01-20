@@ -1,6 +1,6 @@
-{% with metric_base="ccnmtl.app.counters.nginx."|add:graphite_name %}
+{% with metric_base="stats.app.counters.nginx."|add:graphite_name %}
 <h3>Smoketests Failed</h3>
-{% with metric="keepLastValue(ccnmtl.app.smoketest."|add:graphite_name|add:".failed)" %}
+{% with metric="keepLastValue(app.smoketest."|add:graphite_name|add:".failed)" %}
 {% include "main/graphite_graph.html" %}
 {% endwith %}
 
@@ -10,7 +10,7 @@
 {% endwith %}
 
 <h3>Request Time</h3>
-{% with metric="ccnmtl.app.timers.nginx."|add:graphite_name|add:".request_time.mean&target=ccnmtl.app.timers.nginx."|add:graphite_name|add:".request_time.upper_90" %}
+{% with metric="stats.app.timers.nginx."|add:graphite_name|add:".request_time.mean&target=stats.app.timers.nginx."|add:graphite_name|add:".request_time.upper_90" %}
 {% include "main/graphite_graph.html" %}
 {% endwith %}
 

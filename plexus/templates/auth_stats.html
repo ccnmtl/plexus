@@ -1,24 +1,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% with graphite_base="http://nanny.cul.columbia.edu/render/?" width=900 height=200 %}
+{% with graphite_base="https://graphite.ctl.columbia.edu/render/?" width=900 height=200 %}
 {% with common_opts="graphOnly=false&hideGrid=true&hideLegend=true" %}
-{% with windlogin_success="target=ccnmtl.app.counters.*.djangowind.windlogin.success" %}
-{% with local_attempts="target=ccnmtl.app.counters.*.djangowind.login.called" %}
-{% with local_success="target=ccnmtl.app.counters.*.djangowind.login_succeeded" %}
-{% with local_failure="target=ccnmtl.app.counters.*.djangowind.login.invalid_form" %}
-{% with logouts="target=ccnmtl.app.counters.*.djangowind.logout" %}
+{% with windlogin_success="target=stats.app.counters.*.djangowind.windlogin.success" %}
+{% with local_attempts="target=stats.app.counters.*.djangowind.login.called" %}
+{% with local_success="target=stats.app.counters.*.djangowind.login_succeeded" %}
+{% with local_failure="target=stats.app.counters.*.djangowind.login.invalid_form" %}
+{% with logouts="target=stats.app.counters.*.djangowind.logout" %}
 
-{% with windlogin_auth_failure="target=ccnmtl.app.counters.*.djangowind.windlogin.auth_failure" %}
-{% with windlogin_no_ticketid="target=ccnmtl.app.counters.*.djangowind.windlogin.no_ticketid" %}
+{% with windlogin_auth_failure="target=stats.app.counters.*.djangowind.windlogin.auth_failure" %}
+{% with windlogin_no_ticketid="target=stats.app.counters.*.djangowind.windlogin.no_ticketid" %}
 
-{% with create_user="target=ccnmtl.app.counters.*.djangowind.windauthbackend.create_user" %}
-{% with ldap_lookup="target=ccnmtl.app.counters.*.djangowind.ldap_lookup" %}
+{% with create_user="target=stats.app.counters.*.djangowind.windauthbackend.create_user" %}
+{% with ldap_lookup="target=stats.app.counters.*.djangowind.ldap_lookup" %}
 
-{% with windlocal_ratio="target=alias(summarize(sumSeries(ccnmtl.app.counters.*.djangowind.login_succeeded),'1h'),'local')&target=alias(summarize(sumSeries(ccnmtl.app.counters.*.djangowind.windlogin.success),'1h'),'WIND')" %}
+{% with windlocal_ratio="target=alias(summarize(sumSeries(stats.app.counters.*.djangowind.login_succeeded),'1h'),'local')&target=alias(summarize(sumSeries(stats.app.counters.*.djangowind.windlogin.success),'1h'),'WIND')" %}
 {% with stacked_opts="areaMode=stacked&lineMode=staircase&hideGrid=true" %}
 
-{% with fail_ratio="target=alias(color(summarize(sumSeries(ccnmtl.app.counters.*.djangowind.login.valid_form),'1h'),'green'),'Success')&target=alias(color(summarize(sumSeries(ccnmtl.app.counters.*.djangowind.login.invalid_form),'1h'),'red'),'Fail')" %}
+{% with fail_ratio="target=alias(color(summarize(sumSeries(stats.app.counters.*.djangowind.login.valid_form),'1h'),'green'),'Success')&target=alias(color(summarize(sumSeries(stats.app.counters.*.djangowind.login.invalid_form),'1h'),'red'),'Fail')" %}
 
 
 <ul class="nav nav-tabs">

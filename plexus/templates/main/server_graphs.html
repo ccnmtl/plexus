@@ -1,4 +1,4 @@
-{% with metric_base="ccnmtl.server."|add:graphite_name %}
+{% with metric_base="server."|add:graphite_name %}
 
 <h3>Load Avg</h3>
 {% with metric=metric_base|add:".cpu.load_average.1_minute" %}

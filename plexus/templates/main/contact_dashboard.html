@@ -76,8 +76,8 @@ var regroupServerMetrics = function (metrics, gmetric) {
 };
 
 var applicationMetrics = function(graphiteName, applicationName) {
-  var counter_base = "ccnmtl.app.counters." + graphiteName; 
-  var timer_base = "ccnmtl.app.timers." + graphiteName;
+  var counter_base = "stats.app.counters." + graphiteName; 
+  var timer_base = "stats.app.timers." + graphiteName;
   
   return {
     requests: {
