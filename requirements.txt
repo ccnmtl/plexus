@@ -43,7 +43,7 @@ configparser==3.5.0
 flake8==3.2.1
 logilab-common==1.3.0
 logilab-astng==0.24.3
-pylint==1.6.4
+pylint==1.6.5
 ipaddress==1.0.18
 Faker==0.7.7
 factory_boy==2.8.1
