@@ -23,7 +23,7 @@ from plexus.main.views import (
     AddServerNoteView, AddApplicationNoteView,
     DeleteServerContactView, DeleteApplicationContactView,
     AddApplicationContactView, AddServerContactView,
-    AddApplicationLease,
+    AddApplicationLease, RenewalsDashboard,
 )
 from plexus.portfolio.views import Search as PortfolioSearch
 
@@ -92,6 +92,8 @@ urlpatterns = [
     url(r'^applicationcontact/(?P<pk>\d+)/delete/$',
         DeleteApplicationContactView.as_view(),
         name="delete-applicationcontact"),
+
+    url(r'renewals/$', RenewalsDashboard.as_view(), name='renewals-dashboard'),
 
     url(r'^os/(?P<pk>\d+)/$', DetailView.as_view(model=OSFamily)),
     url(r'^os/(?P<family_id>\d+)/(?P<pk>\d+)/$', DetailView.as_view(

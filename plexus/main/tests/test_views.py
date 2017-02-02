@@ -411,3 +411,27 @@ class LoggedInTest(TestCase):
         self.assertEquals(response.status_code, 302)
         self.assertEqual(Lease.objects.count(), 1)
         self.assertTrue(a.valid_lease())
+
+    def test_renewals_dashboard(self):
+        a = ApplicationFactory()
+        b = ApplicationFactory()
+        response = self.c.get(reverse('renewals-dashboard'))
+        self.assertEquals(response.status_code, 200)
+        self.assertTrue(
+            a in response.context['apps_without_renewals'])
+        self.assertTrue(
+            b in response.context['apps_without_renewals'])
+        # create a lease for one
+        response = self.c.post(
+            reverse("add-application-lease", args=(b.id,)),
+            {
+                "end": "2020-10-10",
+                "notes": "this is a new lease",
+            }
+        )
+        response = self.c.get(reverse('renewals-dashboard'))
+        self.assertEquals(response.status_code, 200)
+        self.assertTrue(
+            a in response.context['apps_without_renewals'])
+        self.assertFalse(
+            b in response.context['apps_without_renewals'])
