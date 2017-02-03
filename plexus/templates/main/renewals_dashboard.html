@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load markup %}
+
+{% block content %}
+
+    <h2>Active Renewals</h2>
+
+    <table class="table table-striped table-condensed">
+        <tr><th>Application</th><th>Start</th><th>End</th><th>User</th><th>Notes</th></tr>
+
+        {% for renewal in active_renewals %}
+            <tr>
+                <td>
+                    <a href="{% url 'application-detail' renewal.application.id %}">{{renewal.application.name}}</a>
+                </td>
+                <td>
+                    {{renewal.start}}
+                </td>
+                <td>
+                    {{renewal.end}}
+                </td>
+                <td>{{renewal.user.get_full_name}}</td>
+                <td>{{renewal.notes|markdown}}</td>
+                
+            </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Applications Without Active Renewals</h2>
+    <table class="table table-striped table-condensed">
+        <tr><th>Application</th></tr>
+
+        {% for application in apps_without_renewals %}
+            <tr>
+                <td><a href="{% url 'application-detail' application.id %}">{{application.name}}</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    
+    
+{% endblock %}

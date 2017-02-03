@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
@@ -285,3 +286,22 @@ class AddApplicationLease(LoggedInMixin, View):
         Lease.objects.create(application=application, end=end, notes=notes,
                              user=request.user)
         return HttpResponseRedirect(reverse('application-detail', args=[pk]))
+
+
+class RenewalsDashboard(LoggedInMixin, TemplateView):
+    template_name = "main/renewals_dashboard.html"
+
+    def get_context_data(self, *args, **kwargs):
+        now = datetime.now()
+        active_renewals = Lease.objects.filter(
+            end__gte=now,
+        ).order_by('end')
+        active_applications = set([r.application for r in active_renewals])
+        all_applications = set(a for a in Application.objects.filter(
+            deprecated=False))
+        apps_without_renewals = all_applications - active_applications
+        return dict(
+            active_renewals=active_renewals,
+            apps_without_renewals=sorted(list(apps_without_renewals),
+                                         key=lambda x: x.name.lower()),
+        )
