@@ -148,13 +148,13 @@
 
     {% if not object.deprecated %}
 
-        <h2>Lease(s)</h2>
+        <h2>Renewal(s)</h2>
 
-        {% if object.valid_lease %}
-            <p>Current lease is good until {{object.current_lease.end}}</p>
+        {% if object.valid_renewal %}
+            <p>Current renewal is good until {{object.current_renewal.end}}</p>
         {% else %}
-            <p>This application does not have a valid lease</p>
-            <form action="{% url 'add-application-lease' object.pk %}" class="form" method="post">
+            <p>This application does not have a valid renewal</p>
+            <form action="{% url 'add-application-renewal' object.pk %}" class="form" method="post">
                 <div class="form-group">
                     <label class="control-label" for="id_end">End Date</label>
                     <input type="text" name="end" placeholder="YYYY-MM-DD" class="form-control" id="id_end" />
@@ -164,26 +164,26 @@
                     <textarea name="notes" class="form-control" id="id_end"></textarea>
                 </div>
 
-                <p>By creating a new lease, you are asserting that the
+                <p>By creating a new renewal, you are asserting that the
                     developer responsible for maintaining the
                     application, LD/PM, client, and senior management
                     have all agreed that this application will be maintained
-                    and used until the lease expires.</p>
+                    and used until the renewal expires.</p>
                 
                 <input type="submit" class="btn btn-primary" />
             </form>
         {% endif %}
         
-        {% if object.lease_set.exists %}
+        {% if object.renewal_set.exists %}
             <table class="table table-striped table-condensed">
                 <tr><th>Start</th><th>End</th><th>User</th><th>Notes</th></tr>
 
-                {% for lease in object.lease_set.all %}
+                {% for renewal in object.renewal_set.all %}
                     <tr>
-                        <td>{{lease.start}}</td>
-                        <td>{{lease.end}}</td>
-                        <td>{{lease.user.get_full_name}}</td>
-                        <td>{{lease.notes|markdown}}</td>
+                        <td>{{renewal.start}}</td>
+                        <td>{{renewal.end}}</td>
+                        <td>{{renewal.user.get_full_name}}</td>
+                        <td>{{renewal.notes|markdown}}</td>
                     </tr>
                 {% endfor %}
             </table>
