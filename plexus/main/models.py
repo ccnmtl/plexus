@@ -262,11 +262,11 @@ class Application(models.Model):
         return [ac.contact for ac in self.applicationcontact_set.all(
         ).select_related('contact')]
 
-    def valid_lease(self):
+    def valid_renewal(self):
         now = datetime.now()
         return self.lease_set.filter(start__lte=now, end__gte=now).exists()
 
-    def current_lease(self):
+    def current_renewal(self):
         now = datetime.now()
         return self.lease_set.filter(start__lte=now, end__gte=now).first()
 

@@ -278,7 +278,7 @@ class AddApplicationNoteView(LoggedInMixin, View):
         return HttpResponseRedirect(application.get_absolute_url())
 
 
-class AddApplicationLease(LoggedInMixin, View):
+class AddApplicationRenewal(LoggedInMixin, View):
     def post(self, request, pk):
         application = get_object_or_404(Application, pk=pk)
         end = request.POST.get('end')
