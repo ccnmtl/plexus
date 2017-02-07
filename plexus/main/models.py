@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from plexus.grainlog.models import current_grainlog
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class Location(models.Model):
@@ -277,6 +277,10 @@ class Lease(models.Model):
     end = models.DateField()
     user = models.ForeignKey(User)
     notes = models.TextField(blank=True, default=u"")
+
+    def upcoming(self):
+        # is it coming up within the next month?
+        return (datetime.now() + timedelta(weeks=4)).date() > self.end
 
 
 class ApplicationAlias(models.Model):

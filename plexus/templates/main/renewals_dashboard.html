@@ -9,7 +9,7 @@
         <tr><th>Application</th><th>Start</th><th>End</th><th>User</th><th>Notes</th></tr>
 
         {% for renewal in active_renewals %}
-            <tr>
+            <tr{% if renewal.upcoming %} class="upcoming-renewal"{% endif %}>
                 <td>
                     <a href="{% url 'application-detail' renewal.application.id %}">{{renewal.application.name}}</a>
                 </td>
