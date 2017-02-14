@@ -80,7 +80,7 @@ django-ga-context==0.1.0
 django-cacheds3storage==0.1.2
 django-smtp-ssl==1.0
 
-djangorestframework==3.5.3
+djangorestframework==3.5.4
 wagtail==1.8.1
 Willow==0.4
 django-modelcluster==3.0.1
