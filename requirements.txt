@@ -65,7 +65,7 @@ rjsmin==1.0.12
 django-compressor==2.1
 django-statsd-mozilla==0.3.16
 contextlib2==0.5.4
-raven==5.32.0
+raven==6.0.0
 django-bootstrap3==8.1.0
 django-bootstrap-form==3.2.1
 django-debug-toolbar==1.6
