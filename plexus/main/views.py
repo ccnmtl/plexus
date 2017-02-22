@@ -295,7 +295,7 @@ class RenewalsDashboard(LoggedInMixin, TemplateView):
         now = datetime.now()
         active_renewals = Lease.objects.filter(
             end__gte=now,
-        ).order_by('end')
+        ).exclude(application__deprecated=True).order_by('end')
         active_applications = set([r.application for r in active_renewals])
         all_applications = set(a for a in Application.objects.filter(
             deprecated=False))
