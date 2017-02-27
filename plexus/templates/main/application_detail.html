@@ -188,43 +188,45 @@
                 {% endfor %}
             </table>
         {% endif %}
-        
-        <h2>Graphs</h2>
-        {% with graphite_base="https://graphite.ctl.columbia.edu/render/" %}
-            {% with graphite_name=object.graphite_name %}
-                {% with width=900 height=200 %}
-                    <ul class="nav nav-tabs">
-                        <li><a href="#daily" data-toggle="tab">Daily</a></li>
-                        <li><a href="#weekly" data-toggle="tab">Weekly</a></li>
-                        <li><a href="#monthly" data-toggle="tab">Monthly</a></li>
-                        <li><a href="#yearly" data-toggle="tab">Yearly</a></li>
-                    </ul>
 
-                    <div class="tab-content">
-                        <div class="tab-pane active" id="daily">
-                            {% with from="-24hours" %}
-                                {% include "main/application_graphs.html" %}
-                            {% endwith %}
+        {% if object.graphite_name %}
+            <h2>Graphs</h2>
+            {% with graphite_base="https://graphite.ctl.columbia.edu/render/" %}
+                {% with graphite_name=object.graphite_name %}
+                    {% with width=900 height=200 %}
+                        <ul class="nav nav-tabs">
+                            <li><a href="#daily" data-toggle="tab">Daily</a></li>
+                            <li><a href="#weekly" data-toggle="tab">Weekly</a></li>
+                            <li><a href="#monthly" data-toggle="tab">Monthly</a></li>
+                            <li><a href="#yearly" data-toggle="tab">Yearly</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="daily">
+                                {% with from="-24hours" %}
+                                    {% include "main/application_graphs.html" %}
+                                {% endwith %}
+                            </div>
+                            <div class="tab-pane" id="weekly">
+                                {% with from="-7days" %}
+                                    {% include "main/application_graphs.html" %}
+                                {% endwith %}
+                            </div>
+                            <div class="tab-pane" id="monthly">
+                                {% with from="-4weeks" %}
+                                    {% include "main/application_graphs.html" %}
+                                {% endwith %}
+                            </div>
+                            <div class="tab-pane" id="yearly">
+                                {% with from="-1years" %}
+                                    {% include "main/application_graphs.html" %}
+                                {% endwith %}
+                            </div>
                         </div>
-                        <div class="tab-pane" id="weekly">
-                            {% with from="-7days" %}
-                                {% include "main/application_graphs.html" %}
-                            {% endwith %}
-                        </div>
-                        <div class="tab-pane" id="monthly">
-                            {% with from="-4weeks" %}
-                                {% include "main/application_graphs.html" %}
-                            {% endwith %}
-                        </div>
-                        <div class="tab-pane" id="yearly">
-                            {% with from="-1years" %}
-                                {% include "main/application_graphs.html" %}
-                            {% endwith %}
-                        </div>
-                    </div>
+                    {% endwith %}
                 {% endwith %}
             {% endwith %}
-        {% endwith %}
+        {% endif %}
     {% endif %}
 
     {% if not object.deprecated %}
