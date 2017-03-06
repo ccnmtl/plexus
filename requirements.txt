@@ -48,8 +48,10 @@ ipaddress==1.0.18
 Faker==0.7.9
 factory_boy==2.8.1
 ldap3==2.2.1
-sqlparse==0.2.2
+
+sqlparse==0.2.3
 gunicorn==19.7.0
+
 boto==2.46.1
 six==1.10.0
 python-dateutil==2.6.0
@@ -68,7 +70,7 @@ contextlib2==0.5.4
 raven==6.0.0
 django-bootstrap3==8.2.1
 django-bootstrap-form==3.2.1
-django-debug-toolbar==1.6
+django-debug-toolbar==1.7
 django-smoketest==1.0.0
 django-jenkins==0.110.0
 django-waffle==0.11.1
