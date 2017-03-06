@@ -68,7 +68,7 @@ contextlib2==0.5.4
 raven==6.0.0
 django-bootstrap3==8.2.1
 django-bootstrap-form==3.2.1
-django-debug-toolbar==1.6
+django-debug-toolbar==1.7
 django-smoketest==1.0.0
 django-jenkins==0.110.0
 django-waffle==0.11.1
