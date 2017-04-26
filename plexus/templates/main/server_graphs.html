@@ -20,9 +20,9 @@
 {% include "main/graphite_graph.html" %}
 {% endwith %}
 
-<h3>Disk Available (%)</h3>
+<h3>Disk Usage (%)</h3>
 {% with ymax="&yMax=100.0" ymin="&yMin=0.0" %}
-{% with metric="asPercent("|add:metric_base|add:".disk.usage.available,"|add:metric_base|add:".disk.usage.total)&target=scale(offset(asPercent("|add:metric_base|add:".disk.inode.used,"|add:metric_base|add:".disk.inode.total),-100),-1)" %}
+{% with metric=""|add:metric_base|add:".storage.disk.root.percent"|add:"&target="|add:metric_base|add:".storage.inodes.root.percent" %}
 {% include "main/graphite_graph.html" %}
 {% endwith %}
 {% endwith %}
