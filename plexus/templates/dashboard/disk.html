@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h2>Disk/Inodes Available (%)</h2>
+<h2>Disk/Inodes Used (%)</h2>
 {% with graphite_base="https://graphite.ctl.columbia.edu/render/" %}
 {% with width=900 height=200 %}
 {% with from="-24hours" %}
@@ -14,7 +14,7 @@
 {% with metric_base="server."|add:server.graphite_name %}
 
 {% with ymax="&yMax=100.0" ymin="&yMin=0.0" %}
-{% with metric="asPercent("|add:metric_base|add:".disk.usage.available,"|add:metric_base|add:".disk.usage.total)&target=scale(offset(asPercent("|add:metric_base|add:".disk.inode.used,"|add:metric_base|add:".disk.inode.total),-100),-1)" %}
+{% with metric=""|add:metric_base|add:".storage.disk.root.percent&target="|add:metric_base|add:".storage.inodes.root.percent" %}
 
 {% include "main/graphite_graph.html" %}
 
