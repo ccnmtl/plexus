@@ -2,6 +2,8 @@ version: '2'
 services:
   db:
     image: postgres
+  rabbitmq:
+    image: rabbitmq
   elasticsearch:
     image: elasticsearch:2
   web:
@@ -18,6 +20,45 @@ services:
     links:
       - db
       - elasticsearch
+      - rabbitmq
     depends_on:
       - db
       - elasticsearch
+      - rabbitmq
+  celery:
+    image: ccnmtl/plexus
+    command: worker
+    environment:
+      - APP=plexus
+      - SECRET_KEY=dummy-secret-key
+      - SETTINGS=settings_compose
+      - C_FORCE_ROOT=true
+    volumes:
+      - .:/app/
+    links:
+      - db
+      - elasticsearch
+      - rabbitmq
+    depends_on:
+      - db
+      - elasticsearch
+      - rabbitmq
+  beat:
+    image: ccnmtl/plexus
+    command: beat
+    environment:
+      - APP=plexus
+      - SECRET_KEY=dummy-secret-key
+      - SETTINGS=settings_compose
+      - C_FORCE_ROOT=true
+    volumes:
+      - .:/app/
+    links:
+      - db
+      - elasticsearch
+      - rabbitmq
+    depends_on:
+      - db
+      - elasticsearch
+      - rabbitmq
+

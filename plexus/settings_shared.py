@@ -38,6 +38,8 @@ INSTALLED_APPS += [  # noqa
     'taggit',
 
     'plexus.portfolio',
+
+    'djcelery',
 ]
 
 HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
@@ -46,3 +48,7 @@ SYSADMIN_LIST_EMAIL = "ccnmtl-sysadmin@columbia.edu"
 MAX_GRAINLOGS = 10
 
 WAGTAIL_SITE_NAME = 'Plexus'
+
+BROKER_URL = "amqp://localhost:5672//" + project
+
+CELERYD_CONCURRENCY = 2
