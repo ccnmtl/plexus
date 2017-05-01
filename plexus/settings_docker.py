@@ -3,6 +3,8 @@ from settings_shared import *
 from ccnmtlsettings.docker import common
 import os
 
+BROKER_URL = os.environ['BROKER_URL']
+
 locals().update(
     common(
         project=project,

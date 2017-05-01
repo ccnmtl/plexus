@@ -10,3 +10,4 @@ reports/
 config.json
 node_modules/
 wheelhouse
+celerybeat-schedule

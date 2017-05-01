@@ -19,7 +19,11 @@ WAGTAILSEARCH_BACKENDS = {
     }
 }
 
+BROKER_URL = "amqp://guest:guest@rabbitmq:5672/"
+
 try:
     from local_settings import *
 except ImportError:
     pass
+
+print(BROKER_URL)
