@@ -1,4 +1,5 @@
 # Django settings for plexus project.
+import djcelery
 import os.path
 from ccnmtlsettings.shared import common
 from django_feedparser.settings import *  # noqa
@@ -15,6 +16,8 @@ MIDDLEWARE_CLASSES += [  # noqa
     'wagtail.wagtailcore.middleware.SiteMiddleware',
     'wagtail.wagtailredirects.middleware.RedirectMiddleware',
 ]
+
+djcelery.setup_loader()
 
 INSTALLED_APPS += [  # noqa
     'bootstrapform',
