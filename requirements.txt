@@ -5,7 +5,7 @@ Django==1.11.1
 pytz==2017.2
 httplib2==0.10.2
 feedparser==5.2.1
-requests==2.13.0
+requests==2.14.2
 django-feedparser==0.1.2.ccnmtl
 Markdown==2.6.8
 uuid==1.30
