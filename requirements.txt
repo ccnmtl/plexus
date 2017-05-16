@@ -36,7 +36,7 @@ testscenarios==0.5.0
 python-subunit==1.2.0
 webencodings==0.5.1
 rdflib==4.2.2
-coverage==4.4
+coverage==4.4.1
 pep8==1.7.0
 pyflakes==1.5.0
 mccabe==0.6.1
