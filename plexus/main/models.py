@@ -53,6 +53,7 @@ class Server(models.Model):
     notes = models.TextField(blank=True, default=u"")
     deprecated = models.BooleanField(default=False)
     graphite_name = models.CharField(max_length=256, default=u"", blank=True)
+    ec2_instance_id = models.TextField(blank=True, default=u"")
 
     class Meta:
         ordering = ['name', ]
