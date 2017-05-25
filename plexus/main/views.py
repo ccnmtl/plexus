@@ -66,6 +66,7 @@ class AddServerView(View):
             disk=request.POST.get('disk', ''),
             notes=request.POST.get('notes', ''),
             graphite_name=graphite_name,
+            ec2_instance_id=request.POST.get('ec2_instance_id', ''),
         )
         if request.POST.get('ip0', False):
             ipv4 = request.POST.get('ip0', '')

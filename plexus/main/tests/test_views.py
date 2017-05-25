@@ -63,6 +63,7 @@ class SimpleTest(TestCase):
                 'ip1': '127.0.0.2',
                 'mac1': '00:00:00:00:00:01',
                 'contact': 'Anders,Jonah',
+                'ec2_instance_id': 'i-fde235eb',
             })
         self.assertEquals(response.status_code, 302)
         response = self.c.get("/")
@@ -75,6 +76,7 @@ class SimpleTest(TestCase):
         self.assertEquals(response.status_code, 200)
         assert '127.0.0.1' in response.content
         assert 'Anders' in response.content
+        assert 'i-fde235eb' in response.content
 
         l = Location.objects.get(name="test location")
         response = self.c.get(l.get_absolute_url())
