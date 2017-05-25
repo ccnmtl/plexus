@@ -22,6 +22,12 @@
         <td>primary function</td>
         <td>{{ object.primary_function }}</td>
     </tr>
+    {% if object.ec2_instance_id %}
+    <tr>
+        <td>EC2 Instance ID</td>
+        <td>{{ object.ec2_instance_id }}</td>
+    </tr>
+    {% endif %}
     <tr><td>ip addresses</td>
         <td>
             {% for ip in object.ipaddress_set.all %}
