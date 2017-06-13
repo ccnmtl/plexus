@@ -108,7 +108,7 @@ anyjson==0.3.3
 vine==1.1.3
 billiard==3.5.0.2
 librabbitmq==1.6.1
-kombu==3.0.37
+kombu==4.0.2
 amqp==2.1.4
 amqplib==1.0.2
 celery==3.1.24
