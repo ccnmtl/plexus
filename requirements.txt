@@ -95,7 +95,7 @@ wagtail==1.10.1
 Willow==0.4
 django-modelcluster==3.1
 django-taggit==0.22.1
-Unidecode==0.04.20
+Unidecode==0.04.21
 django-treebeard==4.1.2
 
 Pillow==4.1.1
