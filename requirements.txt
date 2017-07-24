@@ -13,7 +13,7 @@ requests==2.18.1
 django-feedparser==0.2.1
 Markdown==2.6.8
 uuid==1.30
-psycopg2==2.7.2
+psycopg2==2.7.3
 versiontools==1.9.1
 statsd==3.2.1
 BeautifulSoup==3.2.1
