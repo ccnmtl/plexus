@@ -9,7 +9,7 @@ idna==2.5
 urllib3==1.22
 certifi==2017.7.27.1
 
-requests==2.18.2
+requests==2.18.3
 django-feedparser==0.2.1
 Markdown==2.6.8
 uuid==1.30
@@ -54,7 +54,7 @@ editdistance==0.3.1
 pylint==1.7.2
 ipaddress==1.0.18
 Faker==0.7.18
-factory_boy==2.9.0
+factory_boy==2.9.1
 ldap3==2.3
 
 sqlparse==0.2.3
