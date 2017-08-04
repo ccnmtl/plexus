@@ -92,7 +92,7 @@ django-smtp-ssl==1.0
 
 djangorestframework==3.6.3
 wagtail==1.11.1
-Willow==0.4
+Willow==1.0
 django-modelcluster==3.1
 django-taggit==0.22.1
 Unidecode==0.04.21
