@@ -14,5 +14,5 @@ celerybeat-schedule
 .project
 .pydevproject
 .settings/
-uploads
 package-lock.json
+uploads

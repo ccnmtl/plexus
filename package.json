@@ -5,8 +5,14 @@
   "main": "index.js",
   "devDependencies": {
     "eslint": "~3.17.1",
+    "eslint-config-scanjs": "^1.0.0-beta4",
+    "eslint-plugin-no-unsafe-innerhtml": "^1.0.16",
+    "eslint-plugin-security": "^1.4.0",
     "jshint": "~2.9.1-rc1",
     "jscs": "~2.5.1"
+  },
+  "eslintConfig": {
+    "extends": "secure"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
