@@ -1,3 +1,5 @@
+/* global cubism: true, d3: true */
+
 (function() {
     'use strict';
     window.makegraphs = function(el, graphite_name, size, step) {
@@ -43,11 +45,11 @@
         var metrics = metric_defs.map(gmetric);
 
         var oranges = ['#08519c', '#*82bd', '#6baed6',
-                       '#fee6ce', '#fdae6b', '#e6550d'];
+            '#fee6ce', '#fdae6b', '#e6550d'];
         var greens = ['#edf8b8', '#b2e2e2', '#66c2a4',
-                      '#2ca25f', '#006d2c'];
+            '#2ca25f', '#006d2c'];
         var blues = ['#eff3ff', '#c6dbef', '#9ecae1',
-                     '#6baed6', '#3182bd', '#08519c'];
+            '#6baed6', '#3182bd', '#08519c'];
 
         d3.select(el).call(function(div) {
             div.append('div')
