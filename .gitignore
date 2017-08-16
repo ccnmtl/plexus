@@ -14,4 +14,4 @@ celerybeat-schedule
 .project
 .pydevproject
 .settings/
-foo
+uploads
