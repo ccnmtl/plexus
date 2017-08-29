@@ -11,8 +11,8 @@ module.exports = {
     ],
     "extends": [
         "eslint:recommended",
-        "plugin:security/recommended"
-    ],  
+        "plugin:security/recommended",
+    ],
     "rules": {
         "indent": [
             "error",
@@ -34,6 +34,7 @@ module.exports = {
             "error",
             "always"
         ],
+
         /** no-unsafe-innerhtml rule **/
         "no-unsafe-innerhtml/no-unsafe-innerhtml" : 2,
 
