@@ -59,45 +59,27 @@
             div.append('div')
                 .datum(metrics[0])
                 .attr('class', 'horizon')
-                .call(context.horizon()
-                      .height(100)
-                      .colors(greens)
-                     );
+                .call(context.horizon().height(100).colors(greens));
             div.append('div')
                 .datum(metrics[1])
                 .attr('class', 'horizon')
-                .call(context.horizon()
-                      .height(120)
-                      .colors(oranges)
-                     );
+                .call(context.horizon().height(120).colors(oranges));
             div.append('div')
                 .datum(metrics[1].subtract(metrics[2]))
                 .attr('class', 'horizon')
-                .call(context.horizon()
-                      .height(30)
-                      .colors(blues)
-                     );
+                .call(context.horizon().height(30).colors(blues));
             div.append('div')
                 .datum(metrics[3].subtract(metrics[1]))
                 .attr('class', 'horizon')
-                .call(context.horizon()
-                      .height(30)
-                      .colors(greens)
-                     );
+                .call(context.horizon().height(30).colors(greens));
             div.append('div')
                 .datum(metrics[4])
                 .attr('class', 'horizon')
-                .call(context.horizon()
-                      .height(60)
-                      .colors(oranges)
-                     );
+                .call(context.horizon().height(60).colors(oranges));
             div.append('div')
                 .datum(metrics[5])
                 .attr('class', 'horizon')
-                .call(context.horizon()
-                      .height(60)
-                      .colors(greens)
-                     );
+                .call(context.horizon().height(60).colors(greens));
         });
     };
 
