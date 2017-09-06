@@ -23,7 +23,7 @@ class SimpleTest(TestCase):
 
     def test_root(self):
         response = self.c.get("/")
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_smoketest(self):
         """ just run the smoketests. we don't care if they pass/fail """
@@ -31,11 +31,11 @@ class SimpleTest(TestCase):
 
     def test_add_server_form(self):
         response = self.c.get("/add_server/")
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_add_application_form(self):
         response = self.c.get("/add_application/")
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_add_application(self):
         response = self.c.post(
@@ -49,7 +49,7 @@ class SimpleTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         response = self.c.get("/")
-        self.assertTrue("testapp" in response.content)
+        self.assertContains(response, "testapp")
 
     def test_add_server(self):
         response = self.c.post(
@@ -65,40 +65,40 @@ class SimpleTest(TestCase):
                 'contact': 'Anders,Jonah',
                 'ec2_instance_id': 'i-fde235eb',
             })
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         response = self.c.get("/")
-        assert "testserver" in response.content
+        self.assertContains(response, "testserver")
 
         # pull up the server page
         s = Server.objects.get(name='testserver')
         response = self.c.get(s.get_absolute_url())
 
-        self.assertEquals(response.status_code, 200)
-        assert '127.0.0.1' in response.content
-        assert 'Anders' in response.content
-        assert 'i-fde235eb' in response.content
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '127.0.0.1')
+        self.assertContains(response, 'Anders')
+        self.assertCtonains(response, 'i-fde235eb')
 
         l = Location.objects.get(name="test location")
         response = self.c.get(l.get_absolute_url())
-        self.assertEquals(response.status_code, 200)
-        assert 'testserver' in response.content
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'testserver')
 
         # contacts should exist too
         c = Contact.objects.get(name="Anders")
         response = self.c.get(c.get_absolute_url())
-        self.assertEquals(response.status_code, 200)
-        assert 'Anders' in response.content
-        assert 'testserver' in response.content
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Anders')
+        self.assertContains(response, 'testserver')
 
         # os info should exist now
         osfam = OSFamily.objects.get(name="Linux")
         response = self.c.get(osfam.get_absolute_url())
-        assert response.status_code == 200
-        assert "Ubuntu 12.04" in response.content
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Ubuntu 12.04")
         os = OperatingSystem.objects.get(family=osfam, version=" Ubuntu 12.04")
         response = self.c.get(os.get_absolute_url())
-        assert response.status_code == 200
-        assert "testserver" in response.content
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "testserver")
 
     def test_add_server_alternates(self):
         response = self.c.post(
@@ -109,9 +109,9 @@ class SimpleTest(TestCase):
                 'name': 'testserver',
                 'contact': 'Anders,Jonah',
             })
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         response = self.c.get("/")
-        assert "testserver" in response.content
+        self.assertContains(response, "testserver")
 
     def test_add_alias(self):
         server = ServerFactory()
@@ -125,14 +125,14 @@ class SimpleTest(TestCase):
                 'administrative_info': 'admin info',
                 'contact': 'Anders,Jonah',
             })
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         response = self.c.get("/server/%d/" % server.id)
-        assert "test.example.com" in response.content
+        self.assertContains(response, "test.example.com")
 
         a = Alias.objects.get(hostname='test.example.com')
         response = self.c.get("/alias/%d/" % a.id)
         self.assertEqual(response.status_code, 200)
-        self.assertTrue("admin info" in response.content)
+        self.assertContains(response, "admin info")
 
     def test_contact(self):
         contact = ContactFactory()
@@ -155,7 +155,7 @@ class SimpleTest(TestCase):
     def test_deprecated_application(self):
         application = ApplicationFactory(deprecated=True)
         response = self.c.get("/")
-        self.assertFalse(application.get_absolute_url() in response.content)
+        self.assertNotContains(response, application.get_absolute_url())
 
     def test_delete_servercontact(self):
         sc = ServerContactFactory()
@@ -190,13 +190,13 @@ class SimpleTest(TestCase):
         response = self.c.post("/alias/%d/confirm/" % alias.id)
         self.assertEqual(response.status_code, 302)
         response = self.c.get("/alias/%d/" % alias.id)
-        self.assertTrue("pending" not in response.content)
+        self.assertNotContains(response, "pending")
 
     def test_alias_edit_form(self):
         alias = AliasFactory(status="pending")
         response = self.c.get("/alias/%d/edit/" % alias.id)
         self.assertEqual(response.status_code, 200)
-        self.assertTrue("<form " in response.content)
+        self.assertContains(response, "<form ")
         response = self.c.post(
             "/alias/%d/edit/" % alias.id,
             dict(hostname=alias.hostname,
@@ -206,8 +206,8 @@ class SimpleTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         response = self.c.get("/alias/%d/" % alias.id)
-        self.assertTrue("new description" in response.content)
-        self.assertTrue("new admin info" in response.content)
+        self.assertContains(response, "new description")
+        self.assertContains(response, "new admin info")
 
     def test_alias_associate_with_application(self):
         alias = AliasFactory()
@@ -224,81 +224,81 @@ class DashboardTest(TestCase):
 
     def test_empty_500s(self):
         response = self.c.get(reverse('500s-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_500s(self):
         ApplicationFactory(graphite_name='foo')
         response = self.c.get(reverse('500s-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_500s_deprecated_app(self):
         ApplicationFactory(graphite_name='foobar', deprecated=True)
         response = self.c.get(reverse('500s-dashboard'))
-        self.assertEquals(response.status_code, 200)
-        self.assertFalse('foobar' in response.content)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'foobar')
 
     def test_empty_404s(self):
         response = self.c.get(reverse('404s-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_404s(self):
         ApplicationFactory(graphite_name='foo')
         response = self.c.get(reverse('404s-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_404s_deprecated_app(self):
         ApplicationFactory(graphite_name='foobar', deprecated=True)
         response = self.c.get(reverse('404s-dashboard'))
-        self.assertEquals(response.status_code, 200)
-        self.assertFalse('foobar' in response.content)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'foobar')
 
     def test_empty_traffic(self):
         response = self.c.get(reverse('traffic-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_traffic(self):
         ApplicationFactory(graphite_name='foo')
         response = self.c.get(reverse('traffic-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_traffic_deprecated_app(self):
         ApplicationFactory(graphite_name='foobar', deprecated=True)
         response = self.c.get(reverse('traffic-dashboard'))
-        self.assertEquals(response.status_code, 200)
-        self.assertFalse('foobar' in response.content)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'foobar')
 
     def test_empty_response_times(self):
         response = self.c.get(reverse('response-time-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_response_times(self):
         ApplicationFactory(graphite_name='foo')
         response = self.c.get(reverse('response-time-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_response_times_deprecated_app(self):
         ApplicationFactory(graphite_name='foobar', deprecated=True)
         response = self.c.get(reverse('response-time-dashboard'))
-        self.assertEquals(response.status_code, 200)
-        self.assertFalse('foobar' in response.content)
+        self.assertEqual(response.status_code, 200)
+        self.assertNotContains(response, 'foobar')
 
     def test_load_average_empty(self):
         response = self.c.get(reverse('load-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_load_average(self):
         ServerFactory(graphite_name='foo')
         response = self.c.get(reverse('load-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_network_empty(self):
         response = self.c.get(reverse('network-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_network(self):
         ServerFactory(graphite_name='foo')
         response = self.c.get(reverse('network-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
 
 class LoggedInTest(TestCase):
@@ -322,9 +322,9 @@ class LoggedInTest(TestCase):
                 'administrative_info': 'admin info',
                 'contact': 'Anders,Jonah',
             })
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         response = self.c.get("/server/%d/" % server.id)
-        assert "test.example.com" in response.content
+        self.assertContains(response, "test.example.com")
 
         a = Alias.objects.get(hostname='test.example.com')
         response = self.c.get("/alias/%d/" % a.id)
@@ -341,9 +341,9 @@ class LoggedInTest(TestCase):
             {
                 'new_ipaddress': newipaddress.id,
             })
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         response = self.c.get("/alias/%d/" % alias.id)
-        assert "pending" in response.content
+        self.assertContains(response, "pending")
 
     def test_alias_change(self):
         server = ServerFactory()
@@ -356,9 +356,9 @@ class LoggedInTest(TestCase):
             {
                 'new_ipaddress': newipaddress.id,
             })
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         response = self.c.get("/alias/%d/" % alias.id)
-        assert str(newipaddress.server.name) in response.content
+        self.assertContains(response, str(newipaddress.server.name))
 
     def test_add_server_note(self):
         server = ServerFactory()
@@ -366,7 +366,7 @@ class LoggedInTest(TestCase):
             reverse("add-server-note", args=(server.id,)),
             {"body": "this is a note"}
         )
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(ServerNote.objects.count(), 1)
         self.assertEqual(Note.objects.count(), 1)
 
@@ -376,7 +376,7 @@ class LoggedInTest(TestCase):
             reverse("add-server-contact", args=(server.id,)),
             {"contact": "ContactBob"}
         )
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(ServerContact.objects.count(), 1)
         contact = ServerContact.objects.first()
         self.assertEqual(contact.contact.name, 'ContactBob')
@@ -388,7 +388,7 @@ class LoggedInTest(TestCase):
             reverse("add-application-note", args=(a.id,)),
             {"body": "this is a note"}
         )
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(ApplicationNote.objects.count(), 1)
         self.assertEqual(Note.objects.count(), 1)
 
@@ -398,7 +398,7 @@ class LoggedInTest(TestCase):
             reverse("add-application-contact", args=(a.id,)),
             {"contact": "ContactBob"}
         )
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(ApplicationContact.objects.count(), 1)
 
     def test_add_application_renewal(self):
@@ -410,7 +410,7 @@ class LoggedInTest(TestCase):
                 "notes": "this is a new renewal",
             }
         )
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(Lease.objects.count(), 1)
         self.assertTrue(a.valid_renewal())
 
@@ -418,7 +418,7 @@ class LoggedInTest(TestCase):
         a = ApplicationFactory()
         b = ApplicationFactory()
         response = self.c.get(reverse('renewals-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTrue(
             a in response.context['apps_without_renewals'])
         self.assertTrue(
@@ -432,7 +432,7 @@ class LoggedInTest(TestCase):
             }
         )
         response = self.c.get(reverse('renewals-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTrue(
             a in response.context['apps_without_renewals'])
         self.assertFalse(

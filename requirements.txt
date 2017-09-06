@@ -16,7 +16,6 @@ uuid==1.30
 psycopg2==2.7.3.1
 versiontools==1.9.1
 statsd==3.2.1
-BeautifulSoup==3.2.1
 cssselect==1.0.1
 lxml==3.8.0
 funcsigs==1.0.2
@@ -107,7 +106,6 @@ elasticsearch==2.4.1 # pyup: <5.0.0
 anyjson==0.3.3
 vine==1.1.4
 billiard==3.5.0.3
-librabbitmq==1.6.1
 kombu==3.0.37 # pyup: <4.0.0
 amqp==2.2.1
 amqplib==1.0.2
