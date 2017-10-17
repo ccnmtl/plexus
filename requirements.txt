@@ -91,7 +91,7 @@ django-cacheds3storage==0.1.2
 django-smtp-ssl==1.0
 
 djangorestframework==3.7.1
-wagtail==1.12.2
+wagtail==1.13
 Willow==1.0
 django-modelcluster==3.1
 django-taggit==0.22.1
