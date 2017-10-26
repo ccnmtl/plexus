@@ -12,6 +12,10 @@ class UserFactory(factory.DjangoModelFactory):
     class Meta:
         model = User
 
+    username = factory.Sequence(lambda n: 'user%d' % n)
+    password = factory.PostGenerationMethodCall('set_password', 'test')
+    email = factory.LazyAttribute(lambda u: '%s@example.com' % u.username)
+
 
 class LocationFactory(factory.DjangoModelFactory):
     class Meta:

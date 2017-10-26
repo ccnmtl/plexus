@@ -3,9 +3,10 @@ from django.views.generic.base import View
 from wagtail.wagtailsearch.models import Query
 
 from .models import Entry
+from plexus.main.views import LoggedInMixin
 
 
-class Search(View):
+class Search(LoggedInMixin, View):
     def get(self, request):
         # Search
         search_query = request.GET.get('query', None)

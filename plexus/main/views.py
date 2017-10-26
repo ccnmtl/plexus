@@ -24,7 +24,7 @@ class LoggedInMixin(object):
         return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 
-class IndexView(TemplateView):
+class IndexView(LoggedInMixin, TemplateView):
     template_name = 'main/index.html'
 
     def get_context_data(self):
@@ -40,7 +40,7 @@ class IndexView(TemplateView):
         )
 
 
-class AddServerView(View):
+class AddServerView(LoggedInMixin, View):
     template_name = 'main/add_server.html'
 
     def post(self, request):
@@ -95,7 +95,7 @@ class AddServerView(View):
                  all_operating_systems=OperatingSystem.objects.all()))
 
 
-class AddServerContactView(View):
+class AddServerContactView(LoggedInMixin, View):
     def post(self, request, pk):
         server = get_object_or_404(Server, pk=pk)
         contact = request.POST.get('contact')
@@ -103,21 +103,21 @@ class AddServerContactView(View):
         return HttpResponseRedirect(server.get_absolute_url())
 
 
-class DeleteServerContactView(DeleteView):
+class DeleteServerContactView(LoggedInMixin, DeleteView):
     model = ServerContact
 
     def get_success_url(self):
         return reverse('server-detail', args=[self.object.server.id])
 
 
-class DeleteApplicationContactView(DeleteView):
+class DeleteApplicationContactView(LoggedInMixin, DeleteView):
     model = ApplicationContact
 
     def get_success_url(self):
         return reverse('application-detail', args=[self.object.application.id])
 
 
-class AddAliasView(View):
+class AddAliasView(LoggedInMixin, View):
     def post(self, request, id):
         server = get_object_or_404(Server, id=id)
         ipaddress_id = request.POST.get('ipaddress', None)
@@ -131,7 +131,7 @@ class AddAliasView(View):
         return HttpResponseRedirect("/server/%d/" % server.id)
 
 
-class RequestAliasView(View):
+class RequestAliasView(LoggedInMixin, View):
     def post(self, request, id):
         server = get_object_or_404(Server, id=id)
         ipaddress_id = request.POST.get('ipaddress', None)
@@ -152,7 +152,7 @@ class RequestAliasView(View):
         return HttpResponseRedirect("/server/%d/" % server.id)
 
 
-class RequestAliasChangeView(View):
+class RequestAliasChangeView(LoggedInMixin, View):
     def post(self, request, id):
         alias = get_object_or_404(Alias, id=id)
         current_server = alias.ip_address.server
@@ -177,7 +177,7 @@ class RequestAliasChangeView(View):
         return HttpResponseRedirect("/alias/%d/" % alias.id)
 
 
-class AliasChangeView(View):
+class AliasChangeView(LoggedInMixin, View):
     def post(self, request, id):
         alias = get_object_or_404(Alias, id=id)
 
@@ -190,7 +190,7 @@ class AliasChangeView(View):
         return HttpResponseRedirect("/alias/%d/" % alias.id)
 
 
-class AliasView(DetailView):
+class AliasView(LoggedInMixin, DetailView):
     model = Alias
 
     def get_context_data(self, **kwargs):
@@ -200,7 +200,7 @@ class AliasView(DetailView):
         return context
 
 
-class AliasConfirmView(View):
+class AliasConfirmView(LoggedInMixin, View):
     def post(self, request, id):
         alias = get_object_or_404(Alias, id=id)
         alias.status = 'active'
@@ -208,12 +208,12 @@ class AliasConfirmView(View):
         return HttpResponseRedirect("/alias/%d/" % alias.id)
 
 
-class AliasDeleteView(DeleteView):
+class AliasDeleteView(LoggedInMixin, DeleteView):
     model = Alias
     success_url = "/"
 
 
-class AliasAssociateWithApplicationView(View):
+class AliasAssociateWithApplicationView(LoggedInMixin, View):
     def post(self, request, id):
         alias = get_object_or_404(Alias, id=id)
         application = get_object_or_404(
@@ -223,7 +223,7 @@ class AliasAssociateWithApplicationView(View):
         return HttpResponseRedirect("/alias/%d/" % alias.id)
 
 
-class AddApplicationView(View):
+class AddApplicationView(LoggedInMixin, View):
     template_name = 'main/add_application.html'
 
     def post(self, request):
@@ -251,7 +251,7 @@ class AddApplicationView(View):
             dict(all_technologies=Technology.objects.all()))
 
 
-class AddApplicationContactView(View):
+class AddApplicationContactView(LoggedInMixin, View):
     def post(self, request, pk):
         application = get_object_or_404(Application, pk=pk)
         contact = request.POST.get('contact')

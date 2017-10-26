@@ -1,17 +1,17 @@
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.test.client import Client
-
-from .factories import (
-    ServerFactory, IPAddressFactory, ContactFactory,
-    ApplicationFactory, AliasFactory, ServerContactFactory,
-    ApplicationContactFactory)
 
 from plexus.main.models import (
     Server, ServerContact, Contact, OSFamily, Alias,
     OperatingSystem, Location, ServerNote, Note,
     ApplicationNote, ApplicationContact, Lease)
+from plexus.main.tests.factories import UserFactory
+
+from plexus.main.tests.factories import (
+    ServerFactory, IPAddressFactory, ContactFactory,
+    ApplicationFactory, AliasFactory, ServerContactFactory,
+    ApplicationContactFactory)
 
 
 class SimpleTest(TestCase):
@@ -23,11 +23,231 @@ class SimpleTest(TestCase):
 
     def test_root(self):
         response = self.c.get("/")
-        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.status_code, 302)
 
     def test_smoketest(self):
         """ just run the smoketests. we don't care if they pass/fail """
         self.c.get("/smoketest/")
+
+
+class DashboardTest(TestCase):
+    def setUp(self):
+        self.c = Client()
+        self.user = UserFactory()
+        self.c.login(username=self.user.username, password="test")
+
+    def test_empty_500s(self):
+        response = self.c.get(reverse('500s-dashboard'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_500s(self):
+        ApplicationFactory(graphite_name='foo')
+        response = self.c.get(reverse('500s-dashboard'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_500s_deprecated_app(self):
+        ApplicationFactory(graphite_name='foobar', deprecated=True)
+        response = self.c.get(reverse('500s-dashboard'))
+        self.assertEquals(response.status_code, 200)
+        self.assertFalse('foobar' in response.content)
+
+    def test_empty_404s(self):
+        response = self.c.get(reverse('404s-dashboard'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_404s(self):
+        ApplicationFactory(graphite_name='foo')
+        response = self.c.get(reverse('404s-dashboard'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_404s_deprecated_app(self):
+        ApplicationFactory(graphite_name='foobar', deprecated=True)
+        response = self.c.get(reverse('404s-dashboard'))
+        self.assertEquals(response.status_code, 200)
+        self.assertFalse('foobar' in response.content)
+
+    def test_empty_traffic(self):
+        response = self.c.get(reverse('traffic-dashboard'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_traffic(self):
+        ApplicationFactory(graphite_name='foo')
+        response = self.c.get(reverse('traffic-dashboard'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_traffic_deprecated_app(self):
+        ApplicationFactory(graphite_name='foobar', deprecated=True)
+        response = self.c.get(reverse('traffic-dashboard'))
+        self.assertEquals(response.status_code, 200)
+        self.assertFalse('foobar' in response.content)
+
+    def test_empty_response_times(self):
+        response = self.c.get(reverse('response-time-dashboard'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_response_times(self):
+        ApplicationFactory(graphite_name='foo')
+        response = self.c.get(reverse('response-time-dashboard'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_response_times_deprecated_app(self):
+        ApplicationFactory(graphite_name='foobar', deprecated=True)
+        response = self.c.get(reverse('response-time-dashboard'))
+        self.assertEquals(response.status_code, 200)
+        self.assertFalse('foobar' in response.content)
+
+    def test_load_average_empty(self):
+        response = self.c.get(reverse('load-dashboard'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_load_average(self):
+        ServerFactory(graphite_name='foo')
+        response = self.c.get(reverse('load-dashboard'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_network_empty(self):
+        response = self.c.get(reverse('network-dashboard'))
+        self.assertEquals(response.status_code, 200)
+
+    def test_network(self):
+        ServerFactory(graphite_name='foo')
+        response = self.c.get(reverse('network-dashboard'))
+        self.assertEquals(response.status_code, 200)
+
+
+class LoggedInTest(TestCase):
+    def setUp(self):
+        self.c = Client()
+        self.user = UserFactory()
+        self.c.login(username=self.user.username, password="test")
+
+    def test_request_alias(self):
+        server = ServerFactory()
+        IPAddressFactory(server=server)
+
+        response = self.c.post(
+            "/server/%d/request_alias/" % server.id,
+            {
+                'hostname': 'test.example.com',
+                'description': 'a description',
+                'administrative_info': 'admin info',
+                'contact': 'Anders,Jonah',
+            })
+        self.assertEquals(response.status_code, 302)
+        response = self.c.get("/server/%d/" % server.id)
+        assert "test.example.com" in response.content
+
+        a = Alias.objects.get(hostname='test.example.com')
+        response = self.c.get("/alias/%d/" % a.id)
+        self.assertEqual(response.status_code, 200)
+
+    def test_request_alias_change(self):
+        server = ServerFactory()
+        ipaddress = IPAddressFactory(server=server)
+        alias = AliasFactory(ip_address=ipaddress)
+        newipaddress = IPAddressFactory()
+
+        response = self.c.post(
+            "/alias/%d/request_alias_change/" % alias.id,
+            {
+                'new_ipaddress': newipaddress.id,
+            })
+        self.assertEquals(response.status_code, 302)
+        response = self.c.get("/alias/%d/" % alias.id)
+        assert "pending" in response.content
+
+    def test_alias_change(self):
+        server = ServerFactory()
+        ipaddress = IPAddressFactory(server=server)
+        alias = AliasFactory(ip_address=ipaddress)
+        newipaddress = IPAddressFactory()
+
+        response = self.c.post(
+            reverse('alias-change', args=[alias.id]),
+            {
+                'new_ipaddress': newipaddress.id,
+            })
+        self.assertEquals(response.status_code, 302)
+        response = self.c.get("/alias/%d/" % alias.id)
+        assert str(newipaddress.server.name) in response.content
+
+    def test_add_server_note(self):
+        server = ServerFactory()
+        response = self.c.post(
+            reverse("add-server-note", args=(server.id,)),
+            {"body": "this is a note"}
+        )
+        self.assertEquals(response.status_code, 302)
+        self.assertEqual(ServerNote.objects.count(), 1)
+        self.assertEqual(Note.objects.count(), 1)
+
+    def test_add_server_contact(self):
+        server = ServerFactory()
+        response = self.c.post(
+            reverse("add-server-contact", args=(server.id,)),
+            {"contact": "ContactBob"}
+        )
+        self.assertEquals(response.status_code, 302)
+        self.assertEqual(ServerContact.objects.count(), 1)
+        contact = ServerContact.objects.first()
+        self.assertEqual(contact.contact.name, 'ContactBob')
+        self.assertEqual(contact.server, server)
+
+    def test_add_application_note(self):
+        a = ApplicationFactory()
+        response = self.c.post(
+            reverse("add-application-note", args=(a.id,)),
+            {"body": "this is a note"}
+        )
+        self.assertEquals(response.status_code, 302)
+        self.assertEqual(ApplicationNote.objects.count(), 1)
+        self.assertEqual(Note.objects.count(), 1)
+
+    def test_add_application_contact(self):
+        a = ApplicationFactory()
+        response = self.c.post(
+            reverse("add-application-contact", args=(a.id,)),
+            {"contact": "ContactBob"}
+        )
+        self.assertEquals(response.status_code, 302)
+        self.assertEqual(ApplicationContact.objects.count(), 1)
+
+    def test_add_application_renewal(self):
+        a = ApplicationFactory()
+        response = self.c.post(
+            reverse("add-application-renewal", args=(a.id,)),
+            {
+                "end": "2020-10-10",
+                "notes": "this is a new renewal",
+            }
+        )
+        self.assertEquals(response.status_code, 302)
+        self.assertEqual(Lease.objects.count(), 1)
+        self.assertTrue(a.valid_renewal())
+
+    def test_renewals_dashboard(self):
+        a = ApplicationFactory()
+        b = ApplicationFactory()
+        response = self.c.get(reverse('renewals-dashboard'))
+        self.assertEquals(response.status_code, 200)
+        self.assertTrue(
+            a in response.context['apps_without_renewals'])
+        self.assertTrue(
+            b in response.context['apps_without_renewals'])
+        # create a renewal for one
+        response = self.c.post(
+            reverse("add-application-renewal", args=(b.id,)),
+            {
+                "end": "2020-10-10",
+                "notes": "this is a new renewal",
+            }
+        )
+        response = self.c.get(reverse('renewals-dashboard'))
+        self.assertEquals(response.status_code, 200)
+        self.assertTrue(
+            a in response.context['apps_without_renewals'])
+        self.assertFalse(
+            b in response.context['apps_without_renewals'])
 
     def test_add_server_form(self):
         response = self.c.get("/add_server/")
@@ -78,8 +298,8 @@ class SimpleTest(TestCase):
         assert 'Anders' in response.content
         assert 'i-fde235eb' in response.content
 
-        lease = Location.objects.get(name="test location")
-        response = self.c.get(lease.get_absolute_url())
+        l = Location.objects.get(name="test location")
+        response = self.c.get(l.get_absolute_url())
         self.assertEquals(response.status_code, 200)
         assert 'testserver' in response.content
 
@@ -216,224 +436,3 @@ class SimpleTest(TestCase):
             "/alias/%d/associate_with_application/" % alias.id,
             dict(application=application.id))
         self.assertEqual(response.status_code, 302)
-
-
-class DashboardTest(TestCase):
-    def setUp(self):
-        self.c = Client()
-
-    def test_empty_500s(self):
-        response = self.c.get(reverse('500s-dashboard'))
-        self.assertEquals(response.status_code, 200)
-
-    def test_500s(self):
-        ApplicationFactory(graphite_name='foo')
-        response = self.c.get(reverse('500s-dashboard'))
-        self.assertEquals(response.status_code, 200)
-
-    def test_500s_deprecated_app(self):
-        ApplicationFactory(graphite_name='foobar', deprecated=True)
-        response = self.c.get(reverse('500s-dashboard'))
-        self.assertEquals(response.status_code, 200)
-        self.assertFalse('foobar' in response.content)
-
-    def test_empty_404s(self):
-        response = self.c.get(reverse('404s-dashboard'))
-        self.assertEquals(response.status_code, 200)
-
-    def test_404s(self):
-        ApplicationFactory(graphite_name='foo')
-        response = self.c.get(reverse('404s-dashboard'))
-        self.assertEquals(response.status_code, 200)
-
-    def test_404s_deprecated_app(self):
-        ApplicationFactory(graphite_name='foobar', deprecated=True)
-        response = self.c.get(reverse('404s-dashboard'))
-        self.assertEquals(response.status_code, 200)
-        self.assertFalse('foobar' in response.content)
-
-    def test_empty_traffic(self):
-        response = self.c.get(reverse('traffic-dashboard'))
-        self.assertEquals(response.status_code, 200)
-
-    def test_traffic(self):
-        ApplicationFactory(graphite_name='foo')
-        response = self.c.get(reverse('traffic-dashboard'))
-        self.assertEquals(response.status_code, 200)
-
-    def test_traffic_deprecated_app(self):
-        ApplicationFactory(graphite_name='foobar', deprecated=True)
-        response = self.c.get(reverse('traffic-dashboard'))
-        self.assertEquals(response.status_code, 200)
-        self.assertFalse('foobar' in response.content)
-
-    def test_empty_response_times(self):
-        response = self.c.get(reverse('response-time-dashboard'))
-        self.assertEquals(response.status_code, 200)
-
-    def test_response_times(self):
-        ApplicationFactory(graphite_name='foo')
-        response = self.c.get(reverse('response-time-dashboard'))
-        self.assertEquals(response.status_code, 200)
-
-    def test_response_times_deprecated_app(self):
-        ApplicationFactory(graphite_name='foobar', deprecated=True)
-        response = self.c.get(reverse('response-time-dashboard'))
-        self.assertEquals(response.status_code, 200)
-        self.assertFalse('foobar' in response.content)
-
-    def test_load_average_empty(self):
-        response = self.c.get(reverse('load-dashboard'))
-        self.assertEquals(response.status_code, 200)
-
-    def test_load_average(self):
-        ServerFactory(graphite_name='foo')
-        response = self.c.get(reverse('load-dashboard'))
-        self.assertEquals(response.status_code, 200)
-
-    def test_network_empty(self):
-        response = self.c.get(reverse('network-dashboard'))
-        self.assertEquals(response.status_code, 200)
-
-    def test_network(self):
-        ServerFactory(graphite_name='foo')
-        response = self.c.get(reverse('network-dashboard'))
-        self.assertEquals(response.status_code, 200)
-
-
-class LoggedInTest(TestCase):
-    def setUp(self):
-        self.c = Client()
-        self.user = User.objects.create(username="foo", first_name="first",
-                                        last_name="last")
-        self.user.set_password("test")
-        self.user.save()
-        self.c.login(username="foo", password="test")
-
-    def test_request_alias(self):
-        server = ServerFactory()
-        IPAddressFactory(server=server)
-
-        response = self.c.post(
-            "/server/%d/request_alias/" % server.id,
-            {
-                'hostname': 'test.example.com',
-                'description': 'a description',
-                'administrative_info': 'admin info',
-                'contact': 'Anders,Jonah',
-            })
-        self.assertEquals(response.status_code, 302)
-        response = self.c.get("/server/%d/" % server.id)
-        assert "test.example.com" in response.content
-
-        a = Alias.objects.get(hostname='test.example.com')
-        response = self.c.get("/alias/%d/" % a.id)
-        self.assertEqual(response.status_code, 200)
-
-    def test_request_alias_change(self):
-        server = ServerFactory()
-        ipaddress = IPAddressFactory(server=server)
-        alias = AliasFactory(ip_address=ipaddress)
-        newipaddress = IPAddressFactory()
-
-        response = self.c.post(
-            "/alias/%d/request_alias_change/" % alias.id,
-            {
-                'new_ipaddress': newipaddress.id,
-            })
-        self.assertEquals(response.status_code, 302)
-        response = self.c.get("/alias/%d/" % alias.id)
-        assert "pending" in response.content
-
-    def test_alias_change(self):
-        server = ServerFactory()
-        ipaddress = IPAddressFactory(server=server)
-        alias = AliasFactory(ip_address=ipaddress)
-        newipaddress = IPAddressFactory()
-
-        response = self.c.post(
-            reverse('alias-change', args=[alias.id]),
-            {
-                'new_ipaddress': newipaddress.id,
-            })
-        self.assertEquals(response.status_code, 302)
-        response = self.c.get("/alias/%d/" % alias.id)
-        assert str(newipaddress.server.name) in response.content
-
-    def test_add_server_note(self):
-        server = ServerFactory()
-        response = self.c.post(
-            reverse("add-server-note", args=(server.id,)),
-            {"body": "this is a note"}
-        )
-        self.assertEquals(response.status_code, 302)
-        self.assertEqual(ServerNote.objects.count(), 1)
-        self.assertEqual(Note.objects.count(), 1)
-
-    def test_add_server_contact(self):
-        server = ServerFactory()
-        response = self.c.post(
-            reverse("add-server-contact", args=(server.id,)),
-            {"contact": "ContactBob"}
-        )
-        self.assertEquals(response.status_code, 302)
-        self.assertEqual(ServerContact.objects.count(), 1)
-        contact = ServerContact.objects.first()
-        self.assertEqual(contact.contact.name, 'ContactBob')
-        self.assertEqual(contact.server, server)
-
-    def test_add_application_note(self):
-        a = ApplicationFactory()
-        response = self.c.post(
-            reverse("add-application-note", args=(a.id,)),
-            {"body": "this is a note"}
-        )
-        self.assertEquals(response.status_code, 302)
-        self.assertEqual(ApplicationNote.objects.count(), 1)
-        self.assertEqual(Note.objects.count(), 1)
-
-    def test_add_application_contact(self):
-        a = ApplicationFactory()
-        response = self.c.post(
-            reverse("add-application-contact", args=(a.id,)),
-            {"contact": "ContactBob"}
-        )
-        self.assertEquals(response.status_code, 302)
-        self.assertEqual(ApplicationContact.objects.count(), 1)
-
-    def test_add_application_renewal(self):
-        a = ApplicationFactory()
-        response = self.c.post(
-            reverse("add-application-renewal", args=(a.id,)),
-            {
-                "end": "2020-10-10",
-                "notes": "this is a new renewal",
-            }
-        )
-        self.assertEquals(response.status_code, 302)
-        self.assertEqual(Lease.objects.count(), 1)
-        self.assertTrue(a.valid_renewal())
-
-    def test_renewals_dashboard(self):
-        a = ApplicationFactory()
-        b = ApplicationFactory()
-        response = self.c.get(reverse('renewals-dashboard'))
-        self.assertEquals(response.status_code, 200)
-        self.assertTrue(
-            a in response.context['apps_without_renewals'])
-        self.assertTrue(
-            b in response.context['apps_without_renewals'])
-        # create a renewal for one
-        response = self.c.post(
-            reverse("add-application-renewal", args=(b.id,)),
-            {
-                "end": "2020-10-10",
-                "notes": "this is a new renewal",
-            }
-        )
-        response = self.c.get(reverse('renewals-dashboard'))
-        self.assertEquals(response.status_code, 200)
-        self.assertTrue(
-            a in response.context['apps_without_renewals'])
-        self.assertFalse(
-            b in response.context['apps_without_renewals'])
