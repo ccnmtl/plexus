@@ -11,7 +11,7 @@ from plexus.grainlog.models import GrainLog, current_grainlog
 from plexus.main.views import LoggedInMixin
 
 
-class GrainLogListView(LoggedInMixin, ListView):
+class GrainLogListView(ListView):
     model = GrainLog
 
     def post(self, request, **kwargs):

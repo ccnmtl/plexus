@@ -29,10 +29,6 @@ class GrainLogListViewTest(ViewTest):
         request = self.factory.get(reverse('grainlog-list'))
         request.user = self.anon
         response = GrainLogListView.as_view()(request)
-        self.assertEqual(response.status_code, 302)
-
-        request.user = self.user
-        response = GrainLogListView.as_view()(request)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(gl in response.context_data['object_list'])
         self.assertTrue(reverse('grainlog-detail', args=[gl.id])
