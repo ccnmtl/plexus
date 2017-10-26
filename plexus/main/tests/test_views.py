@@ -298,8 +298,8 @@ class LoggedInTest(TestCase):
         assert 'Anders' in response.content
         assert 'i-fde235eb' in response.content
 
-        l = Location.objects.get(name="test location")
-        response = self.c.get(l.get_absolute_url())
+        loc = Location.objects.get(name="test location")
+        response = self.c.get(loc.get_absolute_url())
         self.assertEquals(response.status_code, 200)
         assert 'testserver' in response.content
 
