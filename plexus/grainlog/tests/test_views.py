@@ -68,11 +68,6 @@ class RawViewTest(ViewTest):
     def test_get(self):
         gl = GrainLogFactory()
         request = self.factory.get(reverse('grainlog-raw'))
-        request.user = self.anon
-        response = RawView.as_view()(request)
-        self.assertEqual(response.status_code, 302)
-
-        request.user = self.user
         response = RawView.as_view()(request)
         self.assertEqual(response.status_code, 200)
         d = json.loads(response.content)
@@ -80,10 +75,5 @@ class RawViewTest(ViewTest):
 
     def test_none(self):
         request = self.factory.get(reverse('grainlog-raw'))
-        request.user = self.anon
-        response = RawView.as_view()(request)
-        self.assertEqual(response.status_code, 302)
-
-        request.user = self.user
         response = RawView.as_view()(request)
         self.assertEqual(response.status_code, 404)

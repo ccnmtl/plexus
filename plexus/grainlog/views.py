@@ -33,7 +33,7 @@ class GrainLogDetailView(LoggedInMixin, DetailView):
     model = GrainLog
 
 
-class RawView(LoggedInMixin, View):
+class RawView(View):
     def get(self, request):
         g = current_grainlog()
         if g is None:
