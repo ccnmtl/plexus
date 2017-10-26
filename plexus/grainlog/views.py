@@ -6,10 +6,12 @@ from django.http.response import (
     HttpResponseNotFound,
 )
 from django.views.generic import ListView, DetailView, View
+
 from plexus.grainlog.models import GrainLog, current_grainlog
+from plexus.main.views import LoggedInMixin
 
 
-class GrainLogListView(ListView):
+class GrainLogListView(LoggedInMixin, ListView):
     model = GrainLog
 
     def post(self, request, **kwargs):
@@ -27,11 +29,11 @@ class GrainLogListView(ListView):
         return HttpResponseRedirect(reverse('grainlog-detail', args=[gl.id]))
 
 
-class GrainLogDetailView(DetailView):
+class GrainLogDetailView(LoggedInMixin, DetailView):
     model = GrainLog
 
 
-class RawView(View):
+class RawView(LoggedInMixin, View):
     def get(self, request):
         g = current_grainlog()
         if g is None:

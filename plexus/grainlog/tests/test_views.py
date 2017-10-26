@@ -4,8 +4,11 @@ from django.contrib.auth.models import AnonymousUser
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.urlresolvers import reverse
 from django.test import TestCase, RequestFactory
+
 from plexus.grainlog.views import (
     GrainLogListView, GrainLogDetailView, RawView)
+from plexus.main.tests.factories import UserFactory
+
 from .factories import GrainLogFactory
 
 
@@ -14,12 +17,21 @@ class ViewTest(TestCase):
         self.factory = RequestFactory()
         self.anon = AnonymousUser()
 
+        self.user = UserFactory()
+        self.client.login()
+        self.client.login(username=self.user.username, password="test")
+
 
 class GrainLogListViewTest(ViewTest):
+
     def test_get(self):
         gl = GrainLogFactory()
         request = self.factory.get(reverse('grainlog-list'))
         request.user = self.anon
+        response = GrainLogListView.as_view()(request)
+        self.assertEqual(response.status_code, 302)
+
+        request.user = self.user
         response = GrainLogListView.as_view()(request)
         self.assertEqual(response.status_code, 200)
         self.assertTrue(gl in response.context_data['object_list'])
@@ -28,6 +40,7 @@ class GrainLogListViewTest(ViewTest):
 
     def test_post(self):
         request = self.factory.post(reverse('grainlog-list'))
+
         with open('test_data/grains.json') as f:
             request.FILES['payload'] = SimpleUploadedFile("grains.json",
                                                           f.read())
@@ -42,15 +55,24 @@ class GrainLogDetailViewTest(ViewTest):
         request = self.factory.get(reverse('grainlog-detail', args=[gl.id]))
         request.user = self.anon
         response = GrainLogDetailView.as_view()(request, pk=gl.id)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 302)
+
+        request.user = self.user
+        response = GrainLogDetailView.as_view()(request, pk=gl.id)
         self.assertTrue(response.context_data['object'] == gl)
         self.assertTrue(gl.sha1 in response.rendered_content)
 
 
 class RawViewTest(ViewTest):
+
     def test_get(self):
         gl = GrainLogFactory()
         request = self.factory.get(reverse('grainlog-raw'))
+        request.user = self.anon
+        response = RawView.as_view()(request)
+        self.assertEqual(response.status_code, 302)
+
+        request.user = self.user
         response = RawView.as_view()(request)
         self.assertEqual(response.status_code, 200)
         d = json.loads(response.content)
@@ -58,5 +80,10 @@ class RawViewTest(ViewTest):
 
     def test_none(self):
         request = self.factory.get(reverse('grainlog-raw'))
+        request.user = self.anon
+        response = RawView.as_view()(request)
+        self.assertEqual(response.status_code, 302)
+
+        request.user = self.user
         response = RawView.as_view()(request)
         self.assertEqual(response.status_code, 404)

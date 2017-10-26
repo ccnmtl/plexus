@@ -1,20 +1,21 @@
-import django.contrib.auth.views
-import djangowind.views
-import django.views.static
-
+from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.conf import settings
+from django.contrib.auth.decorators import login_required
+import django.contrib.auth.views
 from django.views.generic import (
     TemplateView, DetailView, UpdateView, ListView)
+import django.views.static
+import djangowind.views
 from wagtail.wagtailadmin import urls as wagtailadmin_urls
-from wagtail.wagtaildocs import urls as wagtaildocs_urls
 from wagtail.wagtailcore import urls as wagtail_urls
-from plexus.main.models import Location, OperatingSystem, Server
-from plexus.main.models import OSFamily, Application, Contact
-from plexus.main.models import Alias
+from wagtail.wagtaildocs import urls as wagtaildocs_urls
+
 from plexus.main.forms import AliasForm, ContactForm, ServerForm
 from plexus.main.forms import ApplicationForm
+from plexus.main.models import Alias
+from plexus.main.models import Location, OperatingSystem, Server
+from plexus.main.models import OSFamily, Application, Contact
 from plexus.main.views import (
     IndexView, AliasDeleteView, AddServerView,
     AddAliasView, RequestAliasView, AddApplicationView, AliasView,
@@ -26,6 +27,7 @@ from plexus.main.views import (
     AddApplicationRenewal, RenewalsDashboard,
 )
 from plexus.portfolio.views import Search as PortfolioSearch
+
 
 admin.autodiscover()
 
@@ -43,10 +45,12 @@ urlpatterns = [
     logout_page,
     url(r'^$', IndexView.as_view()),
     url(r'^add_server/$', AddServerView.as_view()),
-    url(r'^server/(?P<pk>\d+)/$', DetailView.as_view(model=Server),
+    url(r'^server/(?P<pk>\d+)/$',
+        login_required(DetailView.as_view(model=Server)),
         name="server-detail"),
-    url(r'^server/(?P<pk>\d+)/edit/$', UpdateView.as_view(
-        model=Server, form_class=ServerForm)),
+    url(r'^server/(?P<pk>\d+)/edit/$',
+        login_required(
+            UpdateView.as_view(model=Server, form_class=ServerForm))),
     url(r'server/(?P<pk>\d+)/add_contact/$', AddServerContactView.as_view(),
         name='add-server-contact'),
     url(r'^server/(?P<id>\d+)/add_alias/$', AddAliasView.as_view()),
@@ -62,8 +66,8 @@ urlpatterns = [
     url(r'^alias/(?P<id>\d+)/confirm/$', AliasConfirmView.as_view()),
     url(r'^alias/(?P<pk>\d+)/delete/$', AliasDeleteView.as_view(),
         name='delete-alias'),
-    url(r'^alias/(?P<pk>\d+)/edit/$', UpdateView.as_view(
-        model=Alias, form_class=AliasForm)),
+    url(r'^alias/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(
+        model=Alias, form_class=AliasForm))),
     url(r'^alias/(?P<id>\d+)/associate_with_application/$',
         AliasAssociateWithApplicationView.as_view()),
     url(r'^alias/(?P<id>\d+)/request_alias_change/$',
@@ -71,17 +75,21 @@ urlpatterns = [
     url(r'^alias/(?P<id>\d+)/change/$', AliasChangeView.as_view(),
         name='alias-change'),
 
-    url(r'^contact/(?P<pk>\d+)/$', DetailView.as_view(model=Contact)),
-    url(r'^contact/(?P<pk>\d+)/dashboard/$', DetailView.as_view(
-        model=Contact, template_name="main/contact_dashboard.html")),
-    url(r'^contact/(?P<pk>\d+)/edit/$', UpdateView.as_view(
-        model=Contact, form_class=ContactForm)),
+    url(r'^contact/(?P<pk>\d+)/$',
+        login_required(DetailView.as_view(model=Contact))),
+    url(r'^contact/(?P<pk>\d+)/dashboard/$',
+        login_required(DetailView.as_view(
+            model=Contact, template_name="main/contact_dashboard.html"))),
+    url(r'^contact/(?P<pk>\d+)/edit/$', login_required(UpdateView.as_view(
+        model=Contact, form_class=ContactForm))),
 
     url(r'^add_application/$', AddApplicationView.as_view()),
-    url(r'^application/(?P<pk>\d+)/$', DetailView.as_view(model=Application),
+    url(r'^application/(?P<pk>\d+)/$',
+        login_required(DetailView.as_view(model=Application)),
         name="application-detail"),
     url(r'^application/(?P<pk>\d+)/edit/$',
-        UpdateView.as_view(model=Application, form_class=ApplicationForm)),
+        login_required(UpdateView.as_view(
+            model=Application, form_class=ApplicationForm))),
     url(r'^application/(?P<pk>\d+)/add_note/$',
         AddApplicationNoteView.as_view(), name="add-application-note"),
     url(r'^application/(?P<pk>\d+)/add_contact/$',
@@ -95,35 +103,37 @@ urlpatterns = [
 
     url(r'renewals/$', RenewalsDashboard.as_view(), name='renewals-dashboard'),
 
-    url(r'^os/(?P<pk>\d+)/$', DetailView.as_view(model=OSFamily)),
-    url(r'^os/(?P<family_id>\d+)/(?P<pk>\d+)/$', DetailView.as_view(
-        model=OperatingSystem)),
+    url(r'^os/(?P<pk>\d+)/$',
+        login_required(DetailView.as_view(model=OSFamily))),
+    url(r'^os/(?P<family_id>\d+)/(?P<pk>\d+)/$',
+        login_required(DetailView.as_view(model=OperatingSystem))),
 
-    url(r'^location/(?P<pk>\d+)/$', DetailView.as_view(model=Location)),
+    url(r'^location/(?P<pk>\d+)/$', login_required(
+        DetailView.as_view(model=Location))),
 
-    url(r'^dashboard/$', TemplateView.as_view(
-        template_name="dashboard/index.html"), name="dashboard-index"),
-    url(r'^dashboard/500s/$', ListView.as_view(
-        model=Application, template_name='dashboard/500s.html'),
+    url(r'^dashboard/$', login_required(TemplateView.as_view(
+        template_name="dashboard/index.html")), name="dashboard-index"),
+    url(r'^dashboard/500s/$', login_required(ListView.as_view(
+        model=Application, template_name='dashboard/500s.html')),
         name='500s-dashboard'),
-    url(r'^dashboard/404s/$', ListView.as_view(
-        model=Application, template_name='dashboard/404s.html'),
+    url(r'^dashboard/404s/$', login_required(ListView.as_view(
+        model=Application, template_name='dashboard/404s.html')),
         name='404s-dashboard'),
-    url(r'^dashboard/traffic/$', ListView.as_view(
-        model=Application, template_name='dashboard/traffic.html'),
+    url(r'^dashboard/traffic/$', login_required(ListView.as_view(
+        model=Application, template_name='dashboard/traffic.html')),
         name='traffic-dashboard'),
-    url(r'^dashboard/response_times/$', ListView.as_view(
-        model=Application, template_name='dashboard/response_time.html'),
+    url(r'^dashboard/response_times/$', login_required(ListView.as_view(
+        model=Application, template_name='dashboard/response_time.html')),
         name='response-time-dashboard'),
-    url(r'^dashboard/load/$', ListView.as_view(
+    url(r'^dashboard/load/$', login_required(ListView.as_view(
         queryset=Server.objects.filter(deprecated=False),
-        template_name='dashboard/load.html'), name='load-dashboard'),
-    url(r'^dashboard/disk/$', ListView.as_view(
+        template_name='dashboard/load.html')), name='load-dashboard'),
+    url(r'^dashboard/disk/$', login_required(ListView.as_view(
         queryset=Server.objects.filter(deprecated=False),
-        template_name='dashboard/disk.html'), name='disk-dashboard'),
-    url(r'^dashboard/network/$', ListView.as_view(
+        template_name='dashboard/disk.html')), name='disk-dashboard'),
+    url(r'^dashboard/network/$', login_required(ListView.as_view(
         queryset=Server.objects.filter(deprecated=False),
-        template_name='dashboard/network.html'), name='network-dashboard'),
+        template_name='dashboard/network.html')), name='network-dashboard'),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^impersonate/', include('impersonate.urls')),
