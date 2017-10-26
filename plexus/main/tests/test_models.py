@@ -217,12 +217,12 @@ class ServerTest(TestCase):
 
 class LeaseTest(TestCase):
     def test_application_current_renewal(self):
-        l = LeaseFactory()
-        self.assertEqual(l.application.current_renewal(), l)
+        lease = LeaseFactory()
+        self.assertEqual(lease.application.current_renewal(), lease)
 
     def test_application_valid_renewal(self):
-        l = LeaseFactory()
-        self.assertTrue(l.application.valid_renewal())
+        lease = LeaseFactory()
+        self.assertTrue(lease.application.valid_renewal())
 
     def test_application_current_renewal_none(self):
         a = ApplicationFactory()
@@ -233,16 +233,16 @@ class LeaseTest(TestCase):
         self.assertFalse(a.valid_renewal())
 
     def test_application_current_renewal_expired(self):
-        l = LeaseFactory(end=datetime.now() - timedelta(weeks=1))
-        self.assertIsNone(l.application.current_renewal())
+        lease = LeaseFactory(end=datetime.now() - timedelta(weeks=1))
+        self.assertIsNone(lease.application.current_renewal())
 
     def test_application_valid_renewal_expired(self):
-        l = LeaseFactory(end=datetime.now() - timedelta(weeks=1))
-        self.assertFalse(l.application.valid_renewal())
+        lease = LeaseFactory(end=datetime.now() - timedelta(weeks=1))
+        self.assertFalse(lease.application.valid_renewal())
 
     def test_upcoming(self):
-        l = LeaseFactory(end=(datetime.now() + timedelta(weeks=2)).date())
-        self.assertTrue(l.upcoming())
+        lease = LeaseFactory(end=(datetime.now() + timedelta(weeks=2)).date())
+        self.assertTrue(lease.upcoming())
         l2 = LeaseFactory(end=(datetime.now() + timedelta(weeks=20)).date(),
-                          user=l.user)
+                          user=lease.user)
         self.assertFalse(l2.upcoming())
