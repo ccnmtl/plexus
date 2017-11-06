@@ -7,7 +7,7 @@ feedparser==5.2.1
 chardet==3.0.4
 idna==2.6
 urllib3==1.22
-certifi==2017.7.27.1
+certifi==2017.11.5
 
 requests==2.18.4
 django-feedparser==0.2.1
