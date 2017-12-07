@@ -102,7 +102,7 @@ django-treebeard==4.1.2
 Pillow==4.3.0
 beautifulsoup4==4.6.0
 
-html5lib==0.999999999
+html5lib==1.0.1
 elasticsearch==2.4.1 # pyup: <5.0.0
 
 anyjson==0.3.3
