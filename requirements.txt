@@ -11,7 +11,7 @@ certifi==2017.11.5
 
 requests==2.18.4
 django-feedparser==0.2.1
-Markdown==2.6.9
+Markdown==2.6.10
 uuid==1.30
 psycopg2==2.7.3.2
 versiontools==1.9.1
