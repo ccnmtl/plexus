@@ -99,7 +99,7 @@ django-taggit==0.22.2
 Unidecode==0.04.21
 django-treebeard==4.2.0
 
-Pillow==4.3.0
+Pillow==5.0.0
 beautifulsoup4==4.6.0
 
 html5lib==1.0.1
