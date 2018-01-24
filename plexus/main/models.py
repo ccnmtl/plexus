@@ -102,7 +102,7 @@ class Server(models.Model):
 
 class IPAddress(models.Model):
     ipv4 = models.CharField(max_length=256)
-    mac_addr = models.CharField(max_length=256)
+    mac_addr = models.CharField(max_length=256, null=True, blank=True)
     server = models.ForeignKey(Server)
 
     def __unicode__(self):
