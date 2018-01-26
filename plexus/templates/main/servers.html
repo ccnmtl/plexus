@@ -1,0 +1,98 @@
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<a id="servers"></a><h1>Servers</h1>
+{% if request.user.is_staff %}
+    <p><a href="/add_server/" class="btn btn-primary" role="button">Add Server</a></p>
+{% endif %}
+
+<table class="table table-striped table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th>name</th>
+            <th>primary function</th>
+            <th>location</th>
+            <th>contacts</th>
+        </tr>
+    </thead>
+        
+    <tbody>
+        {% for server in servers %}
+        <tr>
+            <td><a href="/server/{{server.id}}/">{{ server.name }}</a></td>
+            <td>{{ server.primary_function }}</td>
+            <td>
+                  {% if server.virtual %}
+              Virtual
+                  {% else %}
+                      {{ server.location }}
+                  {% endif %}
+            </td>
+            <td>
+                  {% for contact in server.contacts %}
+                      <a href="/contact/{{contact.id}}/">{{contact.name}}</a>
+                  {% endfor %}
+            </td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+
+<a id="aliases"></a><h1>Aliases</h1>
+<table class="table table-striped table-condensed table-bordered">
+      <thead>
+            <tr>
+                  <th>alias</th>
+                  <th>description</th>
+                  <th>server</th>
+            </tr>
+      </thead>
+        
+      <tbody>
+            {% for alias in aliases %}
+                <tr class="{{alias.status_css_class}}">
+                      <td><a href="/alias/{{alias.id}}/">{{ alias.hostname }}</a></td>
+                      <td>{{ alias.description }}</td>
+                      <td><a href="/server/{{alias.ip_address.server.id}}/">{{alias.ip_address.server.name}}</a></td>
+                </tr>
+            {% endfor %}
+      </tbody>
+</table>
+
+<a id="applications"></a><h1>Applications</h1>
+{% if request.user.is_staff %}
+<p><a href="/add_application/" class="btn btn-primary" role="button">Add Application</a></p>
+{% endif %}
+
+<table class="table table-striped table-condensed table-bordered">
+    <thead>
+        <tr>
+            <th>application</th>
+            <th>technology</th>
+            <th>description</th>
+            <th>contacts</th>
+        </tr>
+    </thead>
+        
+    <tbody>
+        {% for application in applications %}
+        <tr class="{{application.status_css_class}}">
+            <td><a href="/application/{{application.id}}/">{{ application.name }}</a></td>
+            <td>{{ application.technology }}</td>
+            <td>{{ application.description }}</td>
+            <td>
+                {% for contact in application.contacts %}
+                <a href="/contact/{{contact.id}}/">{{contact.name}}</a>
+                {% endfor %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

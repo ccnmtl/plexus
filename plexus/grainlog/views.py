@@ -7,7 +7,7 @@ from django.http.response import (
 )
 from django.views.generic import ListView, DetailView, View
 
-from plexus.grainlog.models import GrainLog, current_grainlog
+from plexus.grainlog.models import GrainLog
 from plexus.main.views import LoggedInMixin
 
 
@@ -35,7 +35,7 @@ class GrainLogDetailView(LoggedInMixin, DetailView):
 
 class RawView(View):
     def get(self, request):
-        g = current_grainlog()
+        g = GrainLog.objects.current_grainlog()
         if g is None:
             return HttpResponseNotFound()
         return JsonResponse(g.data())

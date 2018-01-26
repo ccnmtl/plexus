@@ -26,6 +26,12 @@ class GrainLogManager(models.Manager):
         for gl in self.all()[settings.MAX_GRAINLOGS:]:
             gl.delete()
 
+    def current_grainlog(self):
+        try:
+            return self.latest()
+        except GrainLog.DoesNotExist:
+            return None
+
 
 class GrainLog(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -43,10 +49,3 @@ class GrainLog(models.Model):
 
     def grain(self):
         return Grain(d=self.data())
-
-
-def current_grainlog():
-    try:
-        return GrainLog.objects.latest()
-    except GrainLog.DoesNotExist:
-        return None
