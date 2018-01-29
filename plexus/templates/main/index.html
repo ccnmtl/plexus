@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static plexustags %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'js/lib/tablesorter/tablesorter.css' %}">
@@ -105,9 +105,14 @@ jQuery(document).ready(function () {
                         {% endfor %}
                     </td>
                     <td>
-                        {% if 'django' in server.d.roles %}
-                            {% for app in server.d.apps|dictsort:0 %}
-                                {{app}}{% if not forloop.last %},{% endif %}
+                        {% if server.d.apps|length > 0 %}
+                            {% for app_name in server.d.apps|dictsort:0 %}
+                                {% app_by_graphite_name app_name as app %}
+                                {% if app %}
+                                    <a href="{% url 'application-detail' app.id %}">{{app}}</a>{% if not forloop.last %}, {% endif %}
+                                {% else %}
+                                    {{app_name}}{% if not forloop.last %}, {% endif %}
+                                {% endif %}
                             {% endfor %}
                         {% endif %}
                     </td>
