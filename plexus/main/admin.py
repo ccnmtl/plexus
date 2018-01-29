@@ -8,6 +8,14 @@ from plexus.main.models import Server
 
 
 for c in [Location, OSFamily, OperatingSystem, IPAddress,
-          Contact, Alias, Technology, Application, ApplicationAlias,
+          Contact, Technology, Application, ApplicationAlias,
           ApplicationContact, ServerContact, Server]:
     admin.site.register(c)
+
+
+@admin.register(Alias)
+class AliasAdmin(admin.ModelAdmin):
+    class Meta:
+        model = Alias
+
+    list_display = ("hostname", "status")
