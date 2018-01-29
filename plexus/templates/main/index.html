@@ -72,7 +72,7 @@ jQuery(document).ready(function () {
         <tbody>
             {% for server in servers %}
                 <tr>
-                    <td>{{server.name}}</td>
+                    <td><a href="{% url 'managed-server-detail' server.name %}">{{server.name}}</a></td>
                     <td>{{server.d.environment}}</td>
                     <td>
                         {% if 'nginx' in server.d.roles %}

@@ -323,3 +323,18 @@ class RenewalsDashboard(LoggedInMixin, TemplateView):
             apps_without_renewals=sorted(list(apps_without_renewals),
                                          key=lambda x: x.name.lower()),
         )
+
+
+class ManagedServerView(LoggedInMixin, TemplateView):
+    template_name = "main/managed_server_detail.html"
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = TemplateView.get_context_data(self, **kwargs)
+        server = kwargs.get('server', None)
+
+        the_json = GrainLog.objects.current_grainlog().data()
+        if 'servers' in the_json:
+            servers = Grain(the_json).servers()
+            ctx['server'] = filter(lambda s: s.name == server, servers)[0]
+
+        return ctx
