@@ -48,10 +48,26 @@ class ServersView(LoggedInMixin, TemplateView):
         return dict(
             servers=Server.objects.filter(
                 deprecated=False).order_by('name').select_related('location'),
+        )
+
+
+class AliasesView(LoggedInMixin, TemplateView):
+    template_name = 'main/aliases.html'
+
+    def get_context_data(self):
+        return dict(
             aliases=(
                 Alias.objects.all().exclude(status='deprecated').order_by(
                     'hostname'
                 ).select_related('ip_address__server')),
+        )
+
+
+class ApplicationsView(LoggedInMixin, TemplateView):
+    template_name = 'main/applications.html'
+
+    def get_context_data(self):
+        return dict(
             applications=Application.objects.filter(deprecated=False).order_by(
                 'name').select_related('technology'),
         )

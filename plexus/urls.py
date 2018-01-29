@@ -25,7 +25,7 @@ from plexus.main.views import (
     DeleteServerContactView, DeleteApplicationContactView,
     AddApplicationContactView, AddServerContactView,
     AddApplicationRenewal, RenewalsDashboard, ServersView,
-    ManagedServerView
+    ManagedServerView, AliasesView, ApplicationsView
 )
 from plexus.portfolio.views import Search as PortfolioSearch
 
@@ -46,6 +46,9 @@ urlpatterns = [
     logout_page,
     url(r'^$', IndexView.as_view()),
     url(r'^servers/$', ServersView.as_view(), name="servers-view"),
+    url(r'^aliases/$', AliasesView.as_view(), name="aliases-view"),
+    url(r'^applications/$', ApplicationsView.as_view(),
+        name="applications-view"),
     url(r'^add_server/$', AddServerView.as_view()),
     url(r'^server/(?P<pk>\d+)/$',
         login_required(DetailView.as_view(model=Server)),

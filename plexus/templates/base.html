@@ -45,12 +45,12 @@
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav">
-			<li><a href="/servers">servers</a></li>
-			<li><a href="/servers/#aliases">aliases</a></li>
-			<li><a href="/servers/#applications">applications</a></li>
-      <li><a href="{% url 'renewals-dashboard' %}">renewals</a></li>
-      <li><a href="{% url 'dashboard-index' %}">dashboards</a></li>
-      <li><a href="{% url 'grainlog-list' %}">grainlogs</a></li>
+        <li><a href="{% url 'servers-view' %}">servers</a></li>
+        <li><a href="{% url 'aliases-view' %}">aliases</a></li>
+        <li><a href="{% url 'applications-view' %}">applications</a></li>
+        <li><a href="{% url 'renewals-dashboard' %}">renewals</a></li>
+        <li><a href="{% url 'dashboard-index' %}">dashboards</a></li>
+        <li><a href="{% url 'grainlog-list' %}">grainlogs</a></li>
       {% block topnavbarleftitems %}{% endblock %}
     </ul>
 
