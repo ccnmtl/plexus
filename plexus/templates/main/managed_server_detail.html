@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load markup %}
+{% load markup plexustags %}
 
 {% block content %}
 
@@ -31,9 +31,16 @@
 {% if server.d.apps|length > 0 %}
     <h2>Applications</h2>
     <ul>
-    {% for app in server.d.apps %}
-        <li>{{app}}
-    {% endfor %}
+        {% for app_name in server.d.apps|dictsort:0 %}
+            <li>
+            {% app_by_graphite_name app_name as app %}
+            {% if app %}
+                <a href="{% url 'application-detail' app.id %}">{{app}}</a>
+            {% else %}
+                {{app_name}}
+            {% endif %}
+            </li>
+        {% endfor %}
     </ul>
 {% endif %}
 
