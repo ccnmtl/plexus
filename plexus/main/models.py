@@ -1,7 +1,9 @@
-from django.db import models
-from django.contrib.auth.models import User
-from plexus.grainlog.models import current_grainlog
 from datetime import datetime, timedelta
+
+from django.contrib.auth.models import User
+from django.db import models
+
+from plexus.grainlog.models import GrainLog
 
 
 class Location(models.Model):
@@ -85,7 +87,7 @@ class Server(models.Model):
             for sn in self.servernote_set.all().order_by("-note__created")]
 
     def grain_info(self):
-        cg = current_grainlog()
+        cg = GrainLog.objects.current_grainlog()
         if cg is None:
             return None
         g = cg.grain()

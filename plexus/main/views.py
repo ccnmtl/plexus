@@ -1,21 +1,24 @@
 from datetime import datetime
+
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
-from django.core.urlresolvers import reverse
-from django.views.generic.base import View
 from django.views.generic import TemplateView, DetailView, DeleteView
+from django.views.generic.base import View
+
+from plexus.grainlog.grain import Grain
+from plexus.grainlog.models import GrainLog
 from plexus.main.models import (
     Server, Alias, Location, IPAddress, OSFamily,
     OperatingSystem, ServerNote, Note, Application, Technology,
     ApplicationAlias, ServerContact, ApplicationNote, ApplicationContact,
     Lease,
 )
-
-from django.http import HttpResponseRedirect
-from django.core.mail import send_mail
-from django.conf import settings
 
 
 class LoggedInMixin(object):
@@ -26,6 +29,20 @@ class LoggedInMixin(object):
 
 class IndexView(LoggedInMixin, TemplateView):
     template_name = 'main/index.html'
+
+    def get_context_data(self, **kwargs):
+        ctx = TemplateView.get_context_data(self, **kwargs)
+        ctx['logs'] = GrainLog.objects.all()
+        the_json = GrainLog.objects.current_grainlog().data()
+        if 'servers' in the_json:
+            grain = Grain(the_json)
+            ctx['servers'] = grain.servers()
+            ctx['applications'] = grain.apps()
+        return ctx
+
+
+class ServersView(LoggedInMixin, TemplateView):
+    template_name = 'main/servers.html'
 
     def get_context_data(self):
         return dict(
@@ -85,7 +102,7 @@ class AddServerView(LoggedInMixin, View):
                 server=server,
             )
         server.set_contacts(request.POST.get('contact', '').split(','))
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect(reverse('servers-view'))
 
     def get(self, request):
         return render(
@@ -242,7 +259,7 @@ class AddApplicationView(LoggedInMixin, View):
             github_url=request.POST.get('github_url', ''),
         )
         application.set_contacts(request.POST.get('contact', '').split(','))
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect(reverse('servers-view'))
 
     def get(self, request):
         return render(

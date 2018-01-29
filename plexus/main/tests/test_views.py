@@ -268,7 +268,7 @@ class LoggedInTest(TestCase):
             )
         )
         self.assertEqual(response.status_code, 302)
-        response = self.c.get("/")
+        response = self.c.get(reverse('servers-view'))
         self.assertTrue("testapp" in response.content)
 
     def test_add_server(self):
@@ -286,7 +286,7 @@ class LoggedInTest(TestCase):
                 'ec2_instance_id': 'i-fde235eb',
             })
         self.assertEquals(response.status_code, 302)
-        response = self.c.get("/")
+        response = self.c.get(reverse('servers-view'))
         assert "testserver" in response.content
 
         # pull up the server page
@@ -330,7 +330,7 @@ class LoggedInTest(TestCase):
                 'contact': 'Anders,Jonah',
             })
         self.assertEquals(response.status_code, 302)
-        response = self.c.get("/")
+        response = self.c.get(reverse('servers-view'))
         assert "testserver" in response.content
 
     def test_add_alias(self):
@@ -374,7 +374,7 @@ class LoggedInTest(TestCase):
 
     def test_deprecated_application(self):
         application = ApplicationFactory(deprecated=True)
-        response = self.c.get("/")
+        response = self.c.get(reverse('servers-view'))
         self.assertFalse(application.get_absolute_url() in response.content)
 
     def test_delete_servercontact(self):
