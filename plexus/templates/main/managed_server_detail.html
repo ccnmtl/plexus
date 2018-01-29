@@ -16,7 +16,7 @@
     </tr>
     <tr>
         <td>IP</td>
-        <td><code>{{server.d.ipv4.1}}</code></td>
+        <td><code>{{server.d.ipv4.1}}</code> [<code>{{server.d.hwaddr_interfaces.eth0}}</code>]</td></code></td>
     </tr>
     <tr>
         <td>Location</td>
@@ -28,12 +28,14 @@
     </tr>
 </table>
 
-<h2>Applications</h2>
-<ul>
-{% for app in server.d.apps %}
-    <li>{{app}}
-{% endfor %}
-</ul>
+{% if server.d.apps|length > 0 %}
+    <h2>Applications</h2>
+    <ul>
+    {% for app in server.d.apps %}
+        <li>{{app}}
+    {% endfor %}
+    </ul>
+{% endif %}
 
 <h2>Graphs</h2>
 {% with graphite_base="https://graphite.ctl.columbia.edu/render/" %}
