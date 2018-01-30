@@ -268,7 +268,7 @@ class LoggedInTest(TestCase):
             )
         )
         self.assertEqual(response.status_code, 302)
-        response = self.c.get(reverse('servers-view'))
+        response = self.c.get(reverse('applications-view'))
         self.assertTrue("testapp" in response.content)
 
     def test_add_server(self):
