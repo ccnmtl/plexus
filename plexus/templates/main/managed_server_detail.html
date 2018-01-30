@@ -44,6 +44,28 @@
     </ul>
 {% endif %}
 
+{% aliases server.name as aliases %}
+{% if aliases|length > 0 %}
+    <h2>Aliases</h2>
+    <table class="table table-striped table-condensed table-bordered">
+        <thead>
+            <tr>
+                <th>alias</th>
+                <th>description</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for alias in aliases %}
+                <tr class="{{alias.status_css_class}}">
+                    <td><a href="/alias/{{alias.id}}/">{{alias.hostname}}</a></td>
+                    <td>{{alias.description}}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+    </table>
+{% endif %}
+
 <h2>Graphs</h2>
 {% with graphite_base="https://graphite.ctl.columbia.edu/render/" %}
 {% with graphite_name=server.name %}
