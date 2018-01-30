@@ -159,6 +159,10 @@ footer.page-footer {
     text-align: center;
 }
 
+footer img {
+    width: 300px;
+}
+
 tr.upcoming-renewal td {
 		background-color: #fdd;
 }
