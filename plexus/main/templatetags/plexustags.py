@@ -21,3 +21,14 @@ def aliases(name):
             ip_address__server__name=name).exclude(status='deprecated')
     except Alias.DoesNotExist:
         return None
+    except Application.MultipleObjectsReturned:
+        return None
+
+
+@register.simple_tag
+def server_grain(grains, server):
+    try:
+        grain = filter(lambda s: s.name == server, grains)[0]
+        return grain
+    except IndexError:
+        return None

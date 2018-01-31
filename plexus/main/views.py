@@ -32,23 +32,18 @@ class IndexView(LoggedInMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         ctx = TemplateView.get_context_data(self, **kwargs)
+
+        ctx['servers'] = Server.objects.filter(
+            deprecated=False).order_by('name').select_related('location')
+
         ctx['logs'] = GrainLog.objects.all()
-        the_json = GrainLog.objects.current_grainlog().data()
-        if 'servers' in the_json:
-            grain = Grain(the_json)
-            ctx['servers'] = grain.servers()
+
+        grainlog = GrainLog.objects.current_grainlog()
+        if grainlog:
+            grain = Grain(grainlog.data())
+            ctx['grains'] = grain.servers()
             ctx['applications'] = grain.apps()
         return ctx
-
-
-class ServersView(LoggedInMixin, TemplateView):
-    template_name = 'main/servers.html'
-
-    def get_context_data(self):
-        return dict(
-            servers=Server.objects.filter(
-                deprecated=False).order_by('name').select_related('location'),
-        )
 
 
 class AliasesView(LoggedInMixin, TemplateView):
@@ -118,7 +113,7 @@ class AddServerView(LoggedInMixin, View):
                 server=server,
             )
         server.set_contacts(request.POST.get('contact', '').split(','))
-        return HttpResponseRedirect(reverse('servers-view'))
+        return HttpResponseRedirect(reverse('index-view'))
 
     def get(self, request):
         return render(
@@ -275,7 +270,7 @@ class AddApplicationView(LoggedInMixin, View):
             github_url=request.POST.get('github_url', ''),
         )
         application.set_contacts(request.POST.get('contact', '').split(','))
-        return HttpResponseRedirect(reverse('servers-view'))
+        return HttpResponseRedirect(reverse('index-view'))
 
     def get(self, request):
         return render(
@@ -341,16 +336,15 @@ class RenewalsDashboard(LoggedInMixin, TemplateView):
         )
 
 
-class ManagedServerView(LoggedInMixin, TemplateView):
-    template_name = "main/managed_server_detail.html"
+class ServerDetailView(LoggedInMixin, DetailView):
+    model = Server
+    template_name = "main/server_detail.html"
 
     def get_context_data(self, *args, **kwargs):
-        ctx = TemplateView.get_context_data(self, **kwargs)
-        server = kwargs.get('server', None)
+        ctx = DetailView.get_context_data(self, **kwargs)
 
-        the_json = GrainLog.objects.current_grainlog().data()
-        if 'servers' in the_json:
-            servers = Grain(the_json).servers()
-            ctx['server'] = filter(lambda s: s.name == server, servers)[0]
+        grainlog = GrainLog.objects.current_grainlog()
+        if grainlog:
+            ctx['grains'] = Grain(grainlog.data()).servers()
 
         return ctx
