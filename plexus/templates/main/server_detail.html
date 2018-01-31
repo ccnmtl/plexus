@@ -6,10 +6,10 @@
 {% block content %}
 {% server_grain grains server.graphite_name as grain %}
 {% with aliases=object.aliases %}
-<div id="details" class="row server-detail">
+<div id="details" class="row detail">
     <div class="col-md-10">
 
-        <div class="server-detail-header">
+        <div class="detail-header">
             <h1>{{ object.name }}</h2> 
         </div>
 
