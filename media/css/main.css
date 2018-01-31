@@ -169,7 +169,7 @@ tr.upcoming-renewal td {
 }
 
 
-.server-detail-header {
+.detail-header {
     border-color: #e6EEEE;
     background-color: #e6EEEE;
     padding: 20px;
@@ -177,7 +177,7 @@ tr.upcoming-renewal td {
     width: 100%;
 }
 
-.server-detail-header h1 {
+.detail-header h1 {
     display: inline;
     padding: 0;
 }
@@ -199,19 +199,19 @@ tr.upcoming-renewal td {
     font-weight: bold;
 }
 
-.server-detail .panel-heading {
+.detail .panel-heading {
     font-size: 1.2em;
     font-weight: bold;
 }
 
-.server-detail table {
+.detail table {
     margin-bottom: 0;
 }
 
-.server-detail table tr td:first-child {
+.detail table tr td:first-child {
     border-right: 1px solid #ddd;
 }
 
-.server-detail #graphs h3 {
+.detail #graphs h3 {
     font-size: 1.2em;
 }

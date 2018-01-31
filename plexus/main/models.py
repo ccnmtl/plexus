@@ -276,6 +276,19 @@ class Application(models.Model):
         now = datetime.now()
         return self.lease_set.filter(start__lte=now, end__gte=now).first()
 
+    def servers(self):
+        d = {'staging': [], 'production': [], 'dev': []}
+        g = GrainLog.objects.current_grainlog()
+        if not g:
+            return d
+
+        for app in g.grain().by_app():
+            if app['app'] == self.graphite_name:
+                for server in app['servers']:
+                    s = Server.objects.get(graphite_name=server.d['id'])
+                    d[server.d['environment']].append(s)
+        return d
+
 
 class Lease(models.Model):
     application = models.ForeignKey(Application)

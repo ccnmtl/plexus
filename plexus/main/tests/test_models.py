@@ -1,12 +1,16 @@
 from datetime import datetime, timedelta
+from json import dumps
+import json
+
 from django.test import TestCase
+
+from plexus.grainlog.tests.factories import GrainLogFactory
+
 from .factories import (
     LocationFactory, OSFamilyFactory, AliasFactory,
     OperatingSystemFactory, ServerFactory, IPAddressFactory, ContactFactory,
     TechnologyFactory, ApplicationFactory, ApplicationAliasFactory,
     ApplicationContactFactory, ServerContactFactory, LeaseFactory)
-from plexus.grainlog.tests.factories import GrainLogFactory
-import json
 
 
 class BasicTest(TestCase):
@@ -143,6 +147,22 @@ class ApplicationTest(TestCase):
     def test_application_notes_empty(self):
         a = ApplicationFactory()
         self.assertEqual(len(a.application_notes()), 0)
+
+    def test_servers(self):
+        a = ApplicationFactory()
+        d = {
+            'servers': [
+                {'foo': {
+                    'id': 'foo',
+                    'environment': 'dev',
+                    'apps': [a.graphite_name]}},
+                {'bar': {}},
+            ]
+        }
+        GrainLogFactory(payload=dumps(d))
+        s = ServerFactory(graphite_name='foo')
+        d = a.servers()
+        self.assertEquals(d['dev'][0], s)
 
 
 class ApplicationAliasTest(TestCase):
