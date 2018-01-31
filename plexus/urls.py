@@ -24,8 +24,8 @@ from plexus.main.views import (
     AddServerNoteView, AddApplicationNoteView,
     DeleteServerContactView, DeleteApplicationContactView,
     AddApplicationContactView, AddServerContactView,
-    AddApplicationRenewal, RenewalsDashboard, ServersView,
-    ManagedServerView, AliasesView, ApplicationsView
+    AddApplicationRenewal, RenewalsDashboard,
+    AliasesView, ApplicationsView, ServerDetailView
 )
 from plexus.portfolio.views import Search as PortfolioSearch
 
@@ -44,18 +44,14 @@ if hasattr(settings, 'CAS_BASE') or hasattr(settings, 'WIND_BASE'):
 urlpatterns = [
     auth_urls,
     logout_page,
-    url(r'^$', IndexView.as_view()),
-    url(r'^servers/$', ServersView.as_view(), name="servers-view"),
+    url(r'^$', IndexView.as_view(), name="index-view"),
     url(r'^aliases/$', AliasesView.as_view(), name="aliases-view"),
     url(r'^applications/$', ApplicationsView.as_view(),
         name="applications-view"),
     url(r'^add_server/$', AddServerView.as_view()),
     url(r'^server/(?P<pk>\d+)/$',
-        login_required(DetailView.as_view(model=Server)),
+        ServerDetailView.as_view(),
         name="server-detail"),
-    url(r'^mserver/(?P<server>\w[^/]*)/$',
-        login_required(ManagedServerView.as_view()),
-        name="managed-server-detail"),
     url(r'^server/(?P<pk>\d+)/edit/$',
         login_required(
             UpdateView.as_view(model=Server, form_class=ServerForm))),

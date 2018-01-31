@@ -63,62 +63,40 @@ jQuery(document).ready(function () {
         <thead>
             <tr class="tab">
                 <th>Name</th>
-                <th>Environment</th>
-                <th>Primary Function</th>
+                <th style="width: 10%">Environment</th>
+                <th>Function</th>
                 <th>Roles</th>
                 <th style="width: 25%">Applications</th>
             </tr>
         </thead>
         <tbody>
-            {% for server in servers %}
-                <tr>
-                    <td><a href="{% url 'managed-server-detail' server.name %}">{{server.name}}</a></td>
-                    <td>{{server.d.environment}}</td>
-                    <td>
-                        {% if 'nginx' in server.d.roles %}
-                            Proxy
-                        {% else %}{% if 'celery' in server.d.roles %}
-                            Queue Tasks
-                        {% else %}{% if 'django' in server.d.roles %}
-                            Django
-                        {% else %}{% if 'php-fpm' in server.d.roles or 'lamp' in server.d.roles %}
-                            LAMP
-                        {% else %}{% if 'backups' in server.d.roles %}
-                            Backups
-                        {% else %}{% if 'chimney' in server.d.roles or 'graphite' in server.d.roles %}
-                            Monitoring
-                        {% else %}{% if 'solr' in server.d.roles %}
-                            Solr & Queuing
-                        {% else %}{% if 'saltmaster' in server.d.roles %}
-                            Configuration
-                        {% else %}{% if 'jenkins' in server.d.roles %}
-                            CI
-                        {% else %}{% if 'vault' in server.d.roles %}
-                            Security
-                        {% else %}{% if 'docker' in server.d.roles %}
-                            Docker
-                        {% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}{% endif %}
-                    </td>
-                    <td>
-                        {% for role in server.d.roles|dictsort:0 %}
-                            {{role}}{% if not forloop.last %},{% endif %}
-                        {% endfor %}
-                    </td>
-                    <td>
-                        {% if server.d.apps|length > 0 %}
-                            {% for app_name in server.d.apps|dictsort:0 %}
-                                {% app_by_graphite_name app_name as app %}
-                                {% if app %}
-                                    <a href="{% url 'application-detail' app.id %}">{{app}}</a>{% if not forloop.last %}, {% endif %}
-                                {% else %}
-                                    {{app_name}}{% if not forloop.last %}, {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
+        {% for server in servers %}
+            {% server_grain grains server.graphite_name as grain %}
             <tr>
+                <td>
+                    <a href="{% url 'server-detail' server.id %}">{{server.name}}</a>
+                </td>
+                <td>{{grain.d.environment|capfirst}}</td>
+                <td>{{server.primary_function }}</td>
+                <td>
+                    {% for role in grain.d.roles|dictsort:0 %}
+                        {{role}}{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    {% if grain.d.apps|length > 0 %}
+                        {% for app_name in grain.d.apps|dictsort:0 %}
+                            {% app_by_graphite_name app_name as app %}
+                            {% if app %}
+                                <a href="{% url 'application-detail' app.id %}">{{app}}</a>{% if not forloop.last %}, {% endif %}
+                            {% else %}
+                                {{app_name}}{% if not forloop.last %}, {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 </div>
