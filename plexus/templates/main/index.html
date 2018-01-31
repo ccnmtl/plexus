@@ -71,7 +71,7 @@ jQuery(document).ready(function () {
         </thead>
         <tbody>
         {% for server in servers %}
-            {% server_grain grains server.name as grain %}
+            {% server_grain grains server.graphite_name as grain %}
             <tr>
                 <td>
                     <a href="{% url 'server-detail' server.id %}">{{server.name}}</a>
