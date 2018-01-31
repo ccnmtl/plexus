@@ -1,5 +1,6 @@
 html {
 	height: 100%;
+	color: #060606;
 }
 
 body {
@@ -165,4 +166,52 @@ footer img {
 
 tr.upcoming-renewal td {
 		background-color: #fdd;
+}
+
+
+.server-detail-header {
+    border-color: #e6EEEE;
+    background-color: #e6EEEE;
+    padding: 20px;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.server-detail-header h1 {
+    display: inline;
+    padding: 0;
+}
+
+.padding-0 {
+    padding: 0;
+}
+
+#sidenav .nav .nav>li>a {
+    padding-top: 1px;
+    padding-bottom: 1px;
+    padding-left: 30px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #767676;
+}
+
+#sidenav li.active {
+    font-weight: bold;
+}
+
+.server-detail .panel-heading {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.server-detail table {
+    margin-bottom: 0;
+}
+
+.server-detail table tr td:first-child {
+    border-right: 1px solid #ddd;
+}
+
+.server-detail #graphs h3 {
+    font-size: 1.2em;
 }
