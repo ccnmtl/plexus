@@ -9,12 +9,6 @@
   <meta name="description" content="plexus">
   <meta name="author" content="CTL">
 
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-  <script src="../assets/js/html5shiv.js"></script>
-  <script src="../assets/js/respond.min.js"></script>
-<![endif]-->
-
     <link href="{% bootstrap_css_url %}" rel="stylesheet">
 {% compress css %}
     <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
@@ -76,9 +70,9 @@
               <b>{{ request.user.username }}</b>
             {% endif %}
 {% if request.user.is_superuser %}
-          <a href="{% url 'impersonate-list' %}" class="btn btn-default">impersonate</a>
+          <a href="{% url 'impersonate-list' %}" class="btn btn-default btn-sm">impersonate</a>
 {% endif %}
-          <a href="/accounts/logout/" class="btn btn-default">logout</a>
+          <a href="/accounts/logout/" class="btn btn-default btn-sm">logout</a>
           {% endif %}
 {% endblock %}
        </p>
