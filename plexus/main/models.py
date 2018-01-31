@@ -101,6 +101,9 @@ class Server(models.Model):
         return [ac.contact for ac in self.servercontact_set.all(
         ).select_related('contact')]
 
+    def aliases(self):
+        return Alias.objects.filter(ip_address__server=self)
+
 
 class IPAddress(models.Model):
     ipv4 = models.CharField(max_length=256)
