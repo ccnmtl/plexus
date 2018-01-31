@@ -215,3 +215,16 @@ tr.upcoming-renewal td {
 .server-detail #graphs h3 {
     font-size: 1.2em;
 }
+
+.navbar-nav .btn-link {
+    margin-top: 9px;
+}
+
+.navbar-nav.navbar-right a.btn {
+    padding: 5px 10px;
+    margin: 9px 3px 0 0;
+}
+
+.splash .navbar {
+    margin-bottom: 0
+}
