@@ -3,119 +3,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
-	<title>plexus: {% block title %}{% endblock %}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="plexus">
-  <meta name="author" content="CTL">
+    <meta charset="utf-8" />
+    <title>plexus: {% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="plexus">
+    <meta name="author" content="CTL">
 
     <link href="{% bootstrap_css_url %}" rel="stylesheet">
-{% compress css %}
-    <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
-{% endcompress %}
-	<link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" />
-	{% block css %}{% endblock %}
-  <script src="{{STATIC_URL}}js/lib/jquery-1.12.0.min.js"></script>
+    {% compress css %}
+        <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
+    {% endcompress %}
+    <link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" />
+    {% block css %}{% endblock %}
+    <script src="{{STATIC_URL}}js/lib/jquery-1.12.0.min.js"></script>
 
-	{% block feeds %}{% endblock %}
+    {% block feeds %}{% endblock %}
 </head>
 <body class="{% block bodyclass %}{% endblock %}" id="{% block bodyid %}{% endblock %}" {% block bodyattributes %}{% endblock %}>
 <a class="sr-only" href="#content">Skip navigation</a>
 
 {% block topnavbar %}
 <nav class="navbar navbar-default" role="navigation">
-  <!-- Brand and toggle get grouped for better mobile display -->
-  <div class="container">
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-      <span class="sr-only">Toggle navigation</span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-      <span class="icon-bar"></span>
-    </button>
-		<a class="navbar-brand" href="/">plexus</a>
-  </div>
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">plexus</a>
+        </div>
 
-  <!-- Collect the nav links, forms, and other content for toggling -->
-  <div class="collapse navbar-collapse navbar-ex1-collapse">
-    <ul class="nav navbar-nav">
-        <li><a href="/#servers">servers</a></li>
-        <li><a href="{% url 'applications-view' %}">applications</a></li>
-        <li><a href="{% url 'renewals-dashboard' %}">renewals</a></li>
-        <li><a href="{% url 'dashboard-index' %}">dashboards</a></li>
-        <li><a href="{% url 'grainlog-list' %}">grainlogs</a></li>
-        {% block topnavbarleftitems %}{% endblock %}
-    </ul>
-
-<!-- 
-    <form class="navbar-form navbar-left" role="search">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="Search">
-      </div>
-      <button type="submit" class="btn btn-default">Submit</button>
-    </form>
--->
-
-    <ul class="nav navbar-nav navbar-right">
-      {% block topnavbarrightitems %}{% endblock %}
-        <p class="navbar-text">
-
-{% block usernav %}
-          {% if request.user.is_anonymous %}
-          {% else %}
-          logged in as 
-            {% if request.user.last_name %}
-              {{request.user.first_name}} {{request.user.last_name}}
-            {% else %}
-              <b>{{ request.user.username }}</b>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            {% if not request.user.is_anonymous %}
+            <ul class="nav navbar-nav">
+                <li><a href="/">servers</a></li>
+                <li><a href="{% url 'applications-view' %}">applications</a></li>
+                <li><a href="{% url 'renewals-dashboard' %}">renewals</a></li>
+                <li><a href="{% url 'dashboard-index' %}">dashboards</a></li>
+                <li><a href="{% url 'grainlog-list' %}">grainlogs</a></li>
+            </ul>
             {% endif %}
-{% if request.user.is_superuser %}
-          <a href="{% url 'impersonate-list' %}" class="btn btn-default btn-sm">impersonate</a>
-{% endif %}
-          <a href="/accounts/logout/" class="btn btn-default btn-sm">logout</a>
-          {% endif %}
-{% endblock %}
-       </p>
-
-    </ul>
-  </div>
-  </div>
-</nav>
-
-{% endblock %}
-
-  <div class="container" id="outer-container">
-{% block masthead %}
-  {% block primarynav %}{% endblock %}
-{% endblock %}
-
-{% block loginbox %}
-{% if request.user.is_anonymous %}
-<div class="loginbox-container columbia">
-    <div class="loginbox">
-        <h2>Login</h2>
-        <div class="content">
-            {% if CAS_BASE %}
-                <form method="get" action="{{ CAS_BASE }}cas/login">
-                    {% csrf_token %}
-                    <input type="hidden" name="destination" value="https://{{ request.get_host }}/accounts/caslogin/?next={{ request.get_full_path|urlencode }}" />
-                    <input class="regbutton" type="submit" value="Columbia Log In" />
-                </form>
-            {% endif %}
+            <ul class="nav navbar-nav navbar-right">
+                {% if request.user.is_anonymous and CAS_BASE %}
+                    <li>
+                        <form method="get" action="{{ CAS_BASE }}cas/login">
+                            {% csrf_token %}
+                            <input type="hidden" name="destination" value="https://{{ request.get_host }}/accounts/caslogin/?next={{ next }}" />
+                            <input class="btn btn-link" type="submit" value="Log In" />
+                        </form>
+                    </li>
+                {% else %}
+                    {% if request.user.is_superuser %}
+                        <li><a href="{% url 'impersonate-list' %}" class="btn btn-default btn-sm">impersonate</a></li>
+                    {% endif %}
+                    <li><a href="/accounts/logout/" class="btn btn-default btn-sm">logout</a></li>
+                {% endif %}
+            </ul>
         </div>
     </div>
-</div>
-{% endif %}
+</nav>
 {% endblock %}
 
-
-<div class="row">
-<div class="col-md-12">
-{% block pagetitle %}{% endblock %}
-{% block content %}{% endblock %}
+{% block outercontainer %}
+<div class="container" id="outer-container">
+    <div class="row">
+        <div class="col-md-12">
+            {% block pagetitle %}{% endblock %}
+            {% block content %}{% endblock %}
+        </div>
+     </div>
 </div>
-</div>
-</div>
+{% endblock %}
 
 {% block footer %}
 <footer class="footer page-footer">
