@@ -59,46 +59,56 @@ jQuery(document).ready(function () {
 </div>
 
 <a name="servers"></a>
-<div class="table-responsive">
-    <table class="tablesorter tablesorter-bootstrap table table-bordered table-striped table-condensed">
-        <thead>
-            <tr class="tab">
-                <th>Name</th>
-                <th style="width: 10%">Environment</th>
-                <th>Function</th>
-                <th>Roles</th>
-                <th style="width: 25%">Applications</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for server in servers %}
-            {% server_grain grains server.graphite_name as grain %}
-            <tr>
-                <td>
-                    <a href="{% url 'server-detail' server.id %}">{{server.name}}</a>
-                </td>
-                <td>{{grain.d.environment|capfirst}}</td>
-                <td>{{server.primary_function }}</td>
-                <td>
-                    {% for role in grain.d.roles|dictsort:0 %}
-                        {{role}}{% if not forloop.last %},{% endif %}
-                    {% endfor %}
-                </td>
-                <td>
-                    {% if grain.d.apps|length > 0 %}
-                        {% for app_name in grain.d.apps|dictsort:0 %}
-                            {% app_by_graphite_name app_name as app %}
-                            {% if app %}
-                                <a href="{% url 'application-detail' app.id %}">{{app}}</a>{% if not forloop.last %}, {% endif %}
-                            {% else %}
-                                {{app_name}}{% if not forloop.last %}, {% endif %}
+        <div class="panel panel-default" style="margin-bottom: 0; border-bottom: 0;">
+            <div class="panel-heading" style="padding-bottom: 12px;">
+                Servers
+                {% if request.user.is_staff %}
+                    <a href="/add_server/" class="btn btn-default btn-sm pull-right" role="button">Add Server</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="tablesorter tablesorter-bootstrap table table-bordered table-striped table-condensed">
+                <thead>
+                    <tr class="tab">
+                        <th>Name</th>
+                        <th style="width: 10%">Environment</th>
+                        <th>Function</th>
+                        <th>Roles</th>
+                        <th style="width: 25%">Applications</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for server in servers %}
+                    {% server_grain grains server.graphite_name as grain %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'server-detail' server.id %}">{{server.name}}</a>
+                        </td>
+                        <td>{{grain.d.environment|capfirst}}</td>
+                        <td>{{server.primary_function }}</td>
+                        <td>
+                            {% for role in grain.d.roles|dictsort:0 %}
+                                {{role}}{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% if grain.d.apps|length > 0 %}
+                                {% for app_name in grain.d.apps|dictsort:0 %}
+                                    {% app_by_graphite_name app_name as app %}
+                                    {% if app %}
+                                        <a href="{% url 'application-detail' app.id %}">{{app}}</a>{% if not forloop.last %}, {% endif %}
+                                    {% else %}
+                                        {{app_name}}{% if not forloop.last %}, {% endif %}
+                                    {% endif %}
+                                {% endfor %}
                             {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
