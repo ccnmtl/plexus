@@ -35,14 +35,13 @@ class IndexView(LoggedInMixin, TemplateView):
 
         ctx['servers'] = Server.objects.filter(
             deprecated=False).order_by('name').select_related('location')
-
+        ctx['applications'] = Application.objects.filter(deprecated=False)
         ctx['logs'] = GrainLog.objects.all()
 
         grainlog = GrainLog.objects.current_grainlog()
         if grainlog:
             grain = Grain(grainlog.data())
             ctx['grains'] = grain.servers()
-            ctx['applications'] = grain.apps()
         return ctx
 
 
