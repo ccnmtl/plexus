@@ -12,6 +12,8 @@ idna==2.6
 urllib3==1.22
 certifi==2018.1.18
 cryptography==2.1.4
+asn1crypto==0.24.0  # for pyOpenSSL
+cffi==1.11.4  # for pyOpenSSL
 
 requests==2.18.4
 django-feedparser==0.2.1
