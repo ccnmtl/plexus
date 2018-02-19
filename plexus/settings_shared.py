@@ -3,6 +3,9 @@ import djcelery
 import os.path
 from ccnmtlsettings.shared import common
 from django_feedparser.settings import *  # noqa
+import urllib3.contrib.pyopenssl
+
+urllib3.contrib.pyopenssl.inject_into_urllib3()
 
 project = 'plexus'
 base = os.path.dirname(__file__)
