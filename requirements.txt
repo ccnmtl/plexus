@@ -5,9 +5,13 @@ httplib2==0.10.3
 feedparser==5.2.1
 
 chardet==3.0.4
+
+# https://urllib3.readthedocs.io/en/latest/user-guide.html#ssl-py2
+pyOpenSSL==17.5.0
 idna==2.6
 urllib3==1.22
 certifi==2018.1.18
+cryptography==2.1.4
 
 requests==2.18.4
 django-feedparser==0.2.1
@@ -65,9 +69,7 @@ boto==2.48.0
 six==1.11.0
 python-dateutil==2.6.1
 pyasn1==0.4.2
-pyOpenSSL==17.5.0
 ndg-httpsclient==0.4.4
-urllib3==1.22
 
 djangowind==1.1.0
 django-appconf==1.0.2
