@@ -27,8 +27,6 @@ from plexus.main.views import (
     AddApplicationRenewal, RenewalsDashboard,
     AliasesView, ApplicationsView, ServerDetailView
 )
-from plexus.portfolio.views import Search as PortfolioSearch
-
 
 admin.autodiscover()
 
@@ -149,7 +147,6 @@ urlpatterns = [
 
     url(r'^cms/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
-    url(r'^pages/search/', PortfolioSearch.as_view(), name='portfolio-search'),
     url(r'^pages/', include(wagtail_urls)),
 
     url(r'^uploads/(?P<path>.*)$', django.views.static.serve,
