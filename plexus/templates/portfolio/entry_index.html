@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load wagtailuserbar %}
+{% block css %}
+<link href="{{STATIC_URL}}css/portfolio.css" rel="stylesheet">
+{% endblock %}
+{% block title %}Project Portfolio prototype{% endblock %}
+
+{% block content %}
+    {% wagtailuserbar %}
+
+<header role="banner">
+    <nav class="navbar navbar-default navbar-portfolio">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand"><span class="glyphicon glyphicon-home"></span> Portfolio home</a>
+        </div>
+      </div>
+    </nav>
+    <h1 class="site-banner">{{page.title}}</h1>
+</header>
+
+    <form action="{% url 'portfolio-search' %}" method="get" class="form form-inline">
+        <input type="text" name="query" value="{{ search_query }}" class="form-control">
+        <input type="submit" value="Search Portfolio" class="btn btn-primary">
+    </form>
+	<br />
+	<p>{{page.search_description}}</p>
+
+
+    {% if page.entries %}
+<div class="row-portfolio">
+        {% for entry in page.entries %}
+			<div class="col-one-third">
+            {% if entry.thumb %}    
+                <a href="{% pageurl entry %}">{% image entry.thumb original class="poster-thumbnail" %}</a>
+            {% endif %}
+            <h2><a href="{% pageurl entry %}">{{entry.title}}</a></h2>
+            <p>{{entry.partner}}</p>
+            <p class="entry-links">
+            <a href="{% pageurl entry %}" title="More about this project"><span class="glyphicon glyphicon-info-sign"></span></a>
+            &nbsp;
+			<a href="{{entry.site_url}}" title="Go to project"><span class="glyphicon glyphicon-link"></span></a>
+            <p>
+			</div>
+        {% endfor %}
+</div>
+    {% endif %}
+    
+{% endblock %}

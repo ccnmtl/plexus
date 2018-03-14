@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load wagtailcore_tags %}
+{% load wagtailimages_tags %}
+{% load wagtailuserbar %}
+{% block css %}
+<link href="{{STATIC_URL}}css/portfolio.css" rel="stylesheet">
+{% endblock %}
+{% block title %}Project Portfolio prototype{% endblock %}
+
+{% block content %}
+{% wagtailuserbar %}
+<header role="banner">
+    <nav class="navbar navbar-default navbar-portfolio">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="../"><span class="glyphicon glyphicon-home"></span> Portfolio home</a>
+        </div>
+      </div>
+    </nav>
+</header>
+
+<h1>{{page.title}}</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        {% if page.thumb %}    
+            {% image page.thumb width-190 %}
+        {% endif %}
+    </div>
+
+    <div class="col-md-6">
+        <strong>Partner(s): {{page.partner}}</strong><br />
+        <strong>Access:</strong> {{page.access}}<br />
+        <strong>Released:</strong> {{page.orig_release}}<br />
+
+        <a href="{{entry.site_url}}">
+            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+            VIEW PROJECT</a><br />
+        
+    </div>
+</div>
+
+{{page.body|richtext}}
+
+{% endblock %}
