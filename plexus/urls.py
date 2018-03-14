@@ -7,9 +7,6 @@ from django.views.generic import (
     TemplateView, DetailView, UpdateView, ListView)
 import django.views.static
 import djangowind.views
-from wagtail.wagtailadmin import urls as wagtailadmin_urls
-from wagtail.wagtailcore import urls as wagtail_urls
-from wagtail.wagtaildocs import urls as wagtaildocs_urls
 
 from plexus.main.forms import AliasForm, ContactForm, ServerForm
 from plexus.main.forms import ApplicationForm
@@ -144,10 +141,6 @@ urlpatterns = [
         template_name="auth_stats.html")),
     url(r'smoketest/', include('smoketest.urls')),
     url(r'grainlogs/', include('plexus.grainlog.urls')),
-
-    url(r'^cms/', include(wagtailadmin_urls)),
-    url(r'^documents/', include(wagtaildocs_urls)),
-    url(r'^pages/', include(wagtail_urls)),
 
     url(r'^uploads/(?P<path>.*)$', django.views.static.serve,
         {'document_root': settings.MEDIA_ROOT}),
