@@ -10,15 +10,6 @@ locals().update(
         INSTALLED_APPS=INSTALLED_APPS,
     ))
 
-WAGTAILSEARCH_BACKENDS = {
-    'default': {
-        'BACKEND': 'wagtail.wagtailsearch.backends.elasticsearch2',
-        'URLS': ['http://elasticsearch:9200'],
-        'INDEX': 'plexus-wagtail',
-        'TIMEOUT': 5,
-    }
-}
-
 BROKER_URL = "amqp://guest:guest@rabbitmq:5672/"
 
 try:
