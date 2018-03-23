@@ -23,7 +23,7 @@ psycopg2==2.7.4
 versiontools==1.9.1
 statsd==3.2.2
 cssselect==1.0.3
-lxml==4.2.0
+lxml==4.2.1
 funcsigs==1.0.2
 sure==1.4.9
 ipdb==0.11
