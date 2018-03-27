@@ -114,7 +114,7 @@ librabbitmq==1.6.1
 kombu==3.0.37 # pyup: <4.0.0
 amqp==2.2.2
 amqplib==1.0.2
-celery==3.1.25 # pyup: <4.0.0
+celery==3.1.26.post2 # pyup: <4.0.0
 django-celery==3.2.2
 
 ccnmtlsettings==1.4.0
