@@ -11,7 +11,23 @@ from plexus.grainlog.models import GrainLog
 from plexus.main.views import LoggedInMixin
 
 
-class GrainLogListView(ListView):
+class GrainLogListView(LoggedInMixin, ListView):
+    model = GrainLog
+
+
+class GrainLogDetailView(LoggedInMixin, DetailView):
+    model = GrainLog
+
+
+class RawView(View):
+    def get(self, request):
+        g = GrainLog.objects.current_grainlog()
+        if g is None:
+            return HttpResponseNotFound()
+        return JsonResponse(g.data())
+
+
+class RawUpdateView(View):
     model = GrainLog
 
     def post(self, request, **kwargs):
@@ -27,15 +43,3 @@ class GrainLogListView(ListView):
         sha1 = hashlib.sha1(payload).hexdigest()
         gl = self.model.objects.create_grainlog(sha1=sha1, payload=payload)
         return HttpResponseRedirect(reverse('grainlog-detail', args=[gl.id]))
-
-
-class GrainLogDetailView(LoggedInMixin, DetailView):
-    model = GrainLog
-
-
-class RawView(View):
-    def get(self, request):
-        g = GrainLog.objects.current_grainlog()
-        if g is None:
-            return HttpResponseNotFound()
-        return JsonResponse(g.data())
