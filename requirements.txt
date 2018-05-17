@@ -7,7 +7,7 @@ feedparser==5.2.1
 chardet==3.0.4
 
 # https://urllib3.readthedocs.io/en/latest/user-guide.html#ssl-py2
-pyOpenSSL==17.5.0
+pyOpenSSL==18.0.0
 idna==2.6
 urllib3==1.22
 certifi==2018.4.16
