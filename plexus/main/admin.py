@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from models import Application, ApplicationAlias, ApplicationContact
-from models import Contact, Alias, Technology
+from models import Contact, Alias, Technology, Note
 from models import Location, OSFamily, OperatingSystem, IPAddress
 from models import ServerContact
 from plexus.main.models import Server
@@ -9,7 +9,7 @@ from plexus.main.models import Server
 
 for c in [Location, OSFamily, OperatingSystem, IPAddress,
           Contact, Technology, Application, ApplicationAlias,
-          ApplicationContact, ServerContact, Server]:
+          ApplicationContact, ServerContact, Server, Note]:
     admin.site.register(c)
 
 
