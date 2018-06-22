@@ -28,7 +28,7 @@ def aliases(name):
 @register.simple_tag
 def server_grain(grains, server):
     try:
-        grain = filter(lambda s: s.name == server, grains)[0]
+        grain = list(filter(lambda s: s.name == server, grains))[0]
         return grain
     except IndexError:
         return None

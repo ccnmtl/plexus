@@ -76,9 +76,9 @@ class RawUpdateViewTest(ViewTest):
     def test_post(self):
         request = self.factory.post(reverse('grainlog-raw-update'))
 
-        with open('test_data/grains.json') as f:
-            request.FILES['payload'] = SimpleUploadedFile("grains.json",
-                                                          f.read())
+        with open('test_data/grains.json', 'rb') as f:
+            request.FILES['payload'] = SimpleUploadedFile(
+                "grains.json", f.read())
             request.user = self.anon
             response = GrainLogListView.as_view()(request)
             self.assertEqual(response.status_code, 302)

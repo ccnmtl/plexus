@@ -49,7 +49,7 @@ class DashboardTest(TestCase):
         ApplicationFactory(graphite_name='foobar', deprecated=True)
         response = self.c.get(reverse('500s-dashboard'))
         self.assertEquals(response.status_code, 200)
-        self.assertFalse('foobar' in response.content)
+        self.assertNotContains(response, 'foobar')
 
     def test_empty_404s(self):
         response = self.c.get(reverse('404s-dashboard'))
@@ -64,7 +64,7 @@ class DashboardTest(TestCase):
         ApplicationFactory(graphite_name='foobar', deprecated=True)
         response = self.c.get(reverse('404s-dashboard'))
         self.assertEquals(response.status_code, 200)
-        self.assertFalse('foobar' in response.content)
+        self.assertNotContains(response, 'foobar')
 
     def test_empty_traffic(self):
         response = self.c.get(reverse('traffic-dashboard'))
@@ -79,7 +79,7 @@ class DashboardTest(TestCase):
         ApplicationFactory(graphite_name='foobar', deprecated=True)
         response = self.c.get(reverse('traffic-dashboard'))
         self.assertEquals(response.status_code, 200)
-        self.assertFalse('foobar' in response.content)
+        self.assertNotContains(response, 'foobar')
 
     def test_empty_response_times(self):
         response = self.c.get(reverse('response-time-dashboard'))
@@ -94,7 +94,7 @@ class DashboardTest(TestCase):
         ApplicationFactory(graphite_name='foobar', deprecated=True)
         response = self.c.get(reverse('response-time-dashboard'))
         self.assertEquals(response.status_code, 200)
-        self.assertFalse('foobar' in response.content)
+        self.assertNotContains(response, 'foobar')
 
     def test_load_average_empty(self):
         response = self.c.get(reverse('load-dashboard'))
@@ -135,7 +135,7 @@ class LoggedInTest(TestCase):
             })
         self.assertEquals(response.status_code, 302)
         response = self.c.get("/server/%d/" % server.id)
-        assert "test.example.com" in response.content
+        self.assertContains(response, 'test.example.com')
 
         a = Alias.objects.get(hostname='test.example.com')
         response = self.c.get("/alias/%d/" % a.id)
@@ -154,7 +154,7 @@ class LoggedInTest(TestCase):
             })
         self.assertEquals(response.status_code, 302)
         response = self.c.get("/alias/%d/" % alias.id)
-        assert "pending" in response.content
+        self.assertContains(response, 'pending')
 
     def test_alias_change(self):
         server = ServerFactory()
@@ -169,7 +169,7 @@ class LoggedInTest(TestCase):
             })
         self.assertEquals(response.status_code, 302)
         response = self.c.get("/alias/%d/" % alias.id)
-        assert str(newipaddress.server.name) in response.content
+        self.assertContains(response, newipaddress.server.name)
 
     def test_add_server_note(self):
         server = ServerFactory()
@@ -269,7 +269,7 @@ class LoggedInTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         response = self.c.get(reverse('applications-view'))
-        self.assertTrue("testapp" in response.content)
+        self.assertContains(response, 'testapp')
 
     def test_add_server(self):
         response = self.c.post(
@@ -287,38 +287,38 @@ class LoggedInTest(TestCase):
             })
         self.assertEquals(response.status_code, 302)
         response = self.c.get(reverse('index-view'))
-        assert "testserver" in response.content
+        self.assertContains(response, 'testserver')
 
         # pull up the server page
         s = Server.objects.get(name='testserver')
         response = self.c.get(s.get_absolute_url())
 
         self.assertEquals(response.status_code, 200)
-        assert '127.0.0.1' in response.content
-        assert 'Anders' in response.content
-        assert 'i-fde235eb' in response.content
+        self.assertContains(response, '127.0.0.1')
+        self.assertContains(response, 'Anders')
+        self.assertContains(response, 'i-fde235eb')
 
         loc = Location.objects.get(name="test location")
         response = self.c.get(loc.get_absolute_url())
         self.assertEquals(response.status_code, 200)
-        assert 'testserver' in response.content
+        self.assertContains(response, 'testserver')
 
         # contacts should exist too
         c = Contact.objects.get(name="Anders")
         response = self.c.get(c.get_absolute_url())
         self.assertEquals(response.status_code, 200)
-        assert 'Anders' in response.content
-        assert 'testserver' in response.content
+        self.assertContains(response, 'Anders')
+        self.assertContains(response, 'testserver')
 
         # os info should exist now
         osfam = OSFamily.objects.get(name="Linux")
         response = self.c.get(osfam.get_absolute_url())
         assert response.status_code == 200
-        assert "Ubuntu 12.04" in response.content
+        self.assertContains(response, 'Ubuntu 12.04')
         os = OperatingSystem.objects.get(family=osfam, version=" Ubuntu 12.04")
         response = self.c.get(os.get_absolute_url())
         assert response.status_code == 200
-        assert "testserver" in response.content
+        self.assertContains(response, 'testserver')
 
     def test_add_server_alternates(self):
         response = self.c.post(
@@ -331,7 +331,7 @@ class LoggedInTest(TestCase):
             })
         self.assertEquals(response.status_code, 302)
         response = self.c.get(reverse('index-view'))
-        assert "testserver" in response.content
+        self.assertContains(response, 'testserver')
 
     def test_add_alias(self):
         server = ServerFactory()
@@ -347,12 +347,12 @@ class LoggedInTest(TestCase):
             })
         self.assertEquals(response.status_code, 302)
         response = self.c.get("/server/%d/" % server.id)
-        assert "test.example.com" in response.content
+        self.assertContains(response, 'test.example.com')
 
         a = Alias.objects.get(hostname='test.example.com')
         response = self.c.get("/alias/%d/" % a.id)
         self.assertEqual(response.status_code, 200)
-        self.assertTrue("admin info" in response.content)
+        self.assertContains(response, 'admin info')
 
     def test_contact(self):
         contact = ContactFactory()
@@ -375,7 +375,7 @@ class LoggedInTest(TestCase):
     def test_deprecated_application(self):
         application = ApplicationFactory(deprecated=True)
         response = self.c.get(reverse('index-view'))
-        self.assertFalse(application.get_absolute_url() in response.content)
+        self.assertNotContains(response, application.get_absolute_url())
 
     def test_delete_servercontact(self):
         sc = ServerContactFactory()
@@ -410,13 +410,13 @@ class LoggedInTest(TestCase):
         response = self.c.post("/alias/%d/confirm/" % alias.id)
         self.assertEqual(response.status_code, 302)
         response = self.c.get("/alias/%d/" % alias.id)
-        self.assertTrue("pending" not in response.content)
+        self.assertNotContains(response, 'pending')
 
     def test_alias_edit_form(self):
         alias = AliasFactory(status="pending")
         response = self.c.get("/alias/%d/edit/" % alias.id)
         self.assertEqual(response.status_code, 200)
-        self.assertTrue("<form " in response.content)
+        self.assertContains(response, '<form')
         response = self.c.post(
             "/alias/%d/edit/" % alias.id,
             dict(hostname=alias.hostname,
@@ -426,8 +426,8 @@ class LoggedInTest(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         response = self.c.get("/alias/%d/" % alias.id)
-        self.assertTrue("new description" in response.content)
-        self.assertTrue("new admin info" in response.content)
+        self.assertContains(response, 'new description')
+        self.assertContains(response, 'new admin info')
 
     def test_alias_associate_with_application(self):
         alias = AliasFactory()

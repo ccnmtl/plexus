@@ -18,7 +18,6 @@ cffi==1.11.5  # for pyOpenSSL
 requests==2.19.1
 django-feedparser==0.2.1
 Markdown==2.6.11
-uuid==1.30
 psycopg2==2.7.5
 versiontools==1.9.1
 statsd==3.2.2
@@ -50,7 +49,7 @@ pep8==1.7.1
 pyflakes==2.0.0
 mccabe==0.6.1
 pycodestyle==2.3.1 # pyup: <2.4.0
-enum34==1.1.6
+enum34==1.1.6; python_version < '3.4'
 configparser==3.5.0
 flake8==3.5.0
 logilab-common==1.4.1

@@ -2,34 +2,38 @@ from datetime import datetime, timedelta
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible, smart_text
 
 from plexus.grainlog.models import GrainLog
 
 
+@python_2_unicode_compatible
 class Location(models.Model):
     name = models.CharField(max_length=256)
     details = models.TextField(blank=True, default=u"")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return "/location/%d/" % self.id
 
 
+@python_2_unicode_compatible
 class OSFamily(models.Model):
     name = models.CharField(max_length=256)
 
     class Meta:
         ordering = ['name', ]
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return "/os/%d/" % self.id
 
 
+@python_2_unicode_compatible
 class OperatingSystem(models.Model):
     family = models.ForeignKey(OSFamily)
     version = models.CharField(max_length=256)
@@ -37,13 +41,14 @@ class OperatingSystem(models.Model):
     class Meta:
         ordering = ['version', ]
 
-    def __unicode__(self):
-        return unicode(self.family) + " " + self.version
+    def __str__(self):
+        return smart_text(self.family) + " " + self.version
 
     def get_absolute_url(self):
         return "/os/%d/%d/" % (self.family.id, self.id)
 
 
+@python_2_unicode_compatible
 class Server(models.Model):
     name = models.CharField(max_length=256)
     primary_function = models.TextField(blank=True, default=u"")
@@ -60,7 +65,7 @@ class Server(models.Model):
     class Meta:
         ordering = ['name', ]
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_absolute_url(self):
@@ -105,21 +110,23 @@ class Server(models.Model):
         return Alias.objects.filter(ip_address__server=self)
 
 
+@python_2_unicode_compatible
 class IPAddress(models.Model):
     ipv4 = models.CharField(max_length=256)
     mac_addr = models.CharField(max_length=256, null=True, blank=True)
     server = models.ForeignKey(Server)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.ipv4
 
 
+@python_2_unicode_compatible
 class Contact(models.Model):
     name = models.CharField(max_length=256)
     email = models.CharField(max_length=256, default="")
     phone = models.CharField(max_length=256, default="")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_absolute_url(self):
@@ -134,6 +141,7 @@ class Contact(models.Model):
             application__deprecated=False)]
 
 
+@python_2_unicode_compatible
 class Alias(models.Model):
     hostname = models.CharField(max_length=256)
     ip_address = models.ForeignKey(IPAddress, null=True)
@@ -155,7 +163,7 @@ class Alias(models.Model):
     class Meta:
         ordering = ['hostname', ]
 
-    def __unicode__(self):
+    def __str__(self):
         return self.hostname
 
     def status_css_class(self):
@@ -214,13 +222,15 @@ Thanks,
         return "/alias/%d/" % self.id
 
 
+@python_2_unicode_compatible
 class Technology(models.Model):
     name = models.CharField(max_length=256)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 
+@python_2_unicode_compatible
 class Application(models.Model):
     name = models.CharField(max_length=256)
     description = models.TextField(blank=True, default=u"")
@@ -238,7 +248,7 @@ class Application(models.Model):
     class Meta:
         ordering = ['name', ]
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def pmt_feed_url(self):
@@ -302,14 +312,16 @@ class Lease(models.Model):
         return (datetime.now() + timedelta(weeks=4)).date() > self.end
 
 
+@python_2_unicode_compatible
 class ApplicationAlias(models.Model):
     application = models.ForeignKey(Application)
     alias = models.ForeignKey(Alias)
 
-    def __unicode__(self):
-        return unicode(self.application) + " -> " + unicode(self.alias)
+    def __str__(self):
+        return smart_text(self.application) + " -> " + smart_text(self.alias)
 
 
+@python_2_unicode_compatible
 class ApplicationContact(models.Model):
     application = models.ForeignKey(Application)
     contact = models.ForeignKey(Contact)
@@ -317,10 +329,11 @@ class ApplicationContact(models.Model):
     class Meta:
         order_with_respect_to = 'application'
 
-    def __unicode__(self):
-        return unicode(self.application) + ": " + unicode(self.contact)
+    def __str__(self):
+        return smart_text(self.application) + ": " + smart_text(self.contact)
 
 
+@python_2_unicode_compatible
 class ServerContact(models.Model):
     server = models.ForeignKey(Server)
     contact = models.ForeignKey(Contact)
@@ -328,8 +341,8 @@ class ServerContact(models.Model):
     class Meta:
         order_with_respect_to = 'server'
 
-    def __unicode__(self):
-        return unicode(self.server) + ": " + unicode(self.contact)
+    def __str__(self):
+        return smart_text(self.server) + ": " + smart_text(self.contact)
 
 
 class Note(models.Model):

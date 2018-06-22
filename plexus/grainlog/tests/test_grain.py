@@ -147,7 +147,7 @@ class GrainTest(unittest.TestCase):
 class ServerTest(unittest.TestCase):
     def test_keys(self):
         s = Server('foo', dict(a="b"))
-        self.assertEqual(s.keys(), ["a"])
+        self.assertEqual(list(s.keys()), ["a"])
 
     def test_apps(self):
         s = Server('foo', dict(apps=['one', 'two', 'three']))
