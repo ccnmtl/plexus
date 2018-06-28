@@ -1,10 +1,11 @@
 from django.contrib import admin
 
-from models import Application, ApplicationAlias, ApplicationContact
-from models import Contact, Alias, Technology, Note
-from models import Location, OSFamily, OperatingSystem, IPAddress
-from models import ServerContact
-from plexus.main.models import Server
+from plexus.main.models import (
+    Application, ApplicationAlias, ApplicationContact,
+    Contact, Alias, Technology, Note,
+    Location, OSFamily, OperatingSystem, IPAddress,
+    ServerContact, Server
+)
 
 
 for c in [Location, OSFamily, OperatingSystem, IPAddress,

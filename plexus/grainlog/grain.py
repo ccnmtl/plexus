@@ -17,7 +17,7 @@ class Grain(object):
         self._roles_idx = defaultdict(list)
 
         for s in self.d.get('servers', []):
-            server_name = s.keys()[0]
+            server_name = list(s.keys())[0]
             data = s[server_name]
             if not isinstance(data, dict):
                 # sometimes we get a string like
