@@ -65,7 +65,7 @@ ldap3==2.5
 sqlparse==0.2.4
 gunicorn==19.8.1
 
-boto==2.48.0
+boto==2.49.0
 six==1.11.0
 python-dateutil==2.7.3
 pyasn1==0.4.3
