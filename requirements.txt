@@ -71,7 +71,7 @@ python-dateutil==2.7.3
 pyasn1==0.4.4
 ndg-httpsclient==0.5.1
 
-djangowind==1.1.0
+djangowind==1.2.1
 django-appconf==1.0.2
 rcssmin==1.0.6
 rjsmin==1.0.12
