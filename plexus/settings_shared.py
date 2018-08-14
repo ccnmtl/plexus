@@ -1,5 +1,4 @@
 # Django settings for plexus project.
-import djcelery
 import os.path
 from ccnmtlsettings.shared import common
 from django_feedparser.settings import *  # noqa
@@ -20,8 +19,6 @@ locals().update(common(project=project, base=base))
 PROJECT_APPS = ['plexus.main', 'plexus.grainlog']
 USE_TZ = True
 
-djcelery.setup_loader()
-
 INSTALLED_APPS += [  # noqa
     'bootstrapform',
     'bootstrap3',
@@ -30,14 +27,9 @@ INSTALLED_APPS += [  # noqa
     'plexus.grainlog',
     'modelcluster',
     'taggit',
-    'djcelery',
 ]
 
 HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
 SYSADMIN_LIST_EMAIL = "ccnmtl-sysadmin@columbia.edu"
 
 MAX_GRAINLOGS = 10
-
-BROKER_URL = "amqp://localhost:5672//" + project
-
-CELERYD_CONCURRENCY = 2
