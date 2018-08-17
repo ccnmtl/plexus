@@ -40,6 +40,6 @@ class RawUpdateView(View):
         # with just turning it into a string in memory
         payload = ''.join(list(f.chunks()))
 
-        sha1 = hashlib.sha1(payload).hexdigest()
+        sha1 = hashlib.sha1(payload).hexdigest()  # nosec
         gl = self.model.objects.create_grainlog(sha1=sha1, payload=payload)
         return HttpResponseRedirect(reverse('grainlog-detail', args=[gl.id]))
