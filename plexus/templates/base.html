@@ -9,7 +9,8 @@
     <meta name="description" content="plexus">
     <meta name="author" content="CTL">
 
-    <link href="{% bootstrap_css_url %}" rel="stylesheet">
+    {% bootstrap_css %}
+
     {% compress css %}
         <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
     {% endcompress %}
