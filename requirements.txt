@@ -17,7 +17,7 @@ cffi==1.11.5  # for pyOpenSSL
 
 requests==2.19.1
 django-feedparser==0.2.1
-Markdown==2.6.11
+Markdown==3.0
 psycopg2==2.7.5
 versiontools==1.9.1
 statsd==3.3.0
