@@ -67,7 +67,7 @@ gunicorn==19.9.0
 
 boto==2.49.0
 six==1.11.0
-python-dateutil==2.7.3
+python-dateutil==2.7.5
 pyasn1==0.4.4
 ndg-httpsclient==0.5.1
 
