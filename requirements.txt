@@ -107,7 +107,7 @@ html5lib==1.0.1
 elasticsearch==2.4.1 # pyup: <5.0.0
 
 anyjson==0.3.3
-vine==1.1.4
+vine==1.2.0
 billiard==3.5.0.5
 kombu==3.0.37 # pyup: <4.0.0
 amqp==2.3.2
