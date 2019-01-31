@@ -30,6 +30,6 @@ INSTALLED_APPS += [  # noqa
 ]
 
 HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
-SYSADMIN_LIST_EMAIL = "ccnmtl-sysadmin@columbia.edu"
+SYSADMIN_LIST_EMAIL = "ctl-sysadmin@columbia.edu"
 
 MAX_GRAINLOGS = 10
