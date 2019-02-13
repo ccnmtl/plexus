@@ -110,7 +110,7 @@ anyjson==0.3.3
 vine==1.2.0
 billiard==3.6.0.0
 kombu==3.0.37 # pyup: <4.0.0
-amqp==2.4.0
+amqp==2.4.1
 amqplib==1.0.2
 
 ccnmtlsettings==1.5.0
