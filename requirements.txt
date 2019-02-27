@@ -13,7 +13,7 @@ urllib3==1.24.1
 certifi==2018.11.29
 cryptography==2.5
 asn1crypto==0.24.0  # for pyOpenSSL
-cffi==1.12.1  # for pyOpenSSL
+cffi==1.12.2  # for pyOpenSSL
 
 requests==2.21.0
 django-feedparser==0.2.1
