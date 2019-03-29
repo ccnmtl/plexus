@@ -74,6 +74,7 @@ jQuery(document).ready(function () {
                 <th>Name</th>
                 <th style="width: 10%">Environment</th>
                 <th>Function</th>
+                <th>Operating System</th>
                 <th>Roles</th>
                 <th style="width: 25%">Applications</th>
             </tr>
@@ -87,6 +88,7 @@ jQuery(document).ready(function () {
                 </td>
                 <td>{{grain.d.environment|capfirst}}</td>
                 <td>{{server.primary_function }}</td>
+                <td>{{server.operating_system}}</td>
                 <td>
                     {% for role in grain.d.roles|dictsort:0 %}
                         {{role}}{% if not forloop.last %},{% endif %}
