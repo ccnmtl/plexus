@@ -15,7 +15,7 @@ cryptography==2.6.1
 asn1crypto==0.24.0  # for pyOpenSSL
 cffi==1.12.3  # for pyOpenSSL
 
-requests==2.21.0
+requests==2.22.0
 django-feedparser==0.2.1
 Markdown==2.6.11 # pyup: < 3
 psycopg2==2.8.2
