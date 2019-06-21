@@ -96,7 +96,7 @@ djangorestframework==3.9.4
 Willow==1.1
 django-modelcluster==4.4
 django-taggit==0.24.0 # pyup: < 1.0.0
-Unidecode==1.1.0
+Unidecode==1.1.1
 django-treebeard==4.3
 
 Pillow==6.0.0
