@@ -1,5 +1,5 @@
 # flake8: noqa
-from settings_shared import *
+from plexus.settings_shared import *
 from ccnmtlsettings.compose import common
 
 locals().update(
@@ -13,7 +13,7 @@ locals().update(
 BROKER_URL = "amqp://guest:guest@rabbitmq:5672/"
 
 try:
-    from local_settings import *
+    from plexus.local_settings import *
 except ImportError:
     pass
 
