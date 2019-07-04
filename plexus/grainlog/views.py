@@ -39,10 +39,9 @@ class RawUpdateView(View):
         # typical grainlog uploads are around 200k, which
         # is small enough that I think we can get away
         # with just turning it into a string in memory
-        payload = ''
-        for chunk in f.chunks():
-            payload.join(smart_text(chunk))
+        payload = smart_text(f.read())
+        encoded_payload = payload.encode('utf-8')
 
-        sha1 = hashlib.sha1(payload.encode('utf-8')).hexdigest()  # nosec
-        gl = self.model.objects.create_grainlog(sha1=sha1, payload=payload)
+        sha1 = hashlib.sha1(encoded_payload).hexdigest()  # nosec
+        gl = self.model.objects.create_grainlog(sha1=sha1, payload=encoded_payload)
         return HttpResponseRedirect(reverse('grainlog-detail', args=[gl.id]))
