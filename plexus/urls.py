@@ -6,7 +6,6 @@ import django.contrib.auth.views
 from django.views.generic import (
     TemplateView, DetailView, UpdateView, ListView)
 import django.views.static
-import djangowind.views
 
 from plexus.main.forms import AliasForm, ContactForm, ServerForm
 from plexus.main.forms import ApplicationForm
@@ -27,18 +26,13 @@ from plexus.main.views import (
 
 admin.autodiscover()
 
-redirect_after_logout = getattr(settings, 'LOGOUT_REDIRECT_URL', None)
 auth_urls = url(r'^accounts/', include('django.contrib.auth.urls'))
-logout_page = url(r'^accounts/logout/$', django.contrib.auth.views.logout,
-                  {'next_page': redirect_after_logout})
 if hasattr(settings, 'CAS_BASE') or hasattr(settings, 'WIND_BASE'):
     auth_urls = url(r'^accounts/', include('djangowind.urls'))
-    logout_page = url(r'^accounts/logout/$', djangowind.views.logout,
-                      {'next_page': redirect_after_logout})
+
 
 urlpatterns = [
     auth_urls,
-    logout_page,
     url(r'^$', IndexView.as_view(), name="index-view"),
     url(r'^aliases/$', AliasesView.as_view(), name="aliases-view"),
     url(r'^applications/$', ApplicationsView.as_view(),
@@ -134,7 +128,7 @@ urlpatterns = [
         queryset=Server.objects.filter(deprecated=False),
         template_name='dashboard/network.html')), name='network-dashboard'),
 
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
     url(r'^impersonate/', include('impersonate.urls')),
     url(r'^stats/$', TemplateView.as_view(template_name="stats.html")),
     url(r'^stats/auth/$', TemplateView.as_view(
