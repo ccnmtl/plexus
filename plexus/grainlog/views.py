@@ -1,6 +1,6 @@
 import hashlib
 
-from django.urls import reverse
+from django.core.urlresolvers import reverse
 from django.http.response import (
     HttpResponseBadRequest, HttpResponseRedirect, JsonResponse,
     HttpResponseNotFound,
