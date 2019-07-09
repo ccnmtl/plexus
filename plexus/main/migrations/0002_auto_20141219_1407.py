@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             name='ApplicationNote',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('application', models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Application')),
+                ('application', models.ForeignKey(to='main.Application')),
             ],
             options={
             },
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created', models.DateTimeField(auto_now_add=True)),
                 ('body', models.TextField(default='', blank=True)),
-                ('user', models.ForeignKey(on_delete=models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
             options={
             },
@@ -40,8 +40,8 @@ class Migration(migrations.Migration):
             name='ServerNote',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('note', models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Note')),
-                ('server', models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Server')),
+                ('note', models.ForeignKey(to='main.Note')),
+                ('server', models.ForeignKey(to='main.Server')),
             ],
             options={
             },
@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='applicationnote',
             name='note',
-            field=models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Note'),
+            field=models.ForeignKey(to='main.Note'),
             preserve_default=True,
         ),
     ]

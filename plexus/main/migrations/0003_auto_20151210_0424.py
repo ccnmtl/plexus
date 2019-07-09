@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='alias',
             name='status',
-            field=models.CharField(default='active', max_length=256, choices=[('active', 'active'), ('pending', 'pending'), ('deprecated', 'deprecated')]),
+            field=models.CharField(default='active', max_length=256, choices=[(b'active', b'active'), (b'pending', b'pending'), (b'deprecated', b'deprecated')]),
         ),
     ]
