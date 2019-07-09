@@ -1,5 +1,5 @@
 from smoketest import SmokeTest
-from models import Server
+from plexus.main.models import Server
 
 
 class DBConnectivity(SmokeTest):
