@@ -35,7 +35,7 @@ class OSFamily(models.Model):
 
 @python_2_unicode_compatible
 class OperatingSystem(models.Model):
-    family = models.ForeignKey(OSFamily)
+    family = models.ForeignKey(OSFamily, on_delete=models.CASCADE)
     version = models.CharField(max_length=256)
 
     class Meta:
@@ -52,8 +52,10 @@ class OperatingSystem(models.Model):
 class Server(models.Model):
     name = models.CharField(max_length=256)
     primary_function = models.TextField(blank=True, default=u"")
-    location = models.ForeignKey(Location, null=True, default="")
-    operating_system = models.ForeignKey(OperatingSystem)
+    location = models.ForeignKey(Location, null=True, default="",
+                                 on_delete=models.CASCADE)
+    operating_system = models.ForeignKey(OperatingSystem,
+                                         on_delete=models.CASCADE)
     memory = models.CharField(max_length=256, blank=True)
     disk = models.CharField(max_length=256, blank=True)
     swap = models.CharField(max_length=256, blank=True)
@@ -114,7 +116,7 @@ class Server(models.Model):
 class IPAddress(models.Model):
     ipv4 = models.CharField(max_length=256)
     mac_addr = models.CharField(max_length=256, null=True, blank=True)
-    server = models.ForeignKey(Server)
+    server = models.ForeignKey(Server, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.ipv4
@@ -144,7 +146,8 @@ class Contact(models.Model):
 @python_2_unicode_compatible
 class Alias(models.Model):
     hostname = models.CharField(max_length=256)
-    ip_address = models.ForeignKey(IPAddress, null=True)
+    ip_address = models.ForeignKey(IPAddress, null=True,
+                                   on_delete=models.CASCADE)
     status = models.CharField(
         max_length=256, default=u"active",
         choices=[("active", "active"), ("pending", "pending"),
@@ -234,7 +237,8 @@ class Technology(models.Model):
 class Application(models.Model):
     name = models.CharField(max_length=256)
     description = models.TextField(blank=True, default=u"")
-    technology = models.ForeignKey(Technology, null=True)
+    technology = models.ForeignKey(
+        Technology, null=True, on_delete=models.CASCADE)
     graphite_name = models.CharField(max_length=256, default=u"", blank=True)
     sentry_name = models.CharField(max_length=256, default=u"", blank=True)
     pmt_id = models.IntegerField(default=0)
@@ -301,10 +305,10 @@ class Application(models.Model):
 
 
 class Lease(models.Model):
-    application = models.ForeignKey(Application)
+    application = models.ForeignKey(Application, on_delete=models.CASCADE)
     start = models.DateField(auto_now_add=True)
     end = models.DateField()
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     notes = models.TextField(blank=True, default=u"")
 
     def upcoming(self):
@@ -314,8 +318,8 @@ class Lease(models.Model):
 
 @python_2_unicode_compatible
 class ApplicationAlias(models.Model):
-    application = models.ForeignKey(Application)
-    alias = models.ForeignKey(Alias)
+    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    alias = models.ForeignKey(Alias, on_delete=models.CASCADE)
 
     def __str__(self):
         return smart_text(self.application) + " -> " + smart_text(self.alias)
@@ -323,8 +327,8 @@ class ApplicationAlias(models.Model):
 
 @python_2_unicode_compatible
 class ApplicationContact(models.Model):
-    application = models.ForeignKey(Application)
-    contact = models.ForeignKey(Contact)
+    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
 
     class Meta:
         order_with_respect_to = 'application'
@@ -335,8 +339,8 @@ class ApplicationContact(models.Model):
 
 @python_2_unicode_compatible
 class ServerContact(models.Model):
-    server = models.ForeignKey(Server)
-    contact = models.ForeignKey(Contact)
+    server = models.ForeignKey(Server, on_delete=models.CASCADE)
+    contact = models.ForeignKey(Contact, on_delete=models.CASCADE)
 
     class Meta:
         order_with_respect_to = 'server'
@@ -346,16 +350,16 @@ class ServerContact(models.Model):
 
 
 class Note(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     body = models.TextField(blank=True, default=u"")
 
 
 class ServerNote(models.Model):
-    server = models.ForeignKey(Server)
-    note = models.ForeignKey(Note)
+    server = models.ForeignKey(Server, on_delete=models.CASCADE)
+    note = models.ForeignKey(Note, on_delete=models.CASCADE)
 
 
 class ApplicationNote(models.Model):
-    application = models.ForeignKey(Application)
-    note = models.ForeignKey(Note)
+    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    note = models.ForeignKey(Note, on_delete=models.CASCADE)

@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
             name='AliasContact',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('alias', models.ForeignKey(to='main.Alias')),
+                ('alias', models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Alias')),
             ],
             options={
             },
@@ -54,8 +54,8 @@ class Migration(migrations.Migration):
             name='ApplicationAlias',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('alias', models.ForeignKey(to='main.Alias')),
-                ('application', models.ForeignKey(to='main.Application')),
+                ('alias', models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Alias')),
+                ('application', models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Application')),
             ],
             options={
             },
@@ -65,7 +65,7 @@ class Migration(migrations.Migration):
             name='ApplicationContact',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('application', models.ForeignKey(to='main.Application')),
+                ('application', models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Application')),
             ],
             options={
             },
@@ -76,8 +76,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=256)),
-                ('email', models.CharField(default=b'', max_length=256)),
-                ('phone', models.CharField(default=b'', max_length=256)),
+                ('email', models.CharField(default='', max_length=256)),
+                ('phone', models.CharField(default='', max_length=256)),
             ],
             options={
             },
@@ -141,8 +141,8 @@ class Migration(migrations.Migration):
                 ('deprecated', models.BooleanField(default=False)),
                 ('graphite_name', models.CharField(default='', max_length=256, blank=True)),
                 ('sentry_name', models.CharField(default='', max_length=256, blank=True)),
-                ('location', models.ForeignKey(default=b'', to='main.Location', null=True)),
-                ('operating_system', models.ForeignKey(to='main.OperatingSystem')),
+                ('location', models.ForeignKey(on_delete=models.deletion.CASCADE, default='', to='main.Location', null=True)),
+                ('operating_system', models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.OperatingSystem')),
             ],
             options={
                 'ordering': ['name'],
@@ -153,8 +153,8 @@ class Migration(migrations.Migration):
             name='ServerContact',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('contact', models.ForeignKey(to='main.Contact')),
-                ('server', models.ForeignKey(to='main.Server')),
+                ('contact', models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Contact')),
+                ('server', models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Server')),
             ],
             options={
             },
@@ -174,8 +174,8 @@ class Migration(migrations.Migration):
             name='VMLocation',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('dom_0', models.ForeignKey(related_name=b'dom_0', to='main.Server')),
-                ('dom_u', models.ForeignKey(related_name=b'dom_u', to='main.Server')),
+                ('dom_0', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='dom_0', to='main.Server')),
+                ('dom_u', models.ForeignKey(on_delete=models.deletion.CASCADE, related_name='dom_u', to='main.Server')),
             ],
             options={
             },
@@ -188,19 +188,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='operatingsystem',
             name='family',
-            field=models.ForeignKey(to='main.OSFamily'),
+            field=models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.OSFamily'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='ipaddress',
             name='server',
-            field=models.ForeignKey(to='main.Server'),
+            field=models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Server'),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='applicationcontact',
             name='contact',
-            field=models.ForeignKey(to='main.Contact'),
+            field=models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Contact'),
             preserve_default=True,
         ),
         migrations.AlterOrderWithRespectTo(
@@ -210,13 +210,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='application',
             name='technology',
-            field=models.ForeignKey(to='main.Technology', null=True),
+            field=models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Technology', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='aliascontact',
             name='contact',
-            field=models.ForeignKey(to='main.Contact'),
+            field=models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.Contact'),
             preserve_default=True,
         ),
         migrations.AlterOrderWithRespectTo(
@@ -226,7 +226,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='alias',
             name='ip_address',
-            field=models.ForeignKey(to='main.IPAddress', null=True),
+            field=models.ForeignKey(on_delete=models.deletion.CASCADE, to='main.IPAddress', null=True),
             preserve_default=True,
         ),
     ]
