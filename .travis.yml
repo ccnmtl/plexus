@@ -1,5 +1,5 @@
 language: python
-dist: xenial
+dist: bionic
 install:
   - pip install -U pip wheel
   - pip install -U setuptools
@@ -11,3 +11,7 @@ script:
   - make
 notifications:
   slack: ccnmtl:GizSNscLWJLldjQrffB8mwgm
+addons:
+  apt:
+    packages:
+      - 2to3

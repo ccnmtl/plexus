@@ -27,6 +27,7 @@ PY_DIRS ?= $(APP)
 # Travis has issues here. See:
 # https://github.com/travis-ci/travis-ci/issues/9524
 ifeq ($(TRAVIS),true)
+	SYS_PYTHON = python
 	BANDIT ?= bandit
 	FLAKE8 ?= flake8
 	PIP ?= pip
