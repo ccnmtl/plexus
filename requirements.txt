@@ -10,7 +10,7 @@ chardet==3.0.4
 pyOpenSSL==19.0.0
 idna==2.8
 urllib3==1.25.3
-certifi==2019.6.16
+certifi==2019.9.11
 cryptography==2.7
 asn1crypto==0.24.0  # for pyOpenSSL
 cffi==1.12.3  # for pyOpenSSL
