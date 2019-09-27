@@ -1,7 +1,7 @@
 Django==1.11.24 # pyup: <2.0
 
 pytz==2019.2
-httplib2==0.13.1
+httplib2==0.14.0
 feedparser==5.2.1
 
 chardet==3.0.4
