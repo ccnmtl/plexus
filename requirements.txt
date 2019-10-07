@@ -103,7 +103,7 @@ Unidecode==1.1.1
 django-treebeard==4.3
 
 Pillow==6.2.0
-beautifulsoup4==4.7.1
+beautifulsoup4==4.8.1
 
 html5lib==1.0.1
 elasticsearch==2.4.1 # pyup: <5.0.0
