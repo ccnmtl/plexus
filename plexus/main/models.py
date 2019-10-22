@@ -112,6 +112,9 @@ class Server(models.Model):
 
 @python_2_unicode_compatible
 class IPAddress(models.Model):
+    class Meta:
+        ordering = ('ipv4',)
+
     ipv4 = models.CharField(max_length=256)
     mac_addr = models.CharField(max_length=256, null=True, blank=True)
     server = models.ForeignKey(Server)
