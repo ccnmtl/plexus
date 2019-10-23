@@ -2,12 +2,11 @@ from datetime import datetime, timedelta
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible, smart_text
+from django.utils.encoding import smart_text
 
 from plexus.grainlog.models import GrainLog
 
 
-@python_2_unicode_compatible
 class Location(models.Model):
     name = models.CharField(max_length=256)
     details = models.TextField(blank=True, default=u"")
@@ -19,7 +18,6 @@ class Location(models.Model):
         return "/location/%d/" % self.id
 
 
-@python_2_unicode_compatible
 class OSFamily(models.Model):
     name = models.CharField(max_length=256)
 
@@ -33,7 +31,6 @@ class OSFamily(models.Model):
         return "/os/%d/" % self.id
 
 
-@python_2_unicode_compatible
 class OperatingSystem(models.Model):
     family = models.ForeignKey(OSFamily)
     version = models.CharField(max_length=256)
@@ -48,7 +45,6 @@ class OperatingSystem(models.Model):
         return "/os/%d/%d/" % (self.family.id, self.id)
 
 
-@python_2_unicode_compatible
 class Server(models.Model):
     name = models.CharField(max_length=256)
     primary_function = models.TextField(blank=True, default=u"")
@@ -110,7 +106,6 @@ class Server(models.Model):
         return Alias.objects.filter(ip_address__server=self)
 
 
-@python_2_unicode_compatible
 class IPAddress(models.Model):
     class Meta:
         ordering = ('ipv4',)
@@ -123,7 +118,6 @@ class IPAddress(models.Model):
         return self.ipv4
 
 
-@python_2_unicode_compatible
 class Contact(models.Model):
     name = models.CharField(max_length=256)
     email = models.CharField(max_length=256, default="")
@@ -144,7 +138,6 @@ class Contact(models.Model):
             application__deprecated=False)]
 
 
-@python_2_unicode_compatible
 class Alias(models.Model):
     hostname = models.CharField(max_length=256)
     ip_address = models.ForeignKey(IPAddress, null=True)
@@ -225,7 +218,6 @@ Thanks,
         return "/alias/%d/" % self.id
 
 
-@python_2_unicode_compatible
 class Technology(models.Model):
     name = models.CharField(max_length=256)
 
@@ -233,7 +225,6 @@ class Technology(models.Model):
         return self.name
 
 
-@python_2_unicode_compatible
 class Application(models.Model):
     name = models.CharField(max_length=256)
     description = models.TextField(blank=True, default=u"")
@@ -315,7 +306,6 @@ class Lease(models.Model):
         return (datetime.now() + timedelta(weeks=4)).date() > self.end
 
 
-@python_2_unicode_compatible
 class ApplicationAlias(models.Model):
     application = models.ForeignKey(Application)
     alias = models.ForeignKey(Alias)
@@ -324,7 +314,6 @@ class ApplicationAlias(models.Model):
         return smart_text(self.application) + " -> " + smart_text(self.alias)
 
 
-@python_2_unicode_compatible
 class ApplicationContact(models.Model):
     application = models.ForeignKey(Application)
     contact = models.ForeignKey(Contact)
@@ -336,7 +325,6 @@ class ApplicationContact(models.Model):
         return smart_text(self.application) + ": " + smart_text(self.contact)
 
 
-@python_2_unicode_compatible
 class ServerContact(models.Model):
     server = models.ForeignKey(Server)
     contact = models.ForeignKey(Contact)
