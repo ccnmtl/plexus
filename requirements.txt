@@ -9,8 +9,8 @@ chardet==3.0.4
 # https://urllib3.readthedocs.io/en/latest/user-guide.html#ssl-py2
 pyOpenSSL==19.0.0
 idna==2.8
-urllib3==1.25.6
-certifi==2019.9.11
+urllib3==1.25.6  # sentry-sdk
+certifi==2019.9.11  # sentry-sdk
 cryptography==2.8
 asn1crypto==1.2.0  # for pyOpenSSL
 cffi==1.13.2  # for pyOpenSSL
@@ -82,6 +82,7 @@ django-compressor==2.3
 django-statsd-mozilla==0.4.0
 contextlib2==0.6.0.post1
 raven==6.10.0
+sentry-sdk==0.13.2
 django-bootstrap3==11.1.0
 django-bootstrap-form==3.4
 django-debug-toolbar==2.0
