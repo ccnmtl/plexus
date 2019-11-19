@@ -2,8 +2,10 @@ from datetime import datetime
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LogoutView as DjangoLogoutView
+from djangowind.views import logout as wind_logout_view
 from django.core.mail import send_mail
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
@@ -347,3 +349,11 @@ class ServerDetailView(LoggedInMixin, DetailView):
             ctx['grains'] = Grain(grainlog.data()).servers()
 
         return ctx
+
+
+class LogoutView(LoggedInMixin, View):
+    def get(self, request):
+        if hasattr(settings, 'CAS_BASE'):
+            return wind_logout_view(request, next_page="/")
+        else:
+            return DjangoLogoutView.as_view()(request, "/")

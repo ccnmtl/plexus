@@ -3,6 +3,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
@@ -29,7 +30,7 @@ class Migration(migrations.Migration):
             name='AliasContact',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('alias', models.ForeignKey(to='main.Alias')),
+                ('alias', models.ForeignKey(to='main.Alias', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
             },
@@ -54,8 +55,8 @@ class Migration(migrations.Migration):
             name='ApplicationAlias',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('alias', models.ForeignKey(to='main.Alias')),
-                ('application', models.ForeignKey(to='main.Application')),
+                ('alias', models.ForeignKey(to='main.Alias', on_delete=django.db.models.deletion.CASCADE)),
+                ('application', models.ForeignKey(to='main.Application', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
             },
@@ -65,7 +66,7 @@ class Migration(migrations.Migration):
             name='ApplicationContact',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('application', models.ForeignKey(to='main.Application')),
+                ('application', models.ForeignKey(to='main.Application', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
             },
@@ -76,8 +77,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=256)),
-                ('email', models.CharField(default=b'', max_length=256)),
-                ('phone', models.CharField(default=b'', max_length=256)),
+                ('email', models.CharField(default='', max_length=256)),
+                ('phone', models.CharField(default='', max_length=256)),
             ],
             options={
             },
@@ -141,8 +142,8 @@ class Migration(migrations.Migration):
                 ('deprecated', models.BooleanField(default=False)),
                 ('graphite_name', models.CharField(default='', max_length=256, blank=True)),
                 ('sentry_name', models.CharField(default='', max_length=256, blank=True)),
-                ('location', models.ForeignKey(default=b'', to='main.Location', null=True)),
-                ('operating_system', models.ForeignKey(to='main.OperatingSystem')),
+                ('location', models.ForeignKey(default='', to='main.Location', null=True, on_delete=django.db.models.deletion.SET_NULL)),
+                ('operating_system', models.ForeignKey(to='main.OperatingSystem', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
                 'ordering': ['name'],
@@ -153,8 +154,8 @@ class Migration(migrations.Migration):
             name='ServerContact',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('contact', models.ForeignKey(to='main.Contact')),
-                ('server', models.ForeignKey(to='main.Server')),
+                ('contact', models.ForeignKey(to='main.Contact', on_delete=django.db.models.deletion.CASCADE)),
+                ('server', models.ForeignKey(to='main.Server', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
             },
@@ -174,8 +175,8 @@ class Migration(migrations.Migration):
             name='VMLocation',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('dom_0', models.ForeignKey(related_name=b'dom_0', to='main.Server')),
-                ('dom_u', models.ForeignKey(related_name=b'dom_u', to='main.Server')),
+                ('dom_0', models.ForeignKey(related_name='dom_0', to='main.Server', on_delete=django.db.models.deletion.CASCADE)),
+                ('dom_u', models.ForeignKey(related_name='dom_u', to='main.Server', on_delete=django.db.models.deletion.CASCADE)),
             ],
             options={
             },
@@ -188,19 +189,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='operatingsystem',
             name='family',
-            field=models.ForeignKey(to='main.OSFamily'),
+            field=models.ForeignKey(to='main.OSFamily', on_delete=django.db.models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='ipaddress',
             name='server',
-            field=models.ForeignKey(to='main.Server'),
+            field=models.ForeignKey(to='main.Server', on_delete=django.db.models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='applicationcontact',
             name='contact',
-            field=models.ForeignKey(to='main.Contact'),
+            field=models.ForeignKey(to='main.Contact', on_delete=django.db.models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterOrderWithRespectTo(
@@ -210,13 +211,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='application',
             name='technology',
-            field=models.ForeignKey(to='main.Technology', null=True),
+            field=models.ForeignKey(to='main.Technology', null=True, on_delete=django.db.models.deletion.SET_NULL),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='aliascontact',
             name='contact',
-            field=models.ForeignKey(to='main.Contact'),
+            field=models.ForeignKey(to='main.Contact', on_delete=django.db.models.deletion.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterOrderWithRespectTo(
@@ -226,7 +227,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='alias',
             name='ip_address',
-            field=models.ForeignKey(to='main.IPAddress', null=True),
+            field=models.ForeignKey(to='main.IPAddress', null=True, on_delete=django.db.models.deletion.SET_NULL),
             preserve_default=True,
         ),
     ]
