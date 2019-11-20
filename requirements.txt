@@ -1,4 +1,4 @@
-Django==1.11.26 # pyup: <2.0
+Django==2.2.7
 
 pytz==2019.2
 httplib2==0.14.0
