@@ -1,5 +1,5 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/850819ae98774f0dbe9f5180a120bea6)](https://www.codacy.com/app/ctlarcher/plexus?utm_source=github.com&utm_medium=referral&utm_content=ccnmtl/plexus&utm_campaign=badger)
-[![Build Status](https://travis-ci.org/ccnmtl/plexus.png)](https://travis-ci.org/ccnmtl/plexus) [![Greenkeeper badge](https://badges.greenkeeper.io/ccnmtl/plexus.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/ccnmtl/plexus.png)](https://travis-ci.org/ccnmtl/plexus)
 
 ## plexus
 
