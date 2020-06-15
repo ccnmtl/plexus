@@ -1,4 +1,5 @@
 language: python
+dist: bionic
 install:
   - pip install -U pip wheel
   - pip install -U setuptools
