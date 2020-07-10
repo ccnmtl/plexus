@@ -43,12 +43,12 @@ var serverMetrics = function(graphiteName, serverName) {
       alias: "" + serverName + " " + "Load Avg"
     },
     network_in: {
-      metric: "nonNegativeDerivative(" + metric_base + ".network.eth0.receive.byte_count)",
-      alias: serverName + " " + "Eth0 in"
+      metric: "nonNegativeDerivative(" + metric_base + ".network.ens5.receive.byte_count)",
+      alias: serverName + " " + "ens5 in"
     },
     network_out: {
-      metric: "nonNegativeDerivative(" + metric_base + ".network.eth0.transmit.byte_count)",
-      alias: "Eth0 out"
+      metric: "nonNegativeDerivative(" + metric_base + ".network.ens5.transmit.byte_count)",
+      alias: "ens5 out"
     },
     swap_in: {
       metric: "nonNegativeDerivative(" + metric_base + ".vmstat.swap.in)",

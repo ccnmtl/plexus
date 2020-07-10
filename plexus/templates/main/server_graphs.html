@@ -5,8 +5,8 @@
 {% include "main/graphite_graph.html" %}
 {% endwith %}
 
-<h3>Eth0 in + Eth0 out</h3>
-{% with metric="scale(nonNegativeDerivative("|add:metric_base|add:".network.eth0.receive.byte_count),-1)&target=nonNegativeDerivative("|add:metric_base|add:".network.eth0.transmit.byte_count)" %}
+<h3>ens5 in + ens5 out</h3>
+{% with metric="scale(nonNegativeDerivative("|add:metric_base|add:".network.ens5.receive.byte_count),-1)&target=nonNegativeDerivative("|add:metric_base|add:".network.ens5.transmit.byte_count)" %}
 {% include "main/graphite_graph.html" %}
 {% endwith %}
 
