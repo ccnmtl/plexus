@@ -8,7 +8,7 @@ from plexus.main.models import (
     Lease)
 
 
-class UserFactory(factory.DjangoModelFactory):
+class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
@@ -17,7 +17,7 @@ class UserFactory(factory.DjangoModelFactory):
     email = factory.LazyAttribute(lambda u: '%s@example.com' % u.username)
 
 
-class LocationFactory(factory.DjangoModelFactory):
+class LocationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Location
 
@@ -25,14 +25,14 @@ class LocationFactory(factory.DjangoModelFactory):
     details = "test location"
 
 
-class OSFamilyFactory(factory.DjangoModelFactory):
+class OSFamilyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = OSFamily
 
     name = "test os family"
 
 
-class OperatingSystemFactory(factory.DjangoModelFactory):
+class OperatingSystemFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = OperatingSystem
 
@@ -40,7 +40,7 @@ class OperatingSystemFactory(factory.DjangoModelFactory):
     version = "1.0"
 
 
-class ServerFactory(factory.DjangoModelFactory):
+class ServerFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Server
 
@@ -49,7 +49,7 @@ class ServerFactory(factory.DjangoModelFactory):
     operating_system = factory.SubFactory(OperatingSystemFactory)
 
 
-class IPAddressFactory(factory.DjangoModelFactory):
+class IPAddressFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = IPAddress
 
@@ -58,7 +58,7 @@ class IPAddressFactory(factory.DjangoModelFactory):
     server = factory.SubFactory(ServerFactory)
 
 
-class AliasFactory(factory.DjangoModelFactory):
+class AliasFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Alias
 
@@ -67,7 +67,7 @@ class AliasFactory(factory.DjangoModelFactory):
     status = "active"
 
 
-class ContactFactory(factory.DjangoModelFactory):
+class ContactFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Contact
 
@@ -76,14 +76,14 @@ class ContactFactory(factory.DjangoModelFactory):
     phone = "4-1813"
 
 
-class TechnologyFactory(factory.DjangoModelFactory):
+class TechnologyFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Technology
 
     name = "Django"
 
 
-class ApplicationFactory(factory.DjangoModelFactory):
+class ApplicationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Application
 
@@ -95,7 +95,7 @@ class ApplicationFactory(factory.DjangoModelFactory):
     pmt_id = 123
 
 
-class ApplicationAliasFactory(factory.DjangoModelFactory):
+class ApplicationAliasFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = ApplicationAlias
 
@@ -103,7 +103,7 @@ class ApplicationAliasFactory(factory.DjangoModelFactory):
     alias = factory.SubFactory(AliasFactory)
 
 
-class ApplicationContactFactory(factory.DjangoModelFactory):
+class ApplicationContactFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = ApplicationContact
 
@@ -111,7 +111,7 @@ class ApplicationContactFactory(factory.DjangoModelFactory):
     contact = factory.SubFactory(ContactFactory)
 
 
-class ServerContactFactory(factory.DjangoModelFactory):
+class ServerContactFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = ServerContact
 
@@ -119,7 +119,7 @@ class ServerContactFactory(factory.DjangoModelFactory):
     contact = factory.SubFactory(ContactFactory)
 
 
-class LeaseFactory(factory.DjangoModelFactory):
+class LeaseFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Lease
 
