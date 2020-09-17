@@ -108,7 +108,7 @@ kombu>=3.0.37,<4
 amqp==2.6.1
 amqplib==1.0.2
 
-ccnmtlsettings==1.8.4
+ccnmtlsettings==1.9.0
 
 pbr==5.5.0
 PyYAML>=3.10.0 # MIT
