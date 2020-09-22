@@ -1,7 +1,6 @@
 # Django settings for plexus project.
 import os.path
 from ccnmtlsettings.shared import common
-from django_feedparser.settings import *  # noqa
 
 
 project = 'plexus'
@@ -15,7 +14,6 @@ USE_TZ = True
 INSTALLED_APPS += [  # noqa
     'bootstrapform',
     'bootstrap3',
-    'django_feedparser',
     'plexus.main',
     'plexus.grainlog',
     'modelcluster',
