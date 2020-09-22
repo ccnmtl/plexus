@@ -12,7 +12,7 @@ urllib3==1.25.10  # sentry-sdk
 certifi==2020.6.20  # sentry-sdk
 cryptography==3.1
 asn1crypto==1.4.0  # for pyOpenSSL
-cffi==1.14.2  # for pyOpenSSL
+cffi==1.14.3  # for pyOpenSSL
 
 requests==2.24.0
 Markdown==3.2.2 # pyup: < 3
