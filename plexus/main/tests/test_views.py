@@ -217,7 +217,7 @@ class LoggedInTest(TestCase):
         response = self.c.post(
             reverse("add-application-renewal", args=(a.id,)),
             {
-                "end": "2020-10-10",
+                "end": "2040-10-10",
                 "notes": "this is a new renewal",
             }
         )
@@ -238,7 +238,7 @@ class LoggedInTest(TestCase):
         response = self.c.post(
             reverse("add-application-renewal", args=(b.id,)),
             {
-                "end": "2020-10-10",
+                "end": "2040-10-10",
                 "notes": "this is a new renewal",
             }
         )
