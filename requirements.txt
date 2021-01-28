@@ -104,7 +104,7 @@ anyjson==0.3.3
 vine==1.3.0
 billiard==3.6.3.0
 kombu>=3.0.37,<4
-amqp==2.6.1
+amqp==5.0.5
 amqplib==1.0.2
 
 ccnmtlsettings==1.9.0
