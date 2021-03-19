@@ -54,7 +54,7 @@ sqlparse==0.4.1
 gunicorn==20.0.4
 
 # boto3 deps
-s3transfer==0.3.4
+s3transfer==0.3.6
 jmespath==0.10.0
 
 botocore>=1.15.0,<1.21.0
