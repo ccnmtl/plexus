@@ -1,4 +1,4 @@
-{% load bootstrap3 %}
+{% load bootstrap4 %}
 {% load compress %}
 <!DOCTYPE html>
 <html lang="en">
@@ -24,33 +24,28 @@
 <a class="sr-only" href="#content">Skip navigation</a>
 
 {% block topnavbar %}
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+    <nav class="navbar navbar-default navbar-expand-lg navbar-light bg-light" role="navigation">
+        <div class="container">
             <a class="navbar-brand" href="/">plexus</a>
-        </div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse navbar-ex1-collapse">
+        <div class="collapse navbar-collapse navbar-ex1-collapse" id="navbarSupportedContent">
             {% if not request.user.is_anonymous %}
             <ul class="nav navbar-nav">
-                <li><a href="/">servers</a></li>
-                <li><a href="{% url 'aliases-view' %}">aliases</a></li>
-                <li><a href="{% url 'applications-view' %}">applications</a></li>
-                <li><a href="{% url 'renewals-dashboard' %}">renewals</a></li>
-                <li><a href="{% url 'dashboard-index' %}">dashboards</a></li>
-                <li><a href="{% url 'grainlog-list' %}">grainlogs</a></li>
+                <li class="nav-item"><a class="nav-link" href="/">servers</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'aliases-view' %}">aliases</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'applications-view' %}">applications</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'renewals-dashboard' %}">renewals</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'dashboard-index' %}">dashboards</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'grainlog-list' %}">grainlogs</a></li>
             </ul>
             {% endif %}
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav ml-auto">
                 {% if request.user.is_anonymous and CAS_BASE %}
-                    <li>
+                    <li class="nav-item">
                         <form method="get" action="{{ CAS_BASE }}cas/login">
                             {% csrf_token %}
                             <input type="hidden" name="destination" value="https://{{ request.get_host }}/accounts/caslogin/?next={{ next }}" />
@@ -59,9 +54,9 @@
                     </li>
                 {% else %}
                     {% if request.user.is_superuser %}
-                        <li><a href="{% url 'impersonate-list' %}" class="btn btn-default btn-sm">impersonate</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'impersonate-list' %}" class="btn btn-default btn-sm">impersonate</a></li>
                     {% endif %}
-                    <li><a href="/accounts/logout/" class="btn btn-default btn-sm">logout</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/accounts/logout/" class="btn btn-default btn-sm">logout</a></li>
                 {% endif %}
             </ul>
         </div>

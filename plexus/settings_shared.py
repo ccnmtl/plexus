@@ -13,7 +13,7 @@ USE_TZ = True
 
 INSTALLED_APPS += [  # noqa
     'bootstrapform',
-    'bootstrap3',
+    'bootstrap4',
     'plexus.main',
     'plexus.grainlog',
     'modelcluster',
