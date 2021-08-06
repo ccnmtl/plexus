@@ -21,9 +21,9 @@
         {% endif %}
 
         {% with object.servers as servers %}
-        <div class="panel panel-default">
-            <div class="panel-heading">Detail</div>
-            <div class="panel-body padding-0">
+        <div class="card">
+            <div class="card-header">Detail</div>
+            <div class="card-body padding-0">
                 <table class="table table-striped table-condensed">
                     <tr>
                         <td>Description</td>
@@ -94,9 +94,9 @@
         {% endwith %}
 
         {% if object.applicationalias_set.count %}
-        <div class="panel panel-default">
-            <div id="aliases" class="panel-heading">Alias(es)</div>
-            <div class="panel-body">
+        <div class="card">
+            <div id="aliases" class="card-header">Alias(es)</div>
+            <div class="card-body">
                 <ul>
                     {% for aa in object.applicationalias_set.all %}
                         <li><a href="/alias/{{aa.alias.id}}/">{{aa.alias.hostname}}</a></li>
@@ -107,9 +107,9 @@
         {% endif %}
 
         {% if not object.deprecated %}
-            <div class="panel panel-default">
-                <div id="renewal" class="panel-heading">Renewal</div>
-                <div class="panel-body">
+            <div class="card">
+                <div id="renewal" class="card-header">Renewal</div>
+                <div class="card-body">
                     {% if object.valid_renewal %}
                         <p>Current renewal is good until {{object.current_renewal.end}}</p>
                     {% else %}
@@ -151,9 +151,9 @@
                 </div>
             </div>
 
-            <div class="panel panel-default">
-                <div id="graphs" class="panel-heading">Graphs</div>
-                <div class="panel-body">
+            <div class="card">
+                <div id="graphs" class="card-header">Graphs</div>
+                <div class="card-body">
                     {% if object.graphite_name %}
                         {% with graphite_base="https://graphite.ctl.columbia.edu/render/" %}
                         {% with graphite_name=object.graphite_name %}

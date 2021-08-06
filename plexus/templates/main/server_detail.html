@@ -20,9 +20,9 @@
             </div>
         {% endif %}
 
-        <div class="panel panel-default">
-            <div class="panel-heading">Detail</div>
-            <div class="panel-body padding-0">
+        <div class="card">
+            <div class="card-header">Detail</div>
+            <div class="card-body padding-0">
                 <table class="table table-striped table-condensed">
                     <tr>
                         <td>Primary Function</td>
@@ -91,9 +91,9 @@
         </div>
 
         {% if grain.d.apps|length > 0 %}
-            <div class="panel panel-default">
-                <div class="panel-heading" id="applications">Applications</div>
-                <div class="panel-body">
+            <div class="card">
+                <div class="card-header" id="applications">Applications</div>
+                <div class="card-body">
                     <ul>
                         {% for app_name in grain.d.apps|dictsort:0 %}
                             <li>
@@ -111,9 +111,9 @@
         {% endif %}
 
         {% if aliases.exists %}
-            <div id="aliases" class="panel panel-default">
-                <div class="panel-heading">Aliases</div>
-                <div class="panel-body">
+            <div id="aliases" class="card">
+                <div class="card-header">Aliases</div>
+                <div class="card-body">
                     <br />
                     <table class="table table-striped table-condensed table-bordered">
                         <thead>
@@ -145,9 +145,9 @@
         {% endif %}
 
         {% if object.graphite_name %}
-            <div id="graphs" class="panel panel-default">
-                <div class="panel-heading">Graphs</div>
-                <div class="panel-body">
+            <div id="graphs" class="card">
+                <div class="card-header">Graphs</div>
+                <div class="card-body">
                     {% with graphite_base="https://graphite.ctl.columbia.edu/render/" %}
                     {% with graphite_name=object.name %}
                     {% with width=900 height=200 %}
@@ -187,9 +187,9 @@
             </div>
         {% endif %}
 
-        <div class="panel panel-default">
-            <div class="panel-heading" id="grain">Grain Log</div>
-            <div class="panel-body padding-0">
+        <div class="card">
+            <div class="card-header" id="grain">Grain Log</div>
+            <div class="card-body padding-0">
                 <table class="table table-striped table-condensed">
                     {% for key, value in grain.d.items %}</td>
                         <tr">
@@ -240,10 +240,10 @@
                 </li>
                 {% endif %}
                 <li>
-                    <a href="#graphs">Graphs</a>
+                    <a class="nav-link" href="#graphs">Graphs</a>
                 </li>
                 <li>
-                    <a href="#grain">Grain Log</a>
+                    <a class="nav-link" href="#grain">Grain Log</a>
                 </li>
             </ul>
         </nav>
