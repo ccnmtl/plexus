@@ -42,7 +42,7 @@ typing_extensions==3.10.0.2
 zipp==3.6.0  # for flake8
 flake8==4.0.1
 editdistance==0.6.0
-astroid==2.8.3
+astroid==2.8.4
 pylint==2.11.1
 ipaddress==1.0.23
 text-unidecode==1.3
