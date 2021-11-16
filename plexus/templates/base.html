@@ -47,7 +47,7 @@
                 {% if request.user.is_anonymous %}
                     <li class="nav-item">
                         <form method="get" action="/cas/login">
-                            <input type="hidden" name="next" value="{{next|default:'/admin/'}}" />
+                            <input type="hidden" name="next" value="{{next|default:'/'}}" />
                             <input class="btn btn-link" type="submit" value="Log In" />
                         </form>
                     </li>
