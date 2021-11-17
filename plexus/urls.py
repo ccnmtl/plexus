@@ -1,18 +1,18 @@
 from django.conf import settings
-from django.urls import include, path
+from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth.decorators import login_required
 import django.contrib.auth.views
+from django.urls import include, path
 from django.views.generic import (
     TemplateView, DetailView, UpdateView, ListView)
 import django.views.static
-
+from django_cas_ng import views as cas_views
 from plexus.main.forms import AliasForm, ContactForm, ServerForm
 from plexus.main.forms import ApplicationForm
 from plexus.main.models import Alias
 from plexus.main.models import Location, OperatingSystem, Server
 from plexus.main.models import OSFamily, Application, Contact
-from plexus.main import views
 from plexus.main.views import (
     IndexView, AliasDeleteView, AddServerView,
     AddAliasView, RequestAliasView, AddApplicationView, AliasView,
@@ -25,15 +25,16 @@ from plexus.main.views import (
     AliasesView, ApplicationsView, ServerDetailView
 )
 
+
 admin.autodiscover()
 
-auth_urls = path('accounts/', include('django.contrib.auth.urls'))
-if hasattr(settings, 'CAS_BASE') or hasattr(settings, 'WIND_BASE'):
-    auth_urls = path('accounts/', include('djangowind.urls'))
-
 urlpatterns = [
-    auth_urls,
-    path('accounts/logout/', views.LogoutView.as_view()),
+    url(r'^accounts/', include('django.contrib.auth.urls')),
+    path('cas/login', cas_views.LoginView.as_view(),
+         name='cas_ng_login'),
+    path('cas/logout', cas_views.LogoutView.as_view(),
+         name='cas_ng_logout'),
+
     path('', IndexView.as_view(), name="index-view"),
     path('aliases/', AliasesView.as_view(), name="aliases-view"),
     path('applications/', ApplicationsView.as_view(),
