@@ -87,7 +87,7 @@ django-ga-context==0.1.0
 django-cacheds3storage==0.2.2
 django-smtp-ssl==1.0
 
-djangorestframework==3.12.4
+djangorestframework==3.13.0
 Willow==1.4
 django-modelcluster==5.2
 django-taggit==2.0.0 # pyup: < 1.0.0
