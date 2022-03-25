@@ -3,12 +3,12 @@ from django.contrib import admin
 from plexus.main.models import (
     Application, ApplicationAlias, ApplicationContact,
     Contact, Alias, Technology, Note,
-    Location, OSFamily, OperatingSystem, IPAddress,
+    Location, IPAddress,
     ServerContact, Server
 )
 
 
-for c in [Location, OSFamily, OperatingSystem, IPAddress,
+for c in [Location, IPAddress,
           Contact, Technology, Application, ApplicationAlias,
           ApplicationContact, ServerContact, Server, Note]:
     admin.site.register(c)

@@ -7,8 +7,8 @@ from django.test import TestCase
 from plexus.grainlog.tests.factories import GrainLogFactory
 
 from .factories import (
-    LocationFactory, OSFamilyFactory, AliasFactory,
-    OperatingSystemFactory, ServerFactory, IPAddressFactory, ContactFactory,
+    LocationFactory, AliasFactory,
+    ServerFactory, IPAddressFactory, ContactFactory,
     TechnologyFactory, ApplicationFactory, ApplicationAliasFactory,
     ApplicationContactFactory, ServerContactFactory, LeaseFactory)
 
@@ -16,8 +16,6 @@ from .factories import (
 class BasicTest(TestCase):
     def test_unicode(self):
         self.assertEquals(str(LocationFactory()), "test")
-        self.assertEquals(str(OSFamilyFactory()), "test os family")
-        self.assertEquals(str(OperatingSystemFactory()), "test os family 1.0")
         self.assertEquals(str(ServerFactory()), "test server")
         self.assertEquals(str(IPAddressFactory()), "127.0.0.1")
         self.assertEquals(str(ContactFactory()), "anders")
