@@ -14,8 +14,8 @@ from django.views.generic.base import View
 from plexus.grainlog.grain import Grain
 from plexus.grainlog.models import GrainLog
 from plexus.main.models import (
-    Server, Alias, Location, IPAddress, OSFamily,
-    OperatingSystem, ServerNote, Note, Application, Technology,
+    Server, Alias, Location, IPAddress,
+    ServerNote, Note, Application, Technology,
     ApplicationAlias, ServerContact, ApplicationNote, ApplicationContact,
     Lease,
 )
@@ -73,21 +73,12 @@ class AddServerView(LoggedInMixin, View):
     def post(self, request):
         location, created = Location.objects.get_or_create(
             name=request.POST.get("location", "unknown"))
-        os_string = request.POST.get("operating_system")
-        if ":" not in os_string:
-            os_string = "Unknown: " + os_string
-        family, version = os_string.split(":")
-        os_family, created = OSFamily.objects.get_or_create(name=family)
-        operating_system, created = OperatingSystem.objects.get_or_create(
-            family=os_family,
-            version=version)
         name = request.POST.get('name', 'unknown server')
         graphite_name = request.POST.get('graphite_name', '')
         server = Server.objects.create(
             name=name,
             primary_function=request.POST.get('primary_function', ''),
             location=location,
-            operating_system=operating_system,
             memory=request.POST.get('memory', ''),
             swap=request.POST.get('swap', ''),
             disk=request.POST.get('disk', ''),
@@ -118,8 +109,8 @@ class AddServerView(LoggedInMixin, View):
         return render(
             request,
             self.template_name,
-            dict(all_locations=Location.objects.all(),
-                 all_operating_systems=OperatingSystem.objects.all()))
+            dict(all_locations=Location.objects.all())
+        )
 
 
 class AddServerContactView(LoggedInMixin, View):

@@ -18,40 +18,11 @@ class Location(models.Model):
         return "/location/%d/" % self.id
 
 
-class OSFamily(models.Model):
-    name = models.CharField(max_length=256)
-
-    class Meta:
-        ordering = ['name', ]
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return "/os/%d/" % self.id
-
-
-class OperatingSystem(models.Model):
-    family = models.ForeignKey(OSFamily, on_delete=models.CASCADE)
-    version = models.CharField(max_length=256)
-
-    class Meta:
-        ordering = ['version', ]
-
-    def __str__(self):
-        return smart_text(self.family) + " " + self.version
-
-    def get_absolute_url(self):
-        return "/os/%d/%d/" % (self.family.id, self.id)
-
-
 class Server(models.Model):
     name = models.CharField(max_length=256)
     primary_function = models.TextField(blank=True, default=u"")
     location = models.ForeignKey(Location, null=True, default="",
                                  on_delete=models.SET_NULL)
-    operating_system = models.ForeignKey(OperatingSystem,
-                                         on_delete=models.CASCADE)
     memory = models.CharField(max_length=256, blank=True)
     disk = models.CharField(max_length=256, blank=True)
     swap = models.CharField(max_length=256, blank=True)

@@ -3,8 +3,8 @@ from django.test import TestCase
 from django.test.client import Client
 
 from plexus.main.models import (
-    Server, ServerContact, Contact, OSFamily, Alias,
-    OperatingSystem, Location, ServerNote, Note,
+    Server, ServerContact, Contact, Alias,
+    Location, ServerNote, Note,
     ApplicationNote, ApplicationContact, Lease)
 from plexus.main.tests.factories import UserFactory
 
@@ -276,7 +276,6 @@ class LoggedInTest(TestCase):
             "/add_server/",
             {
                 'location': 'test location',
-                'operating_system': 'Linux: Ubuntu 12.04',
                 'name': 'testserver',
                 'ip0': '127.0.0.1',
                 'mac0': '00:00:00:00:00:00',
@@ -310,22 +309,11 @@ class LoggedInTest(TestCase):
         self.assertContains(response, 'Anders')
         self.assertContains(response, 'testserver')
 
-        # os info should exist now
-        osfam = OSFamily.objects.get(name="Linux")
-        response = self.c.get(osfam.get_absolute_url())
-        assert response.status_code == 200
-        self.assertContains(response, 'Ubuntu 12.04')
-        os = OperatingSystem.objects.get(family=osfam, version=" Ubuntu 12.04")
-        response = self.c.get(os.get_absolute_url())
-        assert response.status_code == 200
-        self.assertContains(response, 'testserver')
-
     def test_add_server_alternates(self):
         response = self.c.post(
             "/add_server/",
             {
                 'location': 'test location',
-                'operating_system': 'Foobar',
                 'name': 'testserver',
                 'contact': 'Anders,Jonah',
             })

@@ -2,7 +2,7 @@ import factory
 from datetime import datetime, timedelta
 from django.contrib.auth.models import User
 from plexus.main.models import (
-    Location, OSFamily, OperatingSystem, IPAddress,
+    Location, IPAddress,
     Server, Alias, Contact, Technology, Application,
     ApplicationAlias, ApplicationContact, ServerContact,
     Lease)
@@ -25,28 +25,12 @@ class LocationFactory(factory.django.DjangoModelFactory):
     details = "test location"
 
 
-class OSFamilyFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = OSFamily
-
-    name = "test os family"
-
-
-class OperatingSystemFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = OperatingSystem
-
-    family = factory.SubFactory(OSFamilyFactory)
-    version = "1.0"
-
-
 class ServerFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Server
 
     name = "test server"
     location = factory.SubFactory(LocationFactory)
-    operating_system = factory.SubFactory(OperatingSystemFactory)
 
 
 class IPAddressFactory(factory.django.DjangoModelFactory):

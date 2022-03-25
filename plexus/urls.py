@@ -11,8 +11,8 @@ from django_cas_ng import views as cas_views
 from plexus.main.forms import AliasForm, ContactForm, ServerForm
 from plexus.main.forms import ApplicationForm
 from plexus.main.models import Alias
-from plexus.main.models import Location, OperatingSystem, Server
-from plexus.main.models import OSFamily, Application, Contact
+from plexus.main.models import Location, Server
+from plexus.main.models import Application, Contact
 from plexus.main.views import (
     IndexView, AliasDeleteView, AddServerView,
     AddAliasView, RequestAliasView, AddApplicationView, AliasView,
@@ -99,11 +99,6 @@ urlpatterns = [
 
     path(r'renewals/', RenewalsDashboard.as_view(),
          name='renewals-dashboard'),
-
-    path('os/<int:pk>/',
-         login_required(DetailView.as_view(model=OSFamily))),
-    path('os/<int:family_id>/<int:pk>/',
-         login_required(DetailView.as_view(model=OperatingSystem))),
 
     path('location/<int:pk>/', login_required(
         DetailView.as_view(model=Location))),
