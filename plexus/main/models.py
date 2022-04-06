@@ -23,7 +23,6 @@ class Server(models.Model):
     primary_function = models.TextField(blank=True, default=u"")
     location = models.ForeignKey(Location, null=True, default="",
                                  on_delete=models.SET_NULL)
-    memory = models.CharField(max_length=256, blank=True)
     disk = models.CharField(max_length=256, blank=True)
     swap = models.CharField(max_length=256, blank=True)
     notes = models.TextField(blank=True, default=u"")
