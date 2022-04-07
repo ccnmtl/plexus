@@ -79,7 +79,6 @@ class AddServerView(LoggedInMixin, View):
             name=name,
             primary_function=request.POST.get('primary_function', ''),
             location=location,
-            memory=request.POST.get('memory', ''),
             swap=request.POST.get('swap', ''),
             disk=request.POST.get('disk', ''),
             notes=request.POST.get('notes', ''),
