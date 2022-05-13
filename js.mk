@@ -34,6 +34,7 @@ endif
 
 $(JS_SENTINAL): package.json
 	rm -rf $(NODE_MODULES)
+	mkdir $(NODE_MODULES)
 	npm install $(NPM_OPTS)
 	touch $(JS_SENTINAL)
 
