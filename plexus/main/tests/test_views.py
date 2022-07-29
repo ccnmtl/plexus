@@ -277,10 +277,6 @@ class LoggedInTest(TestCase):
             {
                 'location': 'test location',
                 'name': 'testserver',
-                'ip0': '127.0.0.1',
-                'mac0': '00:00:00:00:00:00',
-                'ip1': '127.0.0.2',
-                'mac1': '00:00:00:00:00:01',
                 'contact': 'Anders,Jonah',
                 'ec2_instance_id': 'i-fde235eb',
             })
@@ -293,7 +289,6 @@ class LoggedInTest(TestCase):
         response = self.c.get(s.get_absolute_url())
 
         self.assertEquals(response.status_code, 200)
-        self.assertContains(response, '127.0.0.1')
         self.assertContains(response, 'Anders')
         self.assertContains(response, 'i-fde235eb')
 

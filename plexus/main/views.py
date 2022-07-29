@@ -85,22 +85,7 @@ class AddServerView(LoggedInMixin, View):
             graphite_name=graphite_name,
             ec2_instance_id=request.POST.get('ec2_instance_id', ''),
         )
-        if request.POST.get('ip0', False):
-            ipv4 = request.POST.get('ip0', '')
-            mac = request.POST.get('mac0', '')
-            interface, created = IPAddress.objects.get_or_create(
-                ipv4=ipv4,
-                mac_addr=mac,
-                server=server,
-            )
-        if request.POST.get('ip1', False):
-            ipv4 = request.POST.get('ip1', '')
-            mac = request.POST.get('mac1', '')
-            interface, created = IPAddress.objects.get_or_create(
-                ipv4=ipv4,
-                mac_addr=mac,
-                server=server,
-            )
+
         server.set_contacts(request.POST.get('contact', '').split(','))
         return HttpResponseRedirect(reverse('index-view'))
 
