@@ -2,84 +2,75 @@
 
 {% block content %}
 
-<form action="." method="post" class="form-horizontal">
-	<legend>Add Server</legend>
+    <form action="." method="post" class="form-horizontal">
+        <legend>Add Server</legend>
 
-	<p><b>Helpful Reminder:</> The CUIT network registration form is
-	here: <a href="http://www.columbia.edu/cgi-bin/dns.pl?mode=add">http://www.columbia.edu/cgi-bin/dns.pl?mode=add</a>.</p>
+        <p><b>Helpful Reminder:</> The CUIT network registration form is
+            here: <a href="http://www.columbia.edu/cgi-bin/dns.pl?mode=add">http://www.columbia.edu/cgi-bin/dns.pl?mode=add</a>.</p>
 
-	<div class="control-group">
-		<label class="control-label" for="name">Name</label>
-		<div class="controls">
-			<input type="text" name="name" id="name" class="form-control"/>
-		</div>
-	</div>
-	<div class="control-group">
-		<label class="control-label" for="primary_function">Primary Function</label>
-		<div class="controls">
-			<textarea name="primary_function" id="primary_function" rows="3"
-			class="input-xxlarge form-control"></textarea>
-		</div>
-	</div>
-	<div class="control-group">
-		  <label class="control-label" for="ec2_instance_id">EC2 Instance ID</label>
-		  <div class="controls">
-			    <input type="text" name="ec2_instance_id" id="ec2_instance_id" class="form-control"/>
-		  </div>
-	</div>
-	<div class="control-group">
-		<label class="control-label">Location</label>
-		<div class="controls">
-			<input type="text" name="location" id="location-input" class="form-control"
-data-provide="typeahead"
-data-items="4"
-data-source='[{% for location in all_locations %}"{{location.name}}"{% if not forloop.last %},{% endif %}{% endfor %}]'
-/>
-		</div>
-	</div>
+            <div class="form-group">
+                <label class="control-label" for="name">Name</label>
+                <div class="controls">
+                    <input type="text" name="name" id="name" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="primary_function">Primary Function</label>
+                <div class="controls">
+                    <textarea name="primary_function" id="primary_function" rows="3"
+                              class="input-xxlarge form-control"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="ec2_instance_id">EC2 Instance ID</label>
+                <div class="controls">
+                    <input type="text" name="ec2_instance_id" id="ec2_instance_id" class="form-control"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="location-input">Location</label>
+                <div class="controls">
+                    <input type="text" name="location" id="location-input" class="form-control"
+                           data-provide="typeahead"
+                           data-items="4"
+                           data-source='[{% for location in all_locations %}"{{location.name}}"{% if not forloop.last %},{% endif %}{% endfor %}]'
+                    />
+                </div>
+            </div>
 
-	<div class="control-group">
-	<label class="control-label">Swap</label>
-	<div class="controls">
-		<input type="text" name="swap" class="form-control"/>
-	</div>
-	</div>
+            <div class="form-group">
+                <label class="control-label" for="notes-input">Notes</label>
+                <div class="controls">
+                    <textarea id="notes-input" name="notes" rows="3" class="input-xxlarge form-control"></textarea>
+                </div>
+            </div>
 
-	<div class="control-group">
-	<label class="control-label">Disk</label>
-	<div class="controls">
-		<input type="text" name="disk" class="form-control"/>
-	</div>
-	</div>
-	<div class="control-group">
-	<label class="control-label">Notes</label>
-	<div class="controls">
-		<textarea name="notes" rows="3" class="input-xxlarge form-control"></textarea>
-		</div>
-	</div>
+            <div class="form-group">
+                <label class="control-label" for="graphite_name">Graphite Name</label>
+                <div class="controls">
+                    <input type="text" name="graphite_name" id="graphite_name" class="form-control"/>
+                    <small class="form-text text-muted">
+                        key for Graphite graphs. (Almost always the same as the server name)
+                    </small>
+                </div>
+            </div>
 
-	<div class="control-group">
-		<label class="control-label" for="name">Graphite Name</label>
-		<div class="controls">
-			<input type="text" name="graphite_name" id="graphite_name" class="form-control"/>
-			<span class="help-inline">key for Graphite graphs.</span>
-		</div>
-	</div>
+            <div class="form-group">
+                <label class="control-label" for="contact">Primary Contact</label>
+                <div class="controls">
+                    <input type="text" name="contact" class="form-control"
+                           value="{{request.user.first_name}}" id="contact" />
+                    <small class="form-text text-muted">
+                        you can add more than one (comma separated)
+                    </small>
+                </div>
+            </div>
 
-	<div class="control-group">
-		<label class="control-label" for="contact">Primary Contact</label>
-		<div class="controls">
-			<input type="text" name="contact" class="form-control"
-						 value="{{request.user.first_name}}" id="contact" />
-			<span class="help-inline">you can add more than one (comma separated)</span>
-		</div>
-	</div>
 
-	
-	<div class="form-actions">
-		<input type="submit" value="add" class="btn btn-primary" />
-	</div>
-</form>
+            <div class="form-actions">
+                <input type="submit" value="add" class="btn btn-primary" />
+            </div>
+    </form>
 
 
 {% endblock %}
