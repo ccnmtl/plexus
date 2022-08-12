@@ -79,8 +79,6 @@ class AddServerView(LoggedInMixin, View):
             name=name,
             primary_function=request.POST.get('primary_function', ''),
             location=location,
-            swap=request.POST.get('swap', ''),
-            disk=request.POST.get('disk', ''),
             notes=request.POST.get('notes', ''),
             graphite_name=graphite_name,
             ec2_instance_id=request.POST.get('ec2_instance_id', ''),
