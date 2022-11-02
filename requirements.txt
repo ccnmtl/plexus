@@ -20,7 +20,7 @@ Markdown==3.4.1 # pyup: < 3
 psycopg2==2.9.3
 versiontools==1.9.1
 statsd==3.3.0
-cssselect==1.1.0
+cssselect==1.2.0
 lxml==4.9.1
 funcsigs==1.0.2
 sure==2.0.0
