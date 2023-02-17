@@ -67,9 +67,6 @@ pyasn1==0.4.8
 ndg-httpsclient==0.5.1
 
 django-appconf==1.0.5
-rcssmin==1.1.0
-rjsmin==1.2.0
-django-compressor>=3.1,<5.0
 django-statsd-mozilla==0.4.0
 contextlib2==21.6.0
 raven==6.10.0
@@ -79,7 +76,6 @@ django-bootstrap-form==3.4
 django-debug-toolbar==3.8.1
 django-smoketest==1.2.0
 
-django-waffle==3.0.0
 django-stagingcontext==0.1.0
 django-markwhat==1.6.2
 django-impersonate==1.8.1
@@ -99,7 +95,7 @@ beautifulsoup4==4.11.0
 
 html5lib==1.1
 
-ccnmtlsettings==1.9.0
+ctlsettings==0.1.0
 
 pbr==5.11.0
 PyYAML>=3.10.0 # MIT

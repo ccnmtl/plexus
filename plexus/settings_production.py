@@ -1,7 +1,7 @@
 import os
 from django.conf import settings
 from plexus.settings_shared import *  # noqa: F403
-from ccnmtlsettings.production import common
+from ctlsettings.production import common
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
