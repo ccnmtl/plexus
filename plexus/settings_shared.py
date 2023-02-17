@@ -1,6 +1,6 @@
 # Django settings for plexus project.
 import os.path
-from ccnmtlsettings.shared import common
+from ctlsettings.shared import common
 
 
 project = 'plexus'
@@ -12,7 +12,7 @@ PROJECT_APPS = ['plexus.main', 'plexus.grainlog']
 USE_TZ = True
 
 INSTALLED_APPS += [  # noqa
-    'django_cas_ng',
+    'django_markwhat',
     'bootstrapform',
     'bootstrap4',
     'plexus.main',
@@ -25,30 +25,6 @@ HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
 SYSADMIN_LIST_EMAIL = "ctl-sysadmin@columbia.edu"
 
 MAX_GRAINLOGS = 10
-
-INSTALLED_APPS.remove('djangowind')  # noqa
-
-MIDDLEWARE += [  # noqa
-    'django_cas_ng.middleware.CASMiddleware',
-]
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-    'django_cas_ng.backends.CASBackend'
-]
-
-CAS_SERVER_URL = 'https://cas.columbia.edu/cas/'
-CAS_VERSION = '3'
-CAS_ADMIN_REDIRECT = False
-
-# Translate CUIT's CAS user attributes to the Django user model.
-# https://cuit.columbia.edu/content/cas-3-ticket-validation-response
-CAS_APPLY_ATTRIBUTES_TO_USER = True
-CAS_RENAME_ATTRIBUTES = {
-    'givenName': 'first_name',
-    'lastName': 'last_name',
-    'mail': 'email',
-}
 
 TEMPLATES = [
     {

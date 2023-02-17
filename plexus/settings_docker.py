@@ -1,6 +1,6 @@
 # flake8: noqa
 from plexus.settings_shared import *
-from ccnmtlsettings.docker import common
+from ctlsettings.docker import common
 import os
 
 BROKER_URL = os.environ['BROKER_URL']
