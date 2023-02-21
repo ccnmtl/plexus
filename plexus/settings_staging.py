@@ -12,6 +12,7 @@ locals().update(
     common(
         project=project,
         base=base,
+        s3prefix="ccnmtl",
         STATIC_ROOT=STATIC_ROOT,  # noqa: F405
         INSTALLED_APPS=INSTALLED_APPS,  # noqa: F405
         cloudfront="d1vy4q2u1y7bpg",
