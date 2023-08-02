@@ -1,4 +1,5 @@
 import os
+import sys
 from django.conf import settings
 from plexus.settings_shared import *  # noqa: F403
 from ctlsettings.staging import common
@@ -23,7 +24,7 @@ try:
 except ImportError:
     pass
 
-if hasattr(settings, 'SENTRY_DSN'):
+if ('collectstatic' not in sys.argv) and hasattr(settings, 'SENTRY_DSN'):
     sentry_sdk.init(
         dsn=SENTRY_DSN,  # noqa: F405
         integrations=[DjangoIntegration()],
