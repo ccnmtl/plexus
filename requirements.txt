@@ -42,7 +42,7 @@ importlib-metadata<7.1 # for flake8
 typing_extensions==4.9.0
 zipp==3.17.0  # for flake8
 flake8==7.0.0
-editdistance==0.6.2
+editdistance==0.8.1
 astroid==3.0.0
 pylint==3.0.0
 ipaddress==1.0.23
