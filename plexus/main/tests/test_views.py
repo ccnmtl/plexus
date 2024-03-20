@@ -23,7 +23,7 @@ class SimpleTest(TestCase):
 
     def test_root(self):
         response = self.c.get("/")
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
 
     def test_smoketest(self):
         """ just run the smoketests. we don't care if they pass/fail """
@@ -38,81 +38,81 @@ class DashboardTest(TestCase):
 
     def test_empty_500s(self):
         response = self.c.get(reverse('500s-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_500s(self):
         ApplicationFactory(graphite_name='foo')
         response = self.c.get(reverse('500s-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_500s_deprecated_app(self):
         ApplicationFactory(graphite_name='foobar', deprecated=True)
         response = self.c.get(reverse('500s-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'foobar')
 
     def test_empty_404s(self):
         response = self.c.get(reverse('404s-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_404s(self):
         ApplicationFactory(graphite_name='foo')
         response = self.c.get(reverse('404s-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_404s_deprecated_app(self):
         ApplicationFactory(graphite_name='foobar', deprecated=True)
         response = self.c.get(reverse('404s-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'foobar')
 
     def test_empty_traffic(self):
         response = self.c.get(reverse('traffic-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_traffic(self):
         ApplicationFactory(graphite_name='foo')
         response = self.c.get(reverse('traffic-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_traffic_deprecated_app(self):
         ApplicationFactory(graphite_name='foobar', deprecated=True)
         response = self.c.get(reverse('traffic-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'foobar')
 
     def test_empty_response_times(self):
         response = self.c.get(reverse('response-time-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_response_times(self):
         ApplicationFactory(graphite_name='foo')
         response = self.c.get(reverse('response-time-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_response_times_deprecated_app(self):
         ApplicationFactory(graphite_name='foobar', deprecated=True)
         response = self.c.get(reverse('response-time-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertNotContains(response, 'foobar')
 
     def test_load_average_empty(self):
         response = self.c.get(reverse('load-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_load_average(self):
         ServerFactory(graphite_name='foo')
         response = self.c.get(reverse('load-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_network_empty(self):
         response = self.c.get(reverse('network-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_network(self):
         ServerFactory(graphite_name='foo')
         response = self.c.get(reverse('network-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
 
 class LoggedInTest(TestCase):
@@ -133,7 +133,7 @@ class LoggedInTest(TestCase):
                 'administrative_info': 'admin info',
                 'contact': 'Anders,Jonah',
             })
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         response = self.c.get("/server/%d/" % server.id)
         self.assertContains(response, 'test.example.com')
 
@@ -152,7 +152,7 @@ class LoggedInTest(TestCase):
             {
                 'new_ipaddress': newipaddress.id,
             })
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         response = self.c.get("/alias/%d/" % alias.id)
         self.assertContains(response, 'pending')
 
@@ -167,7 +167,7 @@ class LoggedInTest(TestCase):
             {
                 'new_ipaddress': newipaddress.id,
             })
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         response = self.c.get("/alias/%d/" % alias.id)
         self.assertContains(response, newipaddress.server.name)
 
@@ -177,7 +177,7 @@ class LoggedInTest(TestCase):
             reverse("add-server-note", args=(server.id,)),
             {"body": "this is a note"}
         )
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(ServerNote.objects.count(), 1)
         self.assertEqual(Note.objects.count(), 1)
 
@@ -187,7 +187,7 @@ class LoggedInTest(TestCase):
             reverse("add-server-contact", args=(server.id,)),
             {"contact": "ContactBob"}
         )
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(ServerContact.objects.count(), 1)
         contact = ServerContact.objects.first()
         self.assertEqual(contact.contact.name, 'ContactBob')
@@ -199,7 +199,7 @@ class LoggedInTest(TestCase):
             reverse("add-application-note", args=(a.id,)),
             {"body": "this is a note"}
         )
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(ApplicationNote.objects.count(), 1)
         self.assertEqual(Note.objects.count(), 1)
 
@@ -209,7 +209,7 @@ class LoggedInTest(TestCase):
             reverse("add-application-contact", args=(a.id,)),
             {"contact": "ContactBob"}
         )
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(ApplicationContact.objects.count(), 1)
 
     def test_add_application_renewal(self):
@@ -221,7 +221,7 @@ class LoggedInTest(TestCase):
                 "notes": "this is a new renewal",
             }
         )
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         self.assertEqual(Lease.objects.count(), 1)
         self.assertTrue(a.valid_renewal())
 
@@ -229,7 +229,7 @@ class LoggedInTest(TestCase):
         a = ApplicationFactory()
         b = ApplicationFactory()
         response = self.c.get(reverse('renewals-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTrue(
             a in response.context['apps_without_renewals'])
         self.assertTrue(
@@ -243,7 +243,7 @@ class LoggedInTest(TestCase):
             }
         )
         response = self.c.get(reverse('renewals-dashboard'))
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertTrue(
             a in response.context['apps_without_renewals'])
         self.assertFalse(
@@ -251,11 +251,11 @@ class LoggedInTest(TestCase):
 
     def test_add_server_form(self):
         response = self.c.get("/add_server/")
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_add_application_form(self):
         response = self.c.get("/add_application/")
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_add_application(self):
         response = self.c.post(
@@ -280,7 +280,7 @@ class LoggedInTest(TestCase):
                 'contact': 'Anders,Jonah',
                 'ec2_instance_id': 'i-fde235eb',
             })
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         response = self.c.get(reverse('index-view'))
         self.assertContains(response, 'testserver')
 
@@ -288,19 +288,19 @@ class LoggedInTest(TestCase):
         s = Server.objects.get(name='testserver')
         response = self.c.get(s.get_absolute_url())
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Anders')
         self.assertContains(response, 'i-fde235eb')
 
         loc = Location.objects.get(name="test location")
         response = self.c.get(loc.get_absolute_url())
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'testserver')
 
         # contacts should exist too
         c = Contact.objects.get(name="Anders")
         response = self.c.get(c.get_absolute_url())
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Anders')
         self.assertContains(response, 'testserver')
 
@@ -312,7 +312,7 @@ class LoggedInTest(TestCase):
                 'name': 'testserver',
                 'contact': 'Anders,Jonah',
             })
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         response = self.c.get(reverse('index-view'))
         self.assertContains(response, 'testserver')
 
@@ -328,7 +328,7 @@ class LoggedInTest(TestCase):
                 'administrative_info': 'admin info',
                 'contact': 'Anders,Jonah',
             })
-        self.assertEquals(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
         response = self.c.get("/server/%d/" % server.id)
         self.assertContains(response, 'test.example.com')
 

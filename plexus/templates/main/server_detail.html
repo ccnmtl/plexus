@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load markup plexustags %}
+{% load plexustags %}
 
 {% block bodyattributes %}data-spy="scroll" data-target="#sidenav"{% endblock %}
 
@@ -79,7 +79,7 @@
                             <td>Notes</td>
                             <td>
                             {% for note in object.server_notes %}
-                                {{note.body|markdown}}
+                                {{note.body}}
                                 <span class="text-muted"> - {{note.user.get_full_name}} @ {{note.created}}</span>
                             {% endfor %}
                             </td>
@@ -313,7 +313,7 @@
                                     <input type="text" name="hostname"
                                            placeholder="hostname" class="form-control" /></label>
                             </div>
-                            {% ifequal object.ipaddress_set.count 1 %}
+                            {% if object.ipaddress_set.count == 1 %}
                             {% else %}
                             <div class="form-group">
                                 <label>IP Address
@@ -324,7 +324,7 @@
                                     </select>
                                 </label>
                             </div>
-                            {% endifequal %}
+                            {% endif %}
 
                             <div class="form-group">
                                 <label>Description
@@ -369,7 +369,7 @@
                                     <input type="text" name="hostname"
                                            placeholder="hostname" class="form-control" /></label>
                             </div>
-                            {% ifequal object.ipaddress_set.count 1 %}
+                            {% if object.ipaddress_set.count == 1 %}
                             {% else %}
                             <div class="form-group">
                                 <label>IP Address
@@ -380,7 +380,7 @@
                                     </select>
                                 </label>
                             </div>
-                            {% endifequal %}
+                            {% endif %}
                             <div class="form-group">
                                 <label>Description
                                     <textarea name="description" class="form-control"></textarea></label>
