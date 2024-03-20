@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load plexustags %}
-{% load markup %}
 
 {% block bodyattributes %}data-spy="scroll" data-target="#sidenav"{% endblock %}
 
@@ -81,7 +80,7 @@
                         <td>Notes</td>
                         <td>
                         {% for note in object.application_notes %}
-                            {{note.body|markdown}}
+                            {{note.body}}
                             <span class="text-right text-muted">
                                 - {{note.user.get_full_name}} @ {{note.created}}
                             </span>
@@ -143,7 +142,7 @@
                                     <td>{{renewal.start}}</td>
                                     <td>{{renewal.end}}</td>
                                     <td>{{renewal.user.get_full_name}}</td>
-                                    <td>{{renewal.notes|markdown}}</td>
+                                    <td>{{renewal.notes}}</td>
                                 </tr>
                             {% endfor %}
                         </table>

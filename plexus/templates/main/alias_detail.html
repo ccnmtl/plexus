@@ -5,14 +5,14 @@
 {% if request.user.is_staff %}
 <a href="/alias/{{object.id}}/edit/">edit</a>
 {% endif %}
-{% ifequal object.status "deprecated" %}
+{% if object.status == "deprecated" %}
 <div class="alert alert-error">
 <h2>Deprecated</h2>
 
 <p>This alias has been deprecated.</p>
 
 </div>
-{% endifequal %}
+{% endif %}
 
 <table class="table table-striped table-condensed table-bordered">
 	<tr>
@@ -128,7 +128,7 @@
 {% endif %}
 
 
-{% ifequal object.status "pending" %}
+{% if object.status == "pending" %}
 <div class="alert">
 <form action="confirm/" method="post" class="form-inline">
 This alias is pending. 
@@ -139,7 +139,7 @@ This alias is pending.
 	<input type="submit" class="btn btn-danger" value="Cancel this Alias Request">
 </form>
 </div>
-{% endifequal %}
+{% endif %}
  
 {% if object.applicationalias_set.count %}
 <p>This alias is associated with the following application(s):</p>

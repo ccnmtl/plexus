@@ -15,23 +15,23 @@ from .factories import (
 
 class BasicTest(TestCase):
     def test_unicode(self):
-        self.assertEquals(str(LocationFactory()), "test")
-        self.assertEquals(str(ServerFactory()), "test server")
-        self.assertEquals(str(IPAddressFactory()), "127.0.0.1")
-        self.assertEquals(str(ContactFactory()), "anders")
+        self.assertEqual(str(LocationFactory()), "test")
+        self.assertEqual(str(ServerFactory()), "test server")
+        self.assertEqual(str(IPAddressFactory()), "127.0.0.1")
+        self.assertEqual(str(ContactFactory()), "anders")
 
 
 class AliasTest(TestCase):
     def test_unicode(self):
-        self.assertEquals(str(AliasFactory()), "foo.example.com")
+        self.assertEqual(str(AliasFactory()), "foo.example.com")
 
     def test_css_status(self):
         alias = AliasFactory()
-        self.assertEquals(alias.status_css_class(), "")
+        self.assertEqual(alias.status_css_class(), "")
         alias.status = "pending"
-        self.assertEquals(alias.status_css_class(), "warning")
+        self.assertEqual(alias.status_css_class(), "warning")
         alias.status = "deprecated"
-        self.assertEquals(alias.status_css_class(), "error")
+        self.assertEqual(alias.status_css_class(), "error")
 
     def test_is_deprecated(self):
         alias = AliasFactory(status='deprecated')
@@ -160,7 +160,7 @@ class ApplicationTest(TestCase):
         GrainLogFactory(payload=dumps(d))
         s = ServerFactory(graphite_name='foo')
         d = a.servers()
-        self.assertEquals(d['dev'][0], s)
+        self.assertEqual(d['dev'][0], s)
 
 
 class ApplicationAliasTest(TestCase):

@@ -12,7 +12,6 @@ PROJECT_APPS = ['plexus.main', 'plexus.grainlog']
 USE_TZ = True
 
 INSTALLED_APPS += [  # noqa
-    'django_markwhat',
     'bootstrapform',
     'bootstrap4',
     'plexus.main',

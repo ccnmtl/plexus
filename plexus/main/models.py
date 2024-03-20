@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 
 from django.contrib.auth.models import User
 from django.db import models
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_str
 
 from plexus.grainlog.models import GrainLog
 
@@ -285,7 +285,7 @@ class ApplicationAlias(models.Model):
     alias = models.ForeignKey(Alias, on_delete=models.CASCADE)
 
     def __str__(self):
-        return smart_text(self.application) + " -> " + smart_text(self.alias)
+        return smart_str(self.application) + " -> " + smart_str(self.alias)
 
 
 class ApplicationContact(models.Model):
@@ -296,7 +296,7 @@ class ApplicationContact(models.Model):
         order_with_respect_to = 'application'
 
     def __str__(self):
-        return smart_text(self.application) + ": " + smart_text(self.contact)
+        return smart_str(self.application) + ": " + smart_str(self.contact)
 
 
 class ServerContact(models.Model):
@@ -307,7 +307,7 @@ class ServerContact(models.Model):
         order_with_respect_to = 'server'
 
     def __str__(self):
-        return smart_text(self.server) + ": " + smart_text(self.contact)
+        return smart_str(self.server) + ": " + smart_str(self.contact)
 
 
 class Note(models.Model):
