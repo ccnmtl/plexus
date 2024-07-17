@@ -17,7 +17,7 @@ cffi==1.16.0  # for pyOpenSSL
 
 requests==2.32.1
 Markdown==3.6 # pyup: < 3
-psycopg2==2.9.6
+psycopg[binary]==3.2.1
 versiontools==1.9.1
 statsd==4.0.1
 cssselect==1.2.0
