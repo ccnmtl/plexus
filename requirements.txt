@@ -26,7 +26,7 @@ funcsigs==1.0.2
 sure==2.0.0
 ipdb==0.13.9
 extras==1.0.0
-python-mimeparse==1.6.0
+python-mimeparse==2.0.0
 fixtures==4.1.0
 testtools==2.7.0
 testscenarios==0.5.0
