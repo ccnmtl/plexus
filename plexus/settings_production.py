@@ -1,10 +1,7 @@
 import os
-import sys
 from django.conf import settings
 from plexus.settings_shared import *  # noqa: F403
-from ctlsettings.production import common
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
+from ctlsettings.production import common, init_sentry
 
 project = 'plexus'
 base = os.path.dirname(__file__)
@@ -24,10 +21,5 @@ try:
 except ImportError:
     pass
 
-if ('migrate' not in sys.argv) and \
-   ('collectstatic' not in sys.argv) and \
-   hasattr(settings, 'SENTRY_DSN'):
-    sentry_sdk.init(
-        dsn=SENTRY_DSN,  # noqa: F405
-        integrations=[DjangoIntegration()],
-    )
+if hasattr(settings, 'SENTRY_DSN'):
+    init_sentry(SENTRY_DSN)  # noqa F405
