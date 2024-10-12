@@ -69,7 +69,6 @@ ndg-httpsclient==0.5.1
 django-appconf==1.0.5
 django-statsd-mozilla==0.4.0
 contextlib2==21.6.0
-raven==6.10.0
 sentry-sdk==2.16.0
 django-bootstrap4==24.4
 django-bootstrap-form==3.4
@@ -94,7 +93,7 @@ beautifulsoup4==4.12.0
 
 html5lib==1.1
 
-ctlsettings==0.3.4
+ctlsettings==0.4.1
 
 pbr==6.1.0
 PyYAML>=3.10.0 # MIT

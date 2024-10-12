@@ -19,18 +19,6 @@ We're sorry.  There's a server error and we're working on it.
 </p>
 
 <img src="{{STATIC_URL}}img/sadowl.jpg" />
-
-<script src="https://cdn.ravenjs.com/3.8.1/raven.min.js"></script>
-
-{% if request.sentry.id %}
-  <script>
-  Raven.showReportDialog({
-    eventId: '{{ request.sentry.id }}',
-
-    // use the public DSN (dont include your secret!)
-    dsn: 'https://7e9c51fa3b614aad9e455b98c918b57e@sentry.io/99488'
-  });
-  </script>
 {% endif %}
 
 {% endblock %}
