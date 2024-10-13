@@ -11,6 +11,9 @@
     {% bootstrap_css %}
 
     <link href="{{STATIC_URL}}css/main.css" rel="stylesheet">
+
+    {% include "ctlsettings/sentry_js.html" %}
+
     <link rel="shortcut icon" href="{{STATIC_URL}}img/favicon.ico" type="image/x-icon" />
     {% block css %}{% endblock %}
     <script src="{{STATIC_URL}}js/lib/jquery-3.4.1.min.js"></script>
