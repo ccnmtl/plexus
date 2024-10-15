@@ -93,7 +93,7 @@ beautifulsoup4==4.12.0
 
 html5lib==1.1
 
-ctlsettings==0.4.1
+ctlsettings==0.4.2
 
 pbr==6.1.0
 PyYAML>=3.10.0 # MIT
