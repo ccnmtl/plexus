@@ -15,7 +15,7 @@ cryptography==45.0.2
 asn1crypto==1.5.0  # for pyOpenSSL
 cffi==1.17.0  # for pyOpenSSL
 
-requests==2.32.1
+requests==2.32.4
 Markdown==3.8 # pyup: < 3
 psycopg[binary]==3.2.1
 versiontools==1.9.1
