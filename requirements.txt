@@ -83,7 +83,7 @@ django-cacheds3storage==0.3.0
 django-smtp-ssl==1.0
 
 djangorestframework==3.16.0
-Willow==1.10.0
+Willow==1.11.0
 django-modelcluster==6.4
 django-taggit==6.1.0 # pyup: < 1.0.0
 Unidecode==1.4.0
