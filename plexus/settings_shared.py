@@ -11,6 +11,10 @@ locals().update(common(project=project, base=base))
 PROJECT_APPS = ['plexus.main', 'plexus.grainlog']
 USE_TZ = True
 
+MIDDLEWARE += [  # noqa
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
 INSTALLED_APPS += [  # noqa
     'bootstrapform',
     'bootstrap4',
@@ -18,6 +22,7 @@ INSTALLED_APPS += [  # noqa
     'plexus.grainlog',
     'modelcluster',
     'taggit',
+    'debug_toolbar',
 ]
 
 HOSTMASTER_EMAIL = "hostmaster@columbia.edu"
