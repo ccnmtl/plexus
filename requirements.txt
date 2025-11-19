@@ -102,7 +102,7 @@ bandit==1.9.1
 
 entrypoints==0.4
 
-python-cas==1.6.0
+python-cas==1.7.1
 django-cas-ng==5.0.0
 
 backports.zoneinfo;python_version<"3.9"
