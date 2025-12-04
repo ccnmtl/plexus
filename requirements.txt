@@ -68,7 +68,7 @@ ndg-httpsclient==0.5.1
 django-appconf==1.2.0
 django-statsd-mozilla==0.4.0
 contextlib2==21.6.0
-sentry-sdk==2.46.0
+sentry-sdk==2.47.0
 django-bootstrap4==25.3
 django-bootstrap-form==3.4
 django-debug-toolbar==6.1.0
