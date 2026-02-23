@@ -4,7 +4,7 @@ pytz==2025.2
 httplib2==0.31.0
 asgiref==3.11.0
 
-chardet==5.2.0
+chardet==6.0.0.post1
 
 # https://urllib3.readthedocs.io/en/latest/user-guide.html#ssl-py2
 pyOpenSSL==25.3.0
