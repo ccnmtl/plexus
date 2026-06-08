@@ -88,7 +88,7 @@ django-taggit==6.1.0 # pyup: < 1.0.0
 Unidecode==1.4.0
 django-treebeard==5.2.0
 
-beautifulsoup4==4.14.2
+beautifulsoup4==4.15.0
 
 html5lib==1.1
 
