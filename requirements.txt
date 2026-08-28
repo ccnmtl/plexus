@@ -48,7 +48,7 @@ factory_boy==3.3.0
 ldap3==2.9.1
 
 sqlparse==0.6.0
-gunicorn==26.1.0
+gunicorn==26.2.0
 
 # boto3 deps
 s3transfer==0.19.0
