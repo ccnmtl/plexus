@@ -2,7 +2,7 @@ Django>=6.1.2,<7
 
 pytz==2026.5
 httplib2==0.32.0
-asgiref==3.12.1
+asgiref==3.13.0
 
 chardet==7.7.0
 
